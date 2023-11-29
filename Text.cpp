@@ -1,0 +1,45 @@
+#include"Text.h"
+
+Text::Text()
+{
+
+}
+
+Text::Text(TTF_Font* font)
+{
+	gFont.reset(font);
+}
+
+void Text::setText(string text)
+{
+	text = text;
+}
+
+void Text::setColor(SDL_Color color)
+{
+	color = color;
+}
+
+void Text::draw(SDL_Renderer* gRenderer)
+{
+	SDL_Surface* textSurface = TTF_RenderText_Solid(gFont.get(), text.c_str(), color);//文字をレンダリングしたサーフェスを作成
+	mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);//テクスチャの作成
+	
+	mWidth = textSurface->w;
+	mHeight = textSurface->h;
+
+	SDL_FreeSurface(textSurface);
+
+	SDL_Rect renderQuad = { pos->x, pos->y, mWidth, mHeight };
+
+	//Set clip rendering dimensions
+	if (clip != NULL)
+	{
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
+	}
+
+	//Render to screen
+	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
+}
+
