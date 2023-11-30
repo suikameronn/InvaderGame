@@ -7,12 +7,12 @@ Text::Text()
 
 Text::Text(TTF_Font* font)
 {
-	gFont.reset(font);
+	gFont = font;
 }
 
-void Text::setText(string text)
+void Text::setText(string str)
 {
-	text = text;
+	text = str;
 }
 
 void Text::setColor(SDL_Color color)
@@ -22,7 +22,7 @@ void Text::setColor(SDL_Color color)
 
 void Text::draw(SDL_Renderer* gRenderer)
 {
-	SDL_Surface* textSurface = TTF_RenderText_Solid(gFont.get(), text.c_str(), color);//文字をレンダリングしたサーフェスを作成
+	SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, text.c_str(), color);//文字をレンダリングしたサーフェスを作成
 	mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);//テクスチャの作成
 	
 	mWidth = textSurface->w;

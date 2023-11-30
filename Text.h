@@ -1,8 +1,8 @@
 #pragma once
 #include<iostream>
 #include<string>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
 
 #include"Object.h"
 
@@ -12,7 +12,7 @@ class Text:public Object
 {
 private:
 
-	unique_ptr<TTF_Font> gFont;
+	TTF_Font* gFont;
 	string text;
 	SDL_Color color;
 	SDL_Rect rederQuad;
@@ -22,7 +22,7 @@ private:
 
 	SDL_Rect* clip = NULL;
 	SDL_Point* center = NULL;
-	SDL_RendererFlip flip;
+	SDL_RendererFlip flip = SDL_FLIP_NONE;
 	double angle = 0;
 
 public:

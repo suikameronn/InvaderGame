@@ -1,7 +1,9 @@
+#define main SDL_main
+
 #include<iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <string>
 #include<vector>
 
@@ -62,7 +64,7 @@ bool Game::init()
 		else
 		{
 			//Create vsynced renderer for window
-			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);//レンダーを作成
+			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);//レンダーを作成
 			if (gRenderer == NULL)
 			{
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
@@ -96,7 +98,11 @@ bool Game::init()
 
 bool Game::loadMedia()
 {
-	resources = TTF_OpenFont("C:\\Users\\sugiyama\\Downloads\\16_true_type_fonts\\lazy.ttf", 28);
+	resources = TTF_OpenFont("C:\\Users\\sugiyama\\Downloads\\NotoSansJP-VariableFont_wght.ttf", 28);
+	if (resources == NULL)
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -146,7 +152,8 @@ int main(int argc, char** argv) {
 				SDL_SetRenderDrawColor(game.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(game.gRenderer);
 
-				text->setPos(0, 0);
+				text->setPos(10, 10);
+				text->setText("AAAAAAA");
 				//Render current frame
 				text->draw(game.gRenderer);
 

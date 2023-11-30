@@ -2,7 +2,8 @@
 
 Object::Object()
 {
-	pos = NULL;
+	Position position;
+	pos = &position;
 }
 
 void Object::setPos(int x, int y)
