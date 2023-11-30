@@ -10,14 +10,19 @@ Text::Text(TTF_Font* font)
 	gFont = font;
 }
 
+void Text::setFont(TTF_Font* font)
+{
+	gFont = font;
+}
+
 void Text::setText(string str)
 {
 	text = str;
 }
 
-void Text::setColor(SDL_Color color)
+void Text::setColor(SDL_Color col)
 {
-	color = color;
+	color = col;
 }
 
 void Text::draw(SDL_Renderer* gRenderer)
@@ -30,7 +35,7 @@ void Text::draw(SDL_Renderer* gRenderer)
 
 	SDL_FreeSurface(textSurface);
 
-	SDL_Rect renderQuad = { pos->x, pos->y, mWidth, mHeight };
+	SDL_Rect renderQuad = { pos->x, pos->y, mWidth, mHeight};
 
 	//Set clip rendering dimensions
 	if (clip != NULL)

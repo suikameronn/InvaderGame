@@ -2,14 +2,13 @@
 
 Object::Object()
 {
-	Position position;
 	pos = &position;
 }
 
-void Object::setPos(int x, int y)
+void Object::setPos(int px, int py)
 {
-	pos->x = x;
-	pos->y = y;
+	pos->x = px;
+	pos->y = py;
 }
 
 void Object::draw(SDL_Renderer* gRenderer)

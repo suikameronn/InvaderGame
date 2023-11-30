@@ -1,8 +1,8 @@
 #pragma once
 #include<iostream>
 #include<string>
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include"Object.h"
 
@@ -31,6 +31,7 @@ public:
 	Text(TTF_Font* font);
 	void setText(string text);
 	void setColor(SDL_Color color);
+	void setFont(TTF_Font* font);
 
 	virtual void draw(SDL_Renderer* gRenderer) override;
 };

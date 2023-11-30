@@ -1,6 +1,6 @@
 #pragma once
 #include<iostream>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 struct Position
 {
@@ -12,8 +12,9 @@ class Object
 {
 protected:
 	Position* pos;
+	Position position;
 public:
 	Object();
-	void setPos(int x, int y);
+	void setPos(int px, int py);
 	virtual void draw(SDL_Renderer* gRenderer);
 };

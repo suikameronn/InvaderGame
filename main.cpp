@@ -7,6 +7,8 @@
 #include <string>
 #include<vector>
 
+#include"Title.h"
+
 #include"Text.h"
 
 using namespace std;
@@ -23,8 +25,8 @@ enum
 class Game
 {
 private:
-
 public:
+	bool sceneChange = true;
 
 	SDL_Window* gWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
@@ -98,7 +100,7 @@ bool Game::init()
 
 bool Game::loadMedia()
 {
-	resources = TTF_OpenFont("C:\\Users\\sugiyama\\Downloads\\NotoSansJP-VariableFont_wght.ttf", 28);
+	resources = TTF_OpenFont("C:\\Users\\sugiyama\\Downloads\\NotoSansJP-VariableFont_wght.ttf", 56);
 	if (resources == NULL)
 	{
 		return false;
@@ -132,9 +134,6 @@ int main(int argc, char** argv) {
 			//Event handler
 			SDL_Event e;
 
-			Text* text;
-			text = new Text(game.resources);
-
 			//While application is running
 			while (!quit)
 			{
@@ -149,13 +148,16 @@ int main(int argc, char** argv) {
 				}
 
 				//Clear screen
-				SDL_SetRenderDrawColor(game.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+				SDL_SetRenderDrawColor(game.gRenderer, 0, 0, 0, 255);
 				SDL_RenderClear(game.gRenderer);
 
-				text->setPos(10, 10);
-				text->setText("AAAAAAA");
-				//Render current frame
-				text->draw(game.gRenderer);
+				if (game.sceneChange)
+				{
+					Title* title;
+					title = new Title("InvaderGame", game.resources);
+				}
+
+
 
 				//Update screen
 				SDL_RenderPresent(game.gRenderer);
