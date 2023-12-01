@@ -25,12 +25,15 @@ enum
 class Game
 {
 private:
+
 public:
 	bool sceneChange;
 
+	SDL_Point mousePos;
+
 	SDL_Window* gWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
-	TTF_Font* resources = NULL;
+	TTF_Font* font = NULL;
 
 	bool init();
 	bool loadMedia();
@@ -102,8 +105,8 @@ bool Game::init()
 
 bool Game::loadMedia()
 {
-	resources = TTF_OpenFont("C:\\Users\\sugiyama\\Downloads\\NotoSansJP-VariableFont_wght.ttf", 56);
-	if (resources == NULL)
+	font = TTF_OpenFont("C:\\Users\\sugiyama\\Downloads\\NotoSansJP-VariableFont_wght.ttf", 56);
+	if (font == NULL)
 	{
 		return false;
 	}
@@ -137,7 +140,7 @@ int main(int argc, char** argv) {
 			SDL_Event e;
 
 			Title* title;
-			title = new Title("InvaderGame", game.resources);
+			title = new Title("InvaderGame", game.font);
 
 			int frame = 0;
 
@@ -153,6 +156,9 @@ int main(int argc, char** argv) {
 						quit = true;
 					}
 				}
+
+				SDL_GetMouseState(&game.mousePos.x, &game.mousePos.y);
+
 
 				//Clear screen
 				SDL_SetRenderDrawColor(game.gRenderer, 0, 0, 0, 255);

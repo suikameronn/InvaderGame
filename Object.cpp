@@ -15,6 +15,22 @@ void Object::setPos(int px, int py)
 	changed = true;
 }
 
+void Object::setMove(int px, int py)
+{
+	if (movePos == NULL)
+	{
+		movePos = &movePosition;
+	}
+
+	movePos->x = px;
+	movePos->y = py;
+}
+
+void Object::actMove()
+{
+	pos->x
+}
+
 void Object::draw(SDL_Renderer* gRenderer)
 {
 

@@ -29,6 +29,8 @@ void Text::setColor(SDL_Color col)
 	changed = true;
 }
 
+
+
 void Text::draw(SDL_Renderer* gRenderer)
 {
 
