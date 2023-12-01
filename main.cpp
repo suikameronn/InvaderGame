@@ -26,7 +26,7 @@ class Game
 {
 private:
 public:
-	bool sceneChange = true;
+	bool sceneChange;
 
 	SDL_Window* gWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
@@ -41,6 +41,8 @@ bool Game::init()
 {
 	//Initialization flag
 	bool success = true;
+
+	sceneChange = true;
 
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -134,6 +136,11 @@ int main(int argc, char** argv) {
 			//Event handler
 			SDL_Event e;
 
+			Title* title;
+			title = new Title("InvaderGame", game.resources);
+
+			int frame = 0;
+
 			//While application is running
 			while (!quit)
 			{
@@ -151,13 +158,7 @@ int main(int argc, char** argv) {
 				SDL_SetRenderDrawColor(game.gRenderer, 0, 0, 0, 255);
 				SDL_RenderClear(game.gRenderer);
 
-				if (game.sceneChange)
-				{
-					Title* title;
-					title = new Title("InvaderGame", game.resources);
-				}
-
-
+				title->draw(game.gRenderer);
 
 				//Update screen
 				SDL_RenderPresent(game.gRenderer);

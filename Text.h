@@ -1,8 +1,8 @@
 #pragma once
 #include<iostream>
 #include<string>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
 
 #include"Object.h"
 
@@ -15,10 +15,12 @@ private:
 	TTF_Font* gFont;
 	string text;
 	SDL_Color color;
-	SDL_Rect rederQuad;
+	SDL_Rect renderQuad;
 	SDL_Texture* mTexture;
 	int mWidth;
 	int mHeight;
+	SDL_Surface* textSurface;
+
 
 	SDL_Rect* clip = NULL;
 	SDL_Point* center = NULL;

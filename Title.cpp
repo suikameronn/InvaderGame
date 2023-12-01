@@ -7,17 +7,25 @@ Title::Title()
 
 Title::Title(string titleName,TTF_Font* font)
 {
-	title = new Text();
-	drawList.emplace_back(title);
+	titleText = new Text();
+	drawList.emplace_back(titleText);
 
 	color = { 255,255,255,255 };
-	title->setColor(color);
-	title->setPos(50, 30);
-	title->setText(titleName);
-	title->setFont(font);
+	titleText->setColor(color);
+	titleText->setPos(50, 30);
+	titleText->setText(titleName);
+	titleText->setFont(font);
 }
 
-void Title::draw()
+void Title::draw(SDL_Renderer* gRenderer)
 {
+	int i;
 
+	titleText->setPos(count, 30);
+	count++;
+
+	for (i = 0; i < drawList.size(); ++i)
+	{
+		drawList[i]->draw(gRenderer);
+	}
 }

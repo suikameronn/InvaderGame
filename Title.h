@@ -8,8 +8,10 @@ using namespace std;
 class Title
 {
 private:
-	Text* title;
+	Text* titleText;
 	SDL_Color color;
+
+	int count = 0;
 
 	vector<Object*> drawList;
 public:
@@ -17,5 +19,5 @@ public:
 	Title();
 	Title(string titleName, TTF_Font* font);
 
-	void draw();
+	void draw(SDL_Renderer* gRenderer);
 };

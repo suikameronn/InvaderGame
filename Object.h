@@ -1,6 +1,6 @@
 #pragma once
 #include<iostream>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 struct Position
 {
@@ -11,6 +11,10 @@ struct Position
 class Object
 {
 protected:
+
+	bool createdTex;
+	bool changed;
+
 	Position* pos;
 	Position position;
 public:
