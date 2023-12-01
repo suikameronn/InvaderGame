@@ -33,6 +33,7 @@ void Text::setColor(SDL_Color col)
 
 void Text::draw(SDL_Renderer* gRenderer)
 {
+	actMove();
 
 	if (!createdTex)
 	{
@@ -46,7 +47,7 @@ void Text::draw(SDL_Renderer* gRenderer)
 		mWidth = textSurface->w;
 		mHeight = textSurface->h;
 
-		renderQuad = { pos->x, pos->y, mWidth, mHeight };
+		renderQuad = { (int)pos->x, (int)pos->y, mWidth, mHeight };
 
 		//Set clip rendering dimensions
 		if (clip != NULL)

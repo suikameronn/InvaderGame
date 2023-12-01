@@ -11,7 +11,7 @@ private:
 	Text* titleText;
 	SDL_Color color;
 
-	int count = 0;
+	float count = 0.0f;
 
 	vector<Object*> drawList;
 public:

@@ -4,8 +4,8 @@
 
 struct Position
 {
-	int x;
-	int y;
+	float x;
+	float y;
 };
 
 class Object
@@ -13,19 +13,25 @@ class Object
 protected:
 	bool createdTex;
 	bool changed;
+	bool moveFinish;
 
 	Position* pos = NULL;
 	Position position;
 
+	Position* tarPos = NULL;
+	Position tarPosition;
+
 	Position* movePos = NULL;
 	Position movePosition;
 
+	float length;
 	int count = 0;
+
 public:
 	Object();
 	
-	void setPos(int px, int py);
-	void setMove(int px, int py);
+	void setPos(float px, float py);
+	void setMove(float px, float py);
 	void actMove();
 
 	virtual void draw(SDL_Renderer* gRenderer);
