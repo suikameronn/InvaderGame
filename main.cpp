@@ -8,6 +8,7 @@
 #include<vector>
 
 #include"Title.h"
+#include"Mouse.h"
 
 #include"Text.h"
 
@@ -28,8 +29,6 @@ private:
 
 public:
 	bool sceneChange;
-
-	SDL_Point mousePos;
 
 	SDL_Window* gWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
@@ -141,8 +140,8 @@ int main(int argc, char** argv) {
 
 			Title* title;
 			title = new Title("InvaderGame", game.font);
-
-			int frame = 0;
+			Mouse* mouse;
+			mouse = new Mouse();
 
 			//While application is running
 			while (!quit)
@@ -157,8 +156,8 @@ int main(int argc, char** argv) {
 					}
 				}
 
-				SDL_GetMouseState(&game.mousePos.x, &game.mousePos.y);
-
+				int x = 0, y = 0;
+				mouse->getMousePos(&x, &y);
 
 				//Clear screen
 				SDL_SetRenderDrawColor(game.gRenderer, 0, 0, 0, 255);
