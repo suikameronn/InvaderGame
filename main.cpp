@@ -156,8 +156,7 @@ int main(int argc, char** argv) {
 					}
 				}
 
-				int x = 0, y = 0;
-				mouse->getMousePos(&x, &y);
+				mouse->getMousePos(&mouse->x, &mouse->y);
 
 				//Clear screen
 				SDL_SetRenderDrawColor(game.gRenderer, 0, 0, 0, 255);
