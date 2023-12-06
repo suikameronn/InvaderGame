@@ -11,13 +11,12 @@ using namespace std;
 class Mouse
 {
 protected:
-	SDL_Point* mousePos;
-	SDL_Point mousePosition;
+	Position* mousePos;
+	Position mousePosition;
 
 	vector<Object*> checkList;
 
 public:
-
 	int x, y;
 
 	Mouse();

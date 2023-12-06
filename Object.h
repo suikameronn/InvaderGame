@@ -2,6 +2,8 @@
 #include<iostream>
 #include <SDL.h>
 
+using namespace std;
+
 struct Position
 {
 	float x;
@@ -34,5 +36,5 @@ public:
 	void setMove(float px, float py);
 	void actMove();
 
-	virtual void drawObjects(SDL_Renderer* gRenderer);
+	virtual void drawObjects(shared_ptr<SDL_Renderer> gRenderer);
 };

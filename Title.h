@@ -22,6 +22,6 @@ public:
 	Title();
 	Title(string titleName, TTF_Font* font);
 
-	void drawScene(SDL_Renderer* gRenderer);
+	void drawScene(shared_ptr<SDL_Renderer> gRenderer);
 	int sceneChanger();
 };

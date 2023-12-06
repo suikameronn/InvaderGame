@@ -35,6 +35,6 @@ public:
 	void setColor(SDL_Color color);
 	void setFont(TTF_Font* font);
 
-	virtual void drawObjects(SDL_Renderer* gRenderer) override;
+	virtual void drawObjects(shared_ptr<SDL_Renderer> gRenderer) override;
 };
 

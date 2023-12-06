@@ -2,12 +2,11 @@
 
 Mouse::Mouse()
 {
+	mousePosition = { 0 };
 	mousePos = &mousePosition;
-	x = 0;
-	y = 0;
 }
 
 void Mouse::getMousePos(int* x, int* y)
 {
-	SDL_GetMouseState(x,y);
+	SDL_GetMouseState(x, y);
 }

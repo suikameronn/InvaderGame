@@ -2,14 +2,8 @@
 
 Scene::Scene()
 {
-	sceneChange = false;
+	sceneChange = true;
 	scene = NULL;
-}
-
-Scene::Scene(Scene* inputScene)
-{
-	sceneChange = false;
-	scene = inputScene;
 }
 
 int Scene::sceneChanger()
@@ -22,7 +16,7 @@ void Scene::setScene(Scene* inputScene)
 	scene = inputScene;
 }
 
-void Scene::drawScene(SDL_Renderer* gRenderer)
+void Scene::drawScene(shared_ptr<SDL_Renderer> gRenderer)
 {
 
 }

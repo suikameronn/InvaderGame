@@ -60,7 +60,7 @@ void Object::actMove()
 	}
 }
 
-void Object::drawObjects(SDL_Renderer* gRenderer)
+void Object::drawObjects(shared_ptr<SDL_Renderer> gRenderer)
 {
 
 }

@@ -3,20 +3,20 @@
 #include<iostream>
 #include<SDL.h>
 
+using namespace std;
+
 class Scene
 {
 protected:
-	bool sceneChange;
-
 	virtual int sceneChanger();
 
 public:
+	bool sceneChange;
 	Scene* scene;
 
 	Scene();
-	Scene(Scene* inputScene);
 
 	void setScene(Scene* inputScene);
 
-	virtual void drawScene(SDL_Renderer* gRenderer);
+	virtual void drawScene(shared_ptr<SDL_Renderer> gRenderer);
 };

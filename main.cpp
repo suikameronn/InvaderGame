@@ -12,6 +12,12 @@
 
 #include"Text.h"
 
+#define DEFINE_TO_SHARED_PTR(type, destructor) std::shared_ptr<type> ToSharedPtr(type* p) { return std::shared_ptr<type>(p, destructor); }
+DEFINE_TO_SHARED_PTR(SDL_Window, SDL_DestroyWindow)
+DEFINE_TO_SHARED_PTR(SDL_Renderer, SDL_DestroyRenderer)
+DEFINE_TO_SHARED_PTR(SDL_Surface, SDL_FreeSurface)
+DEFINE_TO_SHARED_PTR(SDL_Texture, SDL_DestroyTexture)
+
 using namespace std;
 
 const int SCREEN_WIDTH = 480;
@@ -19,8 +25,10 @@ const int SCREEN_HEIGHT = 640;
 
 enum
 {
-	FONT,
-	TOTAL
+	TITLE,
+	COURSESELECT,
+	GAME,
+	RESULT
 };
 
 class Game
@@ -30,8 +38,8 @@ private:
 public:
 	bool sceneChange;
 
-	SDL_Window* gWindow = NULL;
-	SDL_Renderer* gRenderer = NULL;
+	shared_ptr<SDL_Window> gWindow;
+	shared_ptr<SDL_Renderer> gRenderer;
 	TTF_Font* font = NULL;
 
 	bool init();
@@ -61,7 +69,7 @@ bool Game::init()
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		gWindow = ToSharedPtr(SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN));
 		if (gWindow == NULL)
 		{
 			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
@@ -70,7 +78,7 @@ bool Game::init()
 		else
 		{
 			//Create vsynced renderer for window
-			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);//レンダーを作成
+			gRenderer = ToSharedPtr(SDL_CreateRenderer(gWindow.get(), -1, SDL_RENDERER_ACCELERATED));//レンダーを作成
 			if (gRenderer == NULL)
 			{
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
@@ -79,7 +87,7 @@ bool Game::init()
 			else
 			{
 				//Initialize renderer color
-				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+				SDL_SetRenderDrawColor(gRenderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
 
 				//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
@@ -138,15 +146,27 @@ int main(int argc, char** argv) {
 			//Event handler
 			SDL_Event e;
 
-			Scene* currentScene;
+			int sceneNum = 0;
 
-			currentScene = new Scene(new Title("InvaderGame", game.font));
-			Mouse* mouse;
-			mouse = new Mouse();
+			shared_ptr<Scene> currentScene;
+			currentScene = make_shared<Scene>();
+
+			shared_ptr<Mouse> mouse;
+			mouse = make_shared<Mouse>();
 
 			//While application is running
 			while (!quit)
 			{
+				if (currentScene->sceneChange)
+				{
+					switch (sceneNum)
+					{
+					case TITLE:
+						currentScene->scene = new Title("InvaderGame", game.font);
+						currentScene->sceneChange = false;
+					}
+				}
+
 				//Handle events on queue
 				while (SDL_PollEvent(&e) != 0)
 				{
@@ -160,13 +180,13 @@ int main(int argc, char** argv) {
 				mouse->getMousePos(&mouse->x, &mouse->y);
 
 				//Clear screen
-				SDL_SetRenderDrawColor(game.gRenderer, 0, 0, 0, 255);
-				SDL_RenderClear(game.gRenderer);
+				SDL_SetRenderDrawColor(game.gRenderer.get(), 0, 0, 0, 255);
+				SDL_RenderClear(game.gRenderer.get());
 
 				currentScene->scene->drawScene(game.gRenderer);
 
 				//Update screen
-				SDL_RenderPresent(game.gRenderer);
+				SDL_RenderPresent(game.gRenderer.get());
 			}
 		}
 	}
