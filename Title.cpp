@@ -18,12 +18,20 @@ Title::Title(string titleName,TTF_Font* font)
 	titleText->setFont(font);
 }
 
-void Title::draw(SDL_Renderer* gRenderer)
+void Title::drawScene(SDL_Renderer* gRenderer)
 {
 	int i;
 
 	for (i = 0; i < drawList.size(); ++i)
 	{
-		drawList[i]->draw(gRenderer);
+		drawList[i]->drawObjects(gRenderer);
+	}
+}
+
+int Title::sceneChanger()
+{
+	if (sceneChange)
+	{
+		return 1;
 	}
 }

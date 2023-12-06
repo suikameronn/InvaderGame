@@ -1,11 +1,14 @@
 #pragma once
 #include<iostream>
 #include<vector>
+#include<SDL.h>
+
+#include"Scene.h"
 #include"Text.h"
 
 using namespace std;
 
-class Title
+class Title : public Scene
 {
 private:
 	Text* titleText;
@@ -19,5 +22,6 @@ public:
 	Title();
 	Title(string titleName, TTF_Font* font);
 
-	void draw(SDL_Renderer* gRenderer);
+	void drawScene(SDL_Renderer* gRenderer);
+	int sceneChanger();
 };

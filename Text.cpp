@@ -31,7 +31,7 @@ void Text::setColor(SDL_Color col)
 
 
 
-void Text::draw(SDL_Renderer* gRenderer)
+void Text::drawObjects(SDL_Renderer* gRenderer)
 {
 	actMove();
 

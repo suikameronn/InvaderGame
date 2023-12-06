@@ -138,8 +138,9 @@ int main(int argc, char** argv) {
 			//Event handler
 			SDL_Event e;
 
-			Title* title;
-			title = new Title("InvaderGame", game.font);
+			Scene* currentScene;
+
+			currentScene = new Scene(new Title("InvaderGame", game.font));
 			Mouse* mouse;
 			mouse = new Mouse();
 
@@ -162,7 +163,7 @@ int main(int argc, char** argv) {
 				SDL_SetRenderDrawColor(game.gRenderer, 0, 0, 0, 255);
 				SDL_RenderClear(game.gRenderer);
 
-				title->draw(game.gRenderer);
+				currentScene->scene->drawScene(game.gRenderer);
 
 				//Update screen
 				SDL_RenderPresent(game.gRenderer);
