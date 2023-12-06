@@ -16,7 +16,7 @@ void Scene::setScene(Scene* inputScene)
 	scene = inputScene;
 }
 
-void Scene::drawScene(shared_ptr<SDL_Renderer> gRenderer)
+void Scene::drawScene(SDL_Renderer* gRenderer)
 {
 
 }

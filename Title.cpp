@@ -18,7 +18,7 @@ Title::Title(string titleName,TTF_Font* font)
 	titleText->setFont(font);
 }
 
-void Title::drawScene(shared_ptr<SDL_Renderer> gRenderer)
+void Title::drawScene(SDL_Renderer* gRenderer)
 {
 	int i;
 

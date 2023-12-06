@@ -36,5 +36,5 @@ public:
 	void setMove(float px, float py);
 	void actMove();
 
-	virtual void drawObjects(shared_ptr<SDL_Renderer> gRenderer);
+	virtual void drawObjects(SDL_Renderer* gRenderer);
 };

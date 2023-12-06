@@ -11,8 +11,7 @@ using namespace std;
 class Mouse
 {
 protected:
-	Position* mousePos;
-	Position mousePosition;
+	unique_ptr<Position> mousePos;
 
 	vector<Object*> checkList;
 

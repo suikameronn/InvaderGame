@@ -31,14 +31,14 @@ void Text::setColor(SDL_Color col)
 
 
 
-void Text::drawObjects(shared_ptr<SDL_Renderer> gRenderer)
+void Text::drawObjects(SDL_Renderer* gRenderer)
 {
 	actMove();
 
 	if (!createdTex)
 	{
 		textSurface = TTF_RenderText_Solid(gFont, text.c_str(), color);//文字をレンダリングしたサーフェスを作成
-		mTexture = SDL_CreateTextureFromSurface(gRenderer.get(), textSurface);//テクスチャの作成
+		mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);//テクスチャの作成
 		createdTex = true;
 	}
 
@@ -57,7 +57,7 @@ void Text::drawObjects(shared_ptr<SDL_Renderer> gRenderer)
 		}
 	}
 	//Render to screen
-	SDL_RenderCopyEx(gRenderer.get(), mTexture, clip, &renderQuad, angle, center, flip);
+	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
 
 	changed = false;
 }

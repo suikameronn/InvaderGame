@@ -12,12 +12,6 @@
 
 #include"Text.h"
 
-#define DEFINE_TO_SHARED_PTR(type, destructor) std::shared_ptr<type> ToSharedPtr(type* p) { return std::shared_ptr<type>(p, destructor); }
-DEFINE_TO_SHARED_PTR(SDL_Window, SDL_DestroyWindow)
-DEFINE_TO_SHARED_PTR(SDL_Renderer, SDL_DestroyRenderer)
-DEFINE_TO_SHARED_PTR(SDL_Surface, SDL_FreeSurface)
-DEFINE_TO_SHARED_PTR(SDL_Texture, SDL_DestroyTexture)
-
 using namespace std;
 
 const int SCREEN_WIDTH = 480;
@@ -40,7 +34,7 @@ public:
 
 	shared_ptr<SDL_Window> gWindow;
 	shared_ptr<SDL_Renderer> gRenderer;
-	TTF_Font* font = NULL;
+	TTF_Font* font;
 
 	bool init();
 	bool loadMedia();
@@ -69,7 +63,7 @@ bool Game::init()
 		}
 
 		//Create window
-		gWindow = ToSharedPtr(SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN));
+		gWindow = shared_ptr<SDL_Window>(SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN),SDL_DestroyWindow);
 		if (gWindow == NULL)
 		{
 			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
@@ -78,7 +72,7 @@ bool Game::init()
 		else
 		{
 			//Create vsynced renderer for window
-			gRenderer = ToSharedPtr(SDL_CreateRenderer(gWindow.get(), -1, SDL_RENDERER_ACCELERATED));//レンダーを作成
+			gRenderer = shared_ptr<SDL_Renderer>(SDL_CreateRenderer(gWindow.get(), -1, SDL_RENDERER_ACCELERATED),SDL_DestroyRenderer);//レンダーを作成
 			if (gRenderer == NULL)
 			{
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
@@ -148,11 +142,11 @@ int main(int argc, char** argv) {
 
 			int sceneNum = 0;
 
-			shared_ptr<Scene> currentScene;
-			currentScene = make_shared<Scene>();
+			unique_ptr<Scene> currentScene;
+			currentScene = make_unique<Scene>();
 
 			shared_ptr<Mouse> mouse;
-			mouse = make_shared<Mouse>();
+			mouse = make_unique<Mouse>();
 
 			//While application is running
 			while (!quit)
@@ -183,7 +177,7 @@ int main(int argc, char** argv) {
 				SDL_SetRenderDrawColor(game.gRenderer.get(), 0, 0, 0, 255);
 				SDL_RenderClear(game.gRenderer.get());
 
-				currentScene->scene->drawScene(game.gRenderer);
+				currentScene->scene->drawScene(game.gRenderer.get());
 
 				//Update screen
 				SDL_RenderPresent(game.gRenderer.get());

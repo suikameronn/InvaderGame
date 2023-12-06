@@ -18,5 +18,5 @@ public:
 
 	void setScene(Scene* inputScene);
 
-	virtual void drawScene(shared_ptr<SDL_Renderer> gRenderer);
+	virtual void drawScene(SDL_Renderer* gRenderer);
 };
