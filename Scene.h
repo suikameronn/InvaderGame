@@ -12,11 +12,9 @@ protected:
 
 public:
 	bool sceneChange;
-	Scene* scene;
 
 	Scene();
 
-	void setScene(Scene* inputScene);
-
+	virtual void hitCheckScene(int* x, int* y, bool clicked);
 	virtual void drawScene(SDL_Renderer* gRenderer);
 };

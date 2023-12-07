@@ -34,7 +34,9 @@ public:
 
 	shared_ptr<SDL_Window> gWindow;
 	shared_ptr<SDL_Renderer> gRenderer;
-	TTF_Font* font;
+
+	unique_ptr<TTF_Font> titleFont;
+	unique_ptr<TTF_Font> buttonFont;
 
 	bool init();
 	bool loadMedia();
@@ -51,7 +53,7 @@ bool Game::init()
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+		cout << "SDL could not initialize! SDL Error: %s\n" << SDL_GetError() << endl;
 		success = false;
 	}
 	else
@@ -59,14 +61,14 @@ bool Game::init()
 		//Set texture filtering to linear
 		if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
 		{
-			printf("Warning: Linear texture filtering not enabled!");
+			cout << "Warning: Linear texture filtering not enabled!" << endl;
 		}
 
 		//Create window
 		gWindow = shared_ptr<SDL_Window>(SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN),SDL_DestroyWindow);
 		if (gWindow == NULL)
 		{
-			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
+			cout << "Window could not be created! SDL Error: %s\n" << SDL_GetError() << endl;
 			success = false;
 		}
 		else
@@ -75,7 +77,7 @@ bool Game::init()
 			gRenderer = shared_ptr<SDL_Renderer>(SDL_CreateRenderer(gWindow.get(), -1, SDL_RENDERER_ACCELERATED),SDL_DestroyRenderer);//ÉåÉìÉ_Å[ÇçÏê¨
 			if (gRenderer == NULL)
 			{
-				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+				cout << "Renderer could not be created! SDL Error: %s\n" << SDL_GetError() << endl;
 				success = false;
 			}
 			else
@@ -87,14 +89,14 @@ bool Game::init()
 				int imgFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(imgFlags) & imgFlags))
 				{
-					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+					cout << "SDL_image could not initialize! SDL_image Error: %s\n" << IMG_GetError() << endl;
 					success = false;
 				}
 
 				//Initialize SDL_ttf
 				if (TTF_Init() == -1)//SDL_ttfÇèâä˙âªÇ∑ÇÈ
 				{
-					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+					cout << "SDL_ttf could not initialize! SDL_ttf Error: %s\n" << TTF_GetError() << endl;
 					success = false;
 				}
 			}
@@ -106,8 +108,10 @@ bool Game::init()
 
 bool Game::loadMedia()
 {
-	font = TTF_OpenFont("C:\\Users\\sugiyama\\Downloads\\NotoSansJP-VariableFont_wght.ttf", 56);
-	if (font == NULL)
+	titleFont = unique_ptr<TTF_Font>(TTF_OpenFont("NotoSansJP-VariableFont_wght.ttf", 56));
+	buttonFont = unique_ptr<TTF_Font>(TTF_OpenFont("NotoSansJP-VariableFont_wght.ttf", 28));
+
+	if (titleFont == NULL)
 	{
 		return false;
 	}
@@ -123,19 +127,21 @@ int main(int argc, char** argv) {
 	//Start up SDL and create window
 	if (!game.init())
 	{
-		printf("Failed to initialize!\n");
+		cout << "Failed to initialize!" << endl;
 	}
 	else
 	{
 		//Laad media
 		if (!game.loadMedia())
 		{
-			printf("Failed to load media!\n");
+			cout << "Failed to load media!" << endl;
 		}
 		else
 		{
 			//Main loop flag
 			bool quit = false;
+
+			bool clicked = false;
 
 			//Event handler
 			SDL_Event e;
@@ -156,7 +162,7 @@ int main(int argc, char** argv) {
 					switch (sceneNum)
 					{
 					case TITLE:
-						currentScene->scene = new Title("InvaderGame", game.font);
+						currentScene.reset(new Title("InvaderGame", game.titleFont.get()));
 						currentScene->sceneChange = false;
 					}
 				}
@@ -169,15 +175,24 @@ int main(int argc, char** argv) {
 					{
 						quit = true;
 					}
+					else if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
+					{
+						clicked = true;
+					}
+					else if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT)
+					{
+						clicked = false;
+					}
 				}
 
 				mouse->getMousePos(&mouse->x, &mouse->y);
+				currentScene->hitCheckScene(&mouse->x, &mouse->y, clicked);
 
 				//Clear screen
 				SDL_SetRenderDrawColor(game.gRenderer.get(), 0, 0, 0, 255);
 				SDL_RenderClear(game.gRenderer.get());
 
-				currentScene->scene->drawScene(game.gRenderer.get());
+				currentScene->drawScene(game.gRenderer.get());
 
 				//Update screen
 				SDL_RenderPresent(game.gRenderer.get());

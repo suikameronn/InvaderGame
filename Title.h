@@ -5,6 +5,7 @@
 
 #include"Scene.h"
 #include"Text.h"
+#include"Button.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ private:
 	Text* titleText;
 	SDL_Color color;
 
-	float count = 0.0f;
+	Button* button;
 
 	vector<Object*> drawList;
 	vector<Object*> hitCheckList;
@@ -24,6 +25,7 @@ public:
 	Title();
 	Title(string titleName, TTF_Font* font);
 
+	void hitCheckScene(int* x, int* y, bool clicked);
 	void drawScene(SDL_Renderer* gRenderer);
 	int sceneChanger();
 };
