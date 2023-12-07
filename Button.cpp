@@ -3,30 +3,12 @@
 Button::Button()
 {
 	offSet = &OffSet;
-	color = &Color;
-	changeColor = &ChangeColor;
 }
 
 void Button::setOffSet(int* x, int* y)
 {
 	offSet->x = *x;
 	offSet->y = *y;
-}
-
-void Button::setColor(SDL_Color* col)
-{
-	color->r = col->r;
-	color->g = col->g;
-	color->b = col->b;
-	color->a = col->a;
-}
-
-void Button::setChangeColor(SDL_Color* col)
-{
-	changeColor->r = col->r;
-	changeColor->g = col->g;
-	changeColor->b = col->b;
-	changeColor->a = col->a;
 }
 
 bool Button::hitCheck(int* x, int* y, bool clicked)
@@ -43,4 +25,11 @@ bool Button::hitCheck(int* x, int* y, bool clicked)
 	}
 
 	return false;
+}
+
+void drawObects(SDL_Renderer* gRenderer)
+{
+	SDL_Color color = { 125,125,125,255 };
+	SDL_SetRenderDrawColor(gRenderer, color.r,color.g,color.b,color.a);
+	SDL_RenderFillRect(gRenderer,)
 }

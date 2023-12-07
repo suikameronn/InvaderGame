@@ -10,13 +10,12 @@ private:
 	Position* offSet = NULL;
 	Position OffSet;
 
-	SDL_Color* color = NULL;
-	SDL_Color Color;
-
-	SDL_Color* changeColor = NULL;
-	SDL_Color ChangeColor;
-
 	void* exeMethod;
+
+	SDL_Rect* clip = NULL;
+	SDL_Point* center = NULL;
+	SDL_RendererFlip flip = SDL_FLIP_NONE;
+	double angle = 0;
 
 public:
 	Button();
