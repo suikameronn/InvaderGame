@@ -64,3 +64,8 @@ void Object::drawObjects(SDL_Renderer* gRenderer)
 {
 
 }
+
+void Object::hitCheck(int* x, int* y, bool clicked)
+{
+
+}

@@ -17,6 +17,8 @@ private:
 	float count = 0.0f;
 
 	vector<Object*> drawList;
+	vector<Object*> hitCheckList;
+
 public:
 
 	Title();

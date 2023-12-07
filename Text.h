@@ -32,7 +32,7 @@ public:
 	Text();
 	Text(TTF_Font* font);
 	void setText(string text);
-	void setColor(SDL_Color color);
+	void setColor(SDL_Color col);
 	void setFont(TTF_Font* font);
 
 	virtual void drawObjects(SDL_Renderer* gRenderer) override;
