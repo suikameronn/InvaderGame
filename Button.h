@@ -23,6 +23,7 @@ private:
 	double angle = 0;
 
 	void changeColor(bool hit);
+	void* buttonClicked();
 
 public:
 	Button();
@@ -30,6 +31,7 @@ public:
 	void setOffSet(float x, float y);
 	void setLabel(string text, SDL_Color* textColor, TTF_Font* labelFont);
 	void setLabel(string text, SDL_Color* textColor, TTF_Font* labelFont,int size);
+	void setMethod(void* method);
 	Text* getLabel();
 
 	bool hitCheck(int* x, int* y,bool clicked) override;

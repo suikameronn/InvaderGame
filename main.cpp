@@ -125,8 +125,8 @@ bool Game::init()
 
 bool Game::loadMedia()
 {
-	normalFont.reset(TTF_OpenFont("NotoSansJP-VariableFont_wght.ttf", 28));
-	titleFont.reset(TTF_OpenFont("NotoSansJP-VariableFont_wght.ttf", 56));
+	normalFont.reset(TTF_OpenFont("MPLUSRounded1c-Regular.ttf", 28));
+	titleFont.reset(TTF_OpenFont("MPLUSRounded1c-Regular.ttf", 56));
 
 	fontManager.emplace_back(normalFont.get());
 	fontManager.emplace_back(titleFont.get());

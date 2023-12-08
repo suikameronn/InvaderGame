@@ -20,10 +20,10 @@ Title::Title(string titleName, vector<TTF_Font*> fonts)
 	button = new Button();
 	drawList.emplace_back(button);
 	hitCheckList.emplace_back(button);
-	button->Object::setPos(80, 300);
+	button->Object::setPos(100, 300);
 	button->setOffSet(300, 100);
 	bColor = { 255,255,255,255 };
-	button->setLabel("aa", &bColor, fonts[static_cast<int>(FONTS::NORMAL)], 28);
+	button->setLabel("aaa", &bColor, fonts[static_cast<int>(FONTS::NORMAL)], 28);
 	drawList.emplace_back(button->getLabel());
 }
 

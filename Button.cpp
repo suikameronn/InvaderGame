@@ -28,19 +28,21 @@ void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* font)
 	label->setColor(labelColor);
 }
 
-void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* font,int size)
+void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* labelFont, int size)
 {
 	if (label == NULL)
 	{
 		label = new Text();
 	}
 	label->setText(text);
-	label->setFont(font);
+	label->setFont(labelFont);
 	label->setColor(labelColor);
 
 	if (offSet->x != 0 && offSet->y != 0)
 	{
-		size /= 2;
+		int sizeX = size / 2;
+		int sizeY = size;
+
 		int len = strlen(text.c_str());
 
 		int centerX = (Object::pos->x * 2 + offSet->x) / 2;
@@ -48,13 +50,18 @@ void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* font,int siz
 
 		if (len % 2 == 0)
 		{
-			label->setPos(centerX - size * (len / 2), centerY - size * 2);
+			label->setPos(centerX - sizeX * (len / 2), centerY - sizeY);
 		}
 		else
 		{
-			label->setPos(centerX - (size / 2) - size * (len / 2), centerY - size * 2);
+			label->setPos(centerX - (sizeX / 2) - sizeX * (len / 2), centerY - sizeY);
 		}
 	}
+}
+
+void Button::setMethod(void* method)
+{
+	exeMethod = method;
 }
 
 Text* Button::getLabel()
@@ -94,6 +101,15 @@ bool Button::hitCheck(int* x, int* y, bool clicked)
 	}
 
 	return false;
+}
+
+void* buttonClicked()
+{
+	void* p;
+
+
+
+	return p;
 }
 
 void Button::drawObjects(SDL_Renderer* gRenderer)
