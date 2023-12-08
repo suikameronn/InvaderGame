@@ -17,12 +17,12 @@ using namespace std;
 const int SCREEN_WIDTH = 480;
 const int SCREEN_HEIGHT = 640;
 
-enum
+struct fontDeleter
 {
-	TITLE,
-	COURSESELECT,
-	GAME,
-	RESULT
+	void operator()(TTF_Font* font)
+	{
+		TTF_CloseFont(font);
+	}
 };
 
 class Game
@@ -35,8 +35,9 @@ public:
 	shared_ptr<SDL_Window> gWindow;
 	shared_ptr<SDL_Renderer> gRenderer;
 
-	unique_ptr<TTF_Font> titleFont;
-	unique_ptr<TTF_Font> buttonFont;
+	vector<TTF_Font*> fontManager;
+	unique_ptr<TTF_Font,fontDeleter> normalFont;
+	unique_ptr<TTF_Font,fontDeleter> titleFont;
 
 	bool init();
 	bool loadMedia();
@@ -108,13 +109,12 @@ bool Game::init()
 
 bool Game::loadMedia()
 {
-	titleFont = unique_ptr<TTF_Font>(TTF_OpenFont("NotoSansJP-VariableFont_wght.ttf", 56));
-	buttonFont = unique_ptr<TTF_Font>(TTF_OpenFont("NotoSansJP-VariableFont_wght.ttf", 28));
+	normalFont.reset(TTF_OpenFont("NotoSansJP-VariableFont_wght.ttf", 28));
+	titleFont.reset(TTF_OpenFont("NotoSansJP-VariableFont_wght.ttf", 56));
 
-	if (titleFont == NULL)
-	{
-		return false;
-	}
+	fontManager.emplace_back(normalFont.get());
+	fontManager.emplace_back(titleFont.get());
+
 	return true;
 }
 
@@ -161,8 +161,8 @@ int main(int argc, char** argv) {
 				{
 					switch (sceneNum)
 					{
-					case TITLE:
-						currentScene.reset(new Title("InvaderGame", game.titleFont.get()));
+					case 0:
+						currentScene.reset(new Title("InvaderGame", game.fontManager));
 						currentScene->sceneChange = false;
 					}
 				}

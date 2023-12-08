@@ -5,7 +5,7 @@ Title::Title()
 
 }
 
-Title::Title(string titleName,TTF_Font* font)
+Title::Title(string titleName, vector<TTF_Font*> fonts)
 {
 	titleText = new Text();
 	drawList.emplace_back(titleText);
@@ -15,7 +15,7 @@ Title::Title(string titleName,TTF_Font* font)
 	titleText->setPos(70, 30);
 	//titleText->setMove(100, 60);
 	titleText->setText(titleName);
-	titleText->setFont(font);
+	titleText->setFont(fonts[(int)FONTS::BIG]);
 
 	button = new Button();
 	drawList.emplace_back(button);

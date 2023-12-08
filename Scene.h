@@ -5,6 +5,8 @@
 
 using namespace std;
 
+enum FONTS;
+
 class Scene
 {
 protected:

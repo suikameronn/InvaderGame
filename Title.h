@@ -12,6 +12,14 @@ using namespace std;
 class Title : public Scene
 {
 private:
+
+	enum class FONTS
+	{
+		NORMAL,
+		BIG
+	};
+
+
 	Text* titleText;
 	SDL_Color color;
 
@@ -23,7 +31,7 @@ private:
 public:
 
 	Title();
-	Title(string titleName, TTF_Font* font);
+	Title(string titleName, vector<TTF_Font*> fonts);
 
 	void hitCheckScene(int* x, int* y, bool clicked);
 	void drawScene(SDL_Renderer* gRenderer);
