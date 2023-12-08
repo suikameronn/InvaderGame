@@ -11,17 +11,20 @@ Title::Title(string titleName, vector<TTF_Font*> fonts)
 	drawList.emplace_back(titleText);
 
 	color = { 255,255,255,255 };
-	titleText->setColor(color);
+	titleText->setColor(&color);
 	titleText->setPos(70, 30);
 	//titleText->setMove(100, 60);
 	titleText->setText(titleName);
-	titleText->setFont(fonts[(int)FONTS::BIG]);
+	titleText->setFont(fonts[static_cast<int>(FONTS::BIG)]);
 
 	button = new Button();
 	drawList.emplace_back(button);
 	hitCheckList.emplace_back(button);
-	button->Object::setPos(100, 300);
+	button->Object::setPos(80, 300);
 	button->setOffSet(300, 100);
+	bColor = { 255,255,255,255 };
+	button->setLabel("aa", &bColor, fonts[static_cast<int>(FONTS::NORMAL)], 28);
+	drawList.emplace_back(button->getLabel());
 }
 
 void Title::hitCheckScene(int* x, int* y, bool clicked)

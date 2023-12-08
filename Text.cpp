@@ -23,7 +23,7 @@ void Text::setText(string str)
 	changed = true;
 }
 
-void Text::setColor(SDL_Color col)
+void Text::setColor(SDL_Color* col)
 {
 	color = col;
 	changed = true;
@@ -37,7 +37,7 @@ void Text::drawObjects(SDL_Renderer* gRenderer)
 
 	if (!createdTex)
 	{
-		textSurface = TTF_RenderText_Solid(gFont, text.c_str(), color);//文字をレンダリングしたサーフェスを作成
+		textSurface = TTF_RenderText_Solid(gFont, text.c_str(), *color);//文字をレンダリングしたサーフェスを作成
 		mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);//テクスチャの作成
 		createdTex = true;
 	}

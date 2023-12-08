@@ -10,10 +10,12 @@ private:
 	Position* offSet = NULL;
 	Position OffSet;
 
-	void* exeMethod;
-
 	SDL_Color* color;
 	SDL_Color Color;
+
+	Text* label;
+
+	void* exeMethod;
 
 	SDL_Rect* clip = NULL;
 	SDL_Point* center = NULL;
@@ -26,7 +28,10 @@ public:
 	Button();
 
 	void setOffSet(float x, float y);
-	bool hitCheck(int* x, int* y,bool clicked) override;
+	void setLabel(string text, SDL_Color* textColor, TTF_Font* labelFont);
+	void setLabel(string text, SDL_Color* textColor, TTF_Font* labelFont,int size);
+	Text* getLabel();
 
+	bool hitCheck(int* x, int* y,bool clicked) override;
 	void drawObjects(SDL_Renderer* gRenderer) override;
 };

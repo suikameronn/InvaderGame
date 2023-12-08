@@ -17,6 +17,22 @@ using namespace std;
 const int SCREEN_WIDTH = 480;
 const int SCREEN_HEIGHT = 640;
 
+struct windowDeleter
+{
+	void operator()(SDL_Window* window)
+	{
+		SDL_DestroyWindow(window);
+	}
+};
+
+struct rendererDeleter
+{
+	void operator()(SDL_Renderer* renderer)
+	{
+		SDL_DestroyRenderer(renderer);
+	}
+};
+
 struct fontDeleter
 {
 	void operator()(TTF_Font* font)
@@ -32,8 +48,8 @@ private:
 public:
 	bool sceneChange;
 
-	shared_ptr<SDL_Window> gWindow;
-	shared_ptr<SDL_Renderer> gRenderer;
+	unique_ptr<SDL_Window,windowDeleter> gWindow;
+	unique_ptr<SDL_Renderer,rendererDeleter> gRenderer;
 
 	vector<TTF_Font*> fontManager;
 	unique_ptr<TTF_Font,fontDeleter> normalFont;
@@ -66,7 +82,7 @@ bool Game::init()
 		}
 
 		//Create window
-		gWindow = shared_ptr<SDL_Window>(SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN),SDL_DestroyWindow);
+		gWindow.reset(SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN));
 		if (gWindow == NULL)
 		{
 			cout << "Window could not be created! SDL Error: %s\n" << SDL_GetError() << endl;
@@ -75,7 +91,7 @@ bool Game::init()
 		else
 		{
 			//Create vsynced renderer for window
-			gRenderer = shared_ptr<SDL_Renderer>(SDL_CreateRenderer(gWindow.get(), -1, SDL_RENDERER_ACCELERATED),SDL_DestroyRenderer);//レンダーを作成
+			gRenderer.reset(SDL_CreateRenderer(gWindow.get(), -1, SDL_RENDERER_ACCELERATED));//レンダーを作成
 			if (gRenderer == NULL)
 			{
 				cout << "Renderer could not be created! SDL Error: %s\n" << SDL_GetError() << endl;

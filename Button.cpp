@@ -2,16 +2,64 @@
 
 Button::Button()
 {
+	OffSet = { 0 };
 	offSet = &OffSet;
 
 	Color = { 125,125,125,255 };
 	color = &Color;
+
+	exeMethod = NULL;
 }
 
 void Button::setOffSet(float x, float y)
 {
 	offSet->x = x;
 	offSet->y = y;
+}
+
+void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* font)
+{
+	if (label == NULL)
+	{
+		label = new Text();
+	}
+	label->setText(text);
+	label->setFont(font);
+	label->setColor(labelColor);
+}
+
+void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* font,int size)
+{
+	if (label == NULL)
+	{
+		label = new Text();
+	}
+	label->setText(text);
+	label->setFont(font);
+	label->setColor(labelColor);
+
+	if (offSet->x != 0 && offSet->y != 0)
+	{
+		size /= 2;
+		int len = strlen(text.c_str());
+
+		int centerX = (Object::pos->x * 2 + offSet->x) / 2;
+		int centerY = (Object::pos->y * 2 + offSet->y) / 2;
+
+		if (len % 2 == 0)
+		{
+			label->setPos(centerX - size * (len / 2), centerY - size * 2);
+		}
+		else
+		{
+			label->setPos(centerX - (size / 2) - size * (len / 2), centerY - size * 2);
+		}
+	}
+}
+
+Text* Button::getLabel()
+{
+	return label;
 }
 
 //private

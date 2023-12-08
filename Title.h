@@ -24,6 +24,7 @@ private:
 	SDL_Color color;
 
 	Button* button;
+	SDL_Color bColor;
 
 	vector<Object*> drawList;
 	vector<Object*> hitCheckList;
