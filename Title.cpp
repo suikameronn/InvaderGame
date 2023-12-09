@@ -19,8 +19,10 @@ Title::Title(string titleName, vector<TTF_Font*> fonts)
 	button->setOffSet(300, 100);
 	bColor = { 255,255,255,255 };
 	button->setLabel("aaa", &bColor, fonts[static_cast<int>(FONTS::NORMAL)], 28);
+
 	drawList.emplace_back(button->getLabel());
 }
+
 
 void Title::hitCheckScene(int* x, int* y, bool clicked)
 {
