@@ -1,10 +1,5 @@
 #include"Title.h"
 
-Title::Title()
-{
-
-}
-
 Title::Title(string titleName, vector<TTF_Font*> fonts)
 {
 	titleText = new Text();
@@ -53,4 +48,6 @@ int Title::sceneChanger()
 	{
 		return 1;
 	}
+
+	return 0;
 }

@@ -17,13 +17,13 @@ protected:
 	bool changed;
 	bool moveFinish;
 
-	Position* pos = nullptr;
+	Position* pos;
 	Position position;
 
-	Position* tarPos = nullptr;
+	Position* tarPos;
 	Position tarPosition;
 
-	Position* movePos = nullptr;
+	Position* movePos;
 	Position movePosition;
 
 	float length;

@@ -55,18 +55,21 @@ public:
 	unique_ptr<TTF_Font,fontDeleter> normalFont;
 	unique_ptr<TTF_Font, fontDeleter> titleFont;
 
+	Game();
+
 	bool init();
 	bool loadMedia();
 };
 
-
+Game::Game()
+{
+	sceneChange = true;
+}
 
 bool Game::init()
 {
 	//Initialization flag
 	bool success = true;
-
-	sceneChange = true;
 
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)

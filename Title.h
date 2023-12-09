@@ -31,7 +31,6 @@ private:
 
 public:
 
-	Title();
 	Title(string titleName, vector<TTF_Font*> fonts);
 
 	void hitCheckScene(int* x, int* y, bool clicked);

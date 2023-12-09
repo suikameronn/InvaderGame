@@ -3,9 +3,13 @@
 Object::Object()
 {
 	pos = &position;
+	tarPos = nullptr;
+	movePos = nullptr;
 
 	createdTex = false;
 	moveFinish = true;
+	changed = true;
+	length = 0;
 }
 
 void Object::setPos(float px, float py)
@@ -29,10 +33,10 @@ void Object::setMove(float px, float py)
 	tarPos->y = py;
 
 	int lx, ly;
-	lx = tarPos->x - pos->x;
-	ly = tarPos->y - pos->y;
+	lx = static_cast<int>(tarPos->x - pos->x);
+	ly = static_cast<int>(tarPos->y - pos->y);
 
-	length = sqrt(lx * lx + ly * ly) * 10;
+	length = static_cast<float>(sqrt(lx * lx + ly * ly) * 10);
 
 	if (movePos == nullptr)
 	{
