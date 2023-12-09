@@ -8,7 +8,7 @@ Button::Button()
 	Color = { 125,125,125,255 };
 	color = &Color;
 
-	exeMethod = NULL;
+	exeMethod = nullptr;
 }
 
 void Button::setOffSet(float x, float y)
@@ -19,7 +19,7 @@ void Button::setOffSet(float x, float y)
 
 void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* font)
 {
-	if (label == NULL)
+	if (label == nullptr)
 	{
 		label = new Text();
 	}
@@ -30,7 +30,7 @@ void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* font)
 
 void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* labelFont, int size)
 {
-	if (label == NULL)
+	if (label == nullptr)
 	{
 		label = new Text();
 	}

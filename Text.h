@@ -22,8 +22,8 @@ private:
 	SDL_Surface* textSurface;
 
 
-	SDL_Rect* clip = NULL;
-	SDL_Point* center = NULL;
+	SDL_Rect* clip = nullptr;
+	SDL_Point* center = nullptr;
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 	double angle = 0;
 

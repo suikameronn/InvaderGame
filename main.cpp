@@ -53,12 +53,13 @@ public:
 
 	vector<TTF_Font*> fontManager;
 	unique_ptr<TTF_Font,fontDeleter> normalFont;
-	unique_ptr<TTF_Font,fontDeleter> titleFont;
+	unique_ptr<TTF_Font, fontDeleter> titleFont;
 
 	bool init();
 	bool loadMedia();
-	void close();
 };
+
+
 
 bool Game::init()
 {
@@ -83,7 +84,7 @@ bool Game::init()
 
 		//Create window
 		gWindow.reset(SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN));
-		if (gWindow == NULL)
+		if (gWindow == nullptr)
 		{
 			cout << "Window could not be created! SDL Error: %s\n" << SDL_GetError() << endl;
 			success = false;
@@ -92,7 +93,7 @@ bool Game::init()
 		{
 			//Create vsynced renderer for window
 			gRenderer.reset(SDL_CreateRenderer(gWindow.get(), -1, SDL_RENDERER_ACCELERATED));//ƒŒƒ“ƒ_[‚ðì¬
-			if (gRenderer == NULL)
+			if (gRenderer == nullptr)
 			{
 				cout << "Renderer could not be created! SDL Error: %s\n" << SDL_GetError() << endl;
 				success = false;

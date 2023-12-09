@@ -2,11 +2,25 @@
 
 Text::Text()
 {
-
+	color = nullptr;
+	gFont = nullptr;
+	mWidth = 0;
+	mHeight = 0;
+	mTexture = nullptr;
+	renderQuad = { 0 };
+	textSurface = nullptr;
 }
 
 Text::Text(TTF_Font* font)
 {
+	color = nullptr;
+	gFont = nullptr;
+	mWidth = 0;
+	mHeight = 0;
+	mTexture = nullptr;
+	renderQuad = { 0 };
+	textSurface = nullptr;
+
 	gFont = font;
 	changed = true;
 }
@@ -50,7 +64,7 @@ void Text::drawObjects(SDL_Renderer* gRenderer)
 		renderQuad = { (int)pos->x, (int)pos->y, mWidth, mHeight };
 
 		//Set clip rendering dimensions
-		if (clip != NULL)
+		if (clip != nullptr)
 		{
 			renderQuad.w = clip->w;
 			renderQuad.h = clip->h;

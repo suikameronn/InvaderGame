@@ -20,7 +20,7 @@ void Object::setMove(float px, float py)
 {
 	moveFinish = false;
 
-	if (tarPos == NULL)
+	if (tarPos == nullptr)
 	{
 		tarPos = &tarPosition;
 	}
@@ -34,7 +34,7 @@ void Object::setMove(float px, float py)
 
 	length = sqrt(lx * lx + ly * ly) * 10;
 
-	if (movePos == NULL)
+	if (movePos == nullptr)
 	{
 		movePos = &movePosition;
 	}
