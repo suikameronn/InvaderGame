@@ -3,8 +3,9 @@
 #include<SDL.h>
 
 #include"Text.h"
+#include"Listner.h"
 
-class Button : public Text, public Object
+class Button : public Text,public Listner
 {
 private:
 	Position* offSet = nullptr;
@@ -22,6 +23,8 @@ private:
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 	double angle = 0;
 
+	Listner* listner;
+
 	void changeColor(bool hit);
 	void* buttonClicked();
 
@@ -31,7 +34,7 @@ public:
 	void setOffSet(float x, float y);
 	void setLabel(string text, SDL_Color* textColor, TTF_Font* labelFont);
 	void setLabel(string text, SDL_Color* textColor, TTF_Font* labelFont,int size);
-	void setMethod(void* method);
+	void setListner(Listner* obj);
 	Text* getLabel();
 
 	bool hitCheck(int* x, int* y,bool clicked) override;

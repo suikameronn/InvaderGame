@@ -59,9 +59,9 @@ void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* labelFont, i
 	}
 }
 
-void Button::setMethod(void* method)
+void Button::setListner(Listner* obj)
 {
-	exeMethod = method;
+	listner = obj;
 }
 
 Text* Button::getLabel()
