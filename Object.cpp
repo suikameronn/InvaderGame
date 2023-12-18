@@ -2,6 +2,8 @@
 
 Object::Object()
 {
+	erase = false;
+
 	pos = &position;
 	tarPos = nullptr;
 	movePos = nullptr;

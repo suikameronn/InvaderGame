@@ -5,6 +5,8 @@
 #include"Text.h"
 #include"Listner.h"
 
+using namespace std;
+
 class Button : public Text,public Listner
 {
 private:
@@ -23,7 +25,7 @@ private:
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 	double angle = 0;
 
-	Listner* listner;
+	unique_ptr<Listner> listner;
 
 	void changeColor(bool hit);
 	void buttonClicked(auto method);

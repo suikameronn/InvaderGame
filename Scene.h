@@ -13,11 +13,13 @@ protected:
 	int sceneChanger();
 	void hitCheckScene(int* x, int* y, bool clicked);
 	void drawScene(SDL_Renderer* gRenderer);
-
 public:
 	bool sceneChange;
 
 	Scene();
 
+<<<<<<< HEAD
 	virtual void Update_virtual();
+=======
+>>>>>>> Button_Class
 };

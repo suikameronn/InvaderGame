@@ -5,6 +5,11 @@ Scene::Scene()
 	sceneChange = true;
 }
 
+void Update()
+{
+
+}
+
 int Scene::sceneChanger()
 {
 	return -1;

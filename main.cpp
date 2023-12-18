@@ -187,6 +187,8 @@ int main(int argc, char** argv) {
 					}
 				}
 
+				currentScene->Update();
+
 				//Handle events on queue
 				while (SDL_PollEvent(&e) != 0)
 				{

@@ -5,12 +5,12 @@ Listner::Listner()
 
 }
 
-void Listner::action(Object* obj)
+void Listner::action()
 {
 
 }
 
-void NextScene::action(Object* obj)
+void NextScene::action()
 {
-
+	cout << "aa" << endl;
 }

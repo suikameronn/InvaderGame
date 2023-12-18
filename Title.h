@@ -33,6 +33,7 @@ public:
 
 	Title(string titleName, vector<TTF_Font*> fonts);
 
+	void Update();
 	void hitCheckScene(int* x, int* y, bool clicked);
 	void drawScene(SDL_Renderer* gRenderer);
 	int sceneChanger();
