@@ -32,3 +32,8 @@ int Title::sceneChanger()
 
 	return 0;
 }
+
+void Title::otherUpdate_virtual()
+{
+
+}

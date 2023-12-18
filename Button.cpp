@@ -82,13 +82,13 @@ void Button::changeColor(bool hit)
 	}
 }
 
-bool Button::hitCheck(int* x, int* y, bool clicked)
+bool Button::hitCheck(Mouse* mouse)
 {
-	if (clicked)
+	if (mouse->click)
 	{
-		if (*x > Object::pos->x && *x < Object::pos->x + offSet->x)
+		if (mouse->mx > Object::pos->x && mouse->mx < Object::pos->x + offSet->x)
 		{
-			if (*y > Object::pos->y && *y < Object::pos->y + offSet->y)
+			if (mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
 			{
 				changeColor(true);
 				return true;

@@ -5,6 +5,7 @@
 #include<SDL.h>
 
 #include"Object.h"
+#include"Mouse.h"
 
 using namespace std;
 
@@ -23,8 +24,8 @@ public:
 
 	Scene();
 
-	virtual void Update_virtual();
+	virtual void otherUpdate_virtual();
 
-	void hitCheckScene(int* x, int* y, bool clicked);
+	void hitCheckScene(Mouse* mouse);
 	void drawScene(SDL_Renderer* gRenderer);
 };

@@ -2,6 +2,8 @@
 #include<iostream>
 #include <SDL.h>
 
+#include"Mouse.h"
+
 using namespace std;
 
 struct Position
@@ -37,5 +39,5 @@ public:
 	void actMove();
 
 	virtual void drawObjects(SDL_Renderer* gRenderer);
-	virtual bool hitCheck(int* x, int* y, bool clicked);
+	virtual bool hitCheck(Mouse* mouse);
 };

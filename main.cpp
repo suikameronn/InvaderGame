@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include <string>
 #include<vector>
+#include <windows.h>
 
 #include"Title.h"
 #include"Mouse.h"
@@ -59,6 +60,14 @@ public:
 
 	bool init();
 	bool loadMedia();
+
+	int frameCount;
+
+	float deltaTime;
+	LARGE_INTEGER* freq,start,end;
+	void clockInit();
+	void clockStart();
+	void clockEnd();
 };
 
 Game::Game()
@@ -138,6 +147,21 @@ bool Game::loadMedia()
 	return true;
 }
 
+void Game::clockInit()
+{
+	QueryPerformanceFrequency(freq);
+}
+
+void Game::clockStart()
+{
+	QueryPerformanceCounter(&start);
+}
+
+void Game::clockEnd()
+{
+	QueryPerformanceCounter(&end);
+}
+
 /**
 *   ÉÅÉCÉì
 */
@@ -161,11 +185,6 @@ int main(int argc, char** argv) {
 			//Main loop flag
 			bool quit = false;
 
-			bool clicked = false;
-
-			//Event handler
-			SDL_Event e;
-
 			int sceneNum = 0;
 
 			unique_ptr<Scene> currentScene;
@@ -177,6 +196,8 @@ int main(int argc, char** argv) {
 			//While application is running
 			while (!quit)
 			{
+				QueryPerformanceCounter(&start);
+
 				if (currentScene->sceneChange)
 				{
 					switch (sceneNum)
@@ -187,26 +208,10 @@ int main(int argc, char** argv) {
 					}
 				}
 
-				//Handle events on queue
-				while (SDL_PollEvent(&e) != 0)
-				{
-					//User requests quit
-					if (e.type == SDL_QUIT)
-					{
-						quit = true;
-					}
-					else if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
-					{
-						clicked = true;
-					}
-					else if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT)
-					{
-						clicked = false;
-					}
-				}
+				currentScene->otherUpdate_virtual();
 
-				mouse->getMousePos(&mouse->x, &mouse->y);
-				currentScene->hitCheckScene(&mouse->x, &mouse->y, clicked);
+				mouse->setMouseState();
+				currentScene->hitCheckScene(mouse.get());
 
 				//Clear screen
 				SDL_SetRenderDrawColor(game.gRenderer.get(), 0, 0, 0, 255);
@@ -216,6 +221,14 @@ int main(int argc, char** argv) {
 
 				//Update screen
 				SDL_RenderPresent(game.gRenderer.get());
+
+				QueryPerformanceCounter(&end);
+
+				deltaTime += static_cast<float>(end.QuadPart - start.QuadPart) * 1000.0 / freq.QuadPart;
+				frameCount++;
+
+				printf("time %f[ms]\n", deltaTime);
+
 			}
 		}
 	}

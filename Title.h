@@ -31,4 +31,5 @@ public:
 	Title(string titleName, vector<TTF_Font*> fonts);
 
 	int sceneChanger();
+	void otherUpdate_virtual();
 };

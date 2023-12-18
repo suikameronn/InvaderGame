@@ -11,18 +11,18 @@ int Scene::sceneChanger()
 }
 
 //virtual
-void Scene::Update_virtual ()
+void Scene::otherUpdate_virtual ()
 {
 
 }
 
-void Scene::hitCheckScene(int* x, int* y, bool clicked)
+void Scene::hitCheckScene(Mouse* mouse)
 {
 	int i;
 
 	for (i = 0; i < hitCheckList.size(); ++i)
 	{
-		hitCheckList[i]->hitCheck(x, y, clicked);
+		hitCheckList[i]->hitCheck(mouse);
 	}
 }
 

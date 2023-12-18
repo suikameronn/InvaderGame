@@ -36,6 +36,6 @@ public:
 	void setListner(Listner* obj);
 	Text* getLabel();
 
-	bool hitCheck(int* x, int* y,bool clicked) override;
+	bool hitCheck(Mouse* mouse) override;
 	void drawObjects(SDL_Renderer* gRenderer) override;
 };

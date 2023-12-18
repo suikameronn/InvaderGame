@@ -69,7 +69,7 @@ void Object::drawObjects(SDL_Renderer* gRenderer)
 
 }
 
-bool Object::hitCheck(int* x, int* y, bool clicked)
+bool Object::hitCheck(Mouse* mouse)
 {
 	return false;
 }

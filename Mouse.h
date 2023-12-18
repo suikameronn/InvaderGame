@@ -4,20 +4,20 @@
 #include<vector>
 #include<SDL.h>
 
-#include"Object.h"
-
 using namespace std;
 
 class Mouse
 {
-protected:
-	unique_ptr<Position> mousePos;
-
-	vector<Object*> checkList;
+private:
+	//Event handler
+	SDL_Event e;
 
 public:
-	int x, y;
+
+	int mx, my;
+	bool click;
 
 	Mouse();
-	void getMousePos(int* x, int* y);//マウスの座標を取得
+
+	void setMouseState();
 };

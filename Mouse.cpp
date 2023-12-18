@@ -2,12 +2,25 @@
 
 Mouse::Mouse()
 {
-	mousePos = unique_ptr<Position>(new Position);
-	mousePos->x = 0;
-	mousePos->y = 0;
+	mx = 0;
+	my = 0;
+	click = false;
 }
 
-void Mouse::getMousePos(int* x, int* y)
+void Mouse::setMouseState()
 {
-	SDL_GetMouseState(x, y);
+	SDL_GetMouseState(&mx, &my);
+
+	//Handle events on queue
+	while (SDL_PollEvent(&e) != 0)
+	{
+		if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
+		{
+			click = true;
+		}
+		else if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT)
+		{
+			click = false;
+		}
+	}
 }
