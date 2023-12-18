@@ -26,14 +26,9 @@ private:
 	Button* button;
 	SDL_Color bColor;
 
-	vector<Object*> drawList;
-	vector<Object*> hitCheckList;
-
 public:
 
 	Title(string titleName, vector<TTF_Font*> fonts);
 
-	void hitCheckScene(int* x, int* y, bool clicked);
-	void drawScene(SDL_Renderer* gRenderer);
 	int sceneChanger();
 };
