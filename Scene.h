@@ -10,13 +10,14 @@ enum FONTS;
 class Scene
 {
 protected:
-	virtual int sceneChanger();
+	int sceneChanger();
+	void hitCheckScene(int* x, int* y, bool clicked);
+	void drawScene(SDL_Renderer* gRenderer);
 
 public:
 	bool sceneChange;
 
 	Scene();
 
-	virtual void hitCheckScene(int* x, int* y, bool clicked);
-	virtual void drawScene(SDL_Renderer* gRenderer);
+	virtual void Update_virtual();
 };
