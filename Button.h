@@ -23,7 +23,7 @@ private:
 	double angle = 0;
 
 	void changeColor(bool hit);
-	void* buttonClicked();
+	void buttonClicked(auto method);
 
 public:
 	Button();
