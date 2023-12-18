@@ -17,6 +17,7 @@ public:
 
 	Scene();
 
+	virtual void Update();
 	virtual void hitCheckScene(int* x, int* y, bool clicked);
 	virtual void drawScene(SDL_Renderer* gRenderer);
 };

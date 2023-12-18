@@ -7,10 +7,10 @@ class Listner
 public:
 	Listner();
 
-	virtual void action(Object* obj);
+	virtual void action();
 };
 
 class NextScene : public Listner
 {
-	void action(Object* obj);
+	void action();
 };
