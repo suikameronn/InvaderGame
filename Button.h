@@ -26,7 +26,7 @@ private:
 	Listner* listner;
 
 	void changeColor(bool hit);
-	void* buttonClicked();
+	void buttonClicked(auto method);
 
 public:
 	Button();
