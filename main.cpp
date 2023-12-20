@@ -62,12 +62,14 @@ public:
 	bool loadMedia();
 
 	int frameCount;
-
 	float deltaTime;
-	LARGE_INTEGER* freq,start,end;
+	LARGE_INTEGER freq;
+	LARGE_INTEGER start;
+	LARGE_INTEGER end;
 	void clockInit();
 	void clockStart();
 	void clockEnd();
+	void clockRestart();
 };
 
 Game::Game()
@@ -79,6 +81,8 @@ bool Game::init()
 {
 	//Initialization flag
 	bool success = true;
+
+	deltaTime = 0;
 
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -149,7 +153,7 @@ bool Game::loadMedia()
 
 void Game::clockInit()
 {
-	QueryPerformanceFrequency(freq);
+	QueryPerformanceFrequency(&freq);
 }
 
 void Game::clockStart()
@@ -162,21 +166,28 @@ void Game::clockEnd()
 	QueryPerformanceCounter(&end);
 }
 
+void Game::clockRestart()
+{
+	deltaTime = 0;
+}
+
 /**
 *   ƒƒCƒ“
 */
 int main(int argc, char** argv) {
-    Game game;
+    Game* game = new Game();
+
+	game->clockInit();
 
 	//Start up SDL and create window
-	if (!game.init())
+	if (!game->init())
 	{
 		cout << "Failed to initialize!" << endl;
 	}
 	else
 	{
 		//Laad media
-		if (!game.loadMedia())
+		if (!game->loadMedia())
 		{
 			cout << "Failed to load media!" << endl;
 		}
@@ -196,14 +207,14 @@ int main(int argc, char** argv) {
 			//While application is running
 			while (!quit)
 			{
-				QueryPerformanceCounter(&start);
+				game->clockStart();
 
 				if (currentScene->sceneChange)
 				{
 					switch (sceneNum)
 					{
 					case 0:
-						currentScene.reset(new Title("InvaderGame", game.fontManager));
+						currentScene.reset(new Title("InvaderGame", game->fontManager));
 						currentScene->sceneChange = false;
 					}
 				}
@@ -214,20 +225,20 @@ int main(int argc, char** argv) {
 				currentScene->hitCheckScene(mouse.get());
 
 				//Clear screen
-				SDL_SetRenderDrawColor(game.gRenderer.get(), 0, 0, 0, 255);
-				SDL_RenderClear(game.gRenderer.get());
+				SDL_SetRenderDrawColor(game->gRenderer.get(), 0, 0, 0, 255);
+				SDL_RenderClear(game->gRenderer.get());
 
-				currentScene->drawScene(game.gRenderer.get());
+				currentScene->drawScene(game->gRenderer.get());
 
 				//Update screen
-				SDL_RenderPresent(game.gRenderer.get());
+				SDL_RenderPresent(game->gRenderer.get());
 
-				QueryPerformanceCounter(&end);
+				game->clockEnd();
 
-				deltaTime += static_cast<float>(end.QuadPart - start.QuadPart) * 1000.0 / freq.QuadPart;
-				frameCount++;
+				game->deltaTime += static_cast<float>(game->end.QuadPart - game->start.QuadPart) * 1000.0 / game->freq.QuadPart;
+				game->frameCount++;
 
-				printf("time %f[ms]\n", deltaTime);
+				printf("time %f[ms]\n", game->deltaTime);
 
 			}
 		}
