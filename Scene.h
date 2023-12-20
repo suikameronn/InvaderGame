@@ -11,13 +11,23 @@ using namespace std;
 
 enum FONTS;
 
+enum ObjType
+{
+	BUTTON,
+	PLAYER,
+	ENEMY
+};
+
 class Scene
 {
 protected:
 	int sceneChanger();
 
 	vector<Object*> drawList;
-	vector<Object*> hitCheckList;
+
+	vector<Object*> Button_checkList;
+	vector<Object*> Player_checkList;
+	vector<Object*> Enemy_checkList;
 
 	/*Sceneクラス上で当たり判定を行いたい
 	　マウスが判定になるものと、敵味方のビームが当たり判定の対象になるものを分けたい
