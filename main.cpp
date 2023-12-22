@@ -238,7 +238,7 @@ int main(int argc, char** argv) {
 				game->deltaTime += static_cast<float>(game->end.QuadPart - game->start.QuadPart) * 1000.0 / game->freq.QuadPart;
 				game->frameCount++;
 
-				printf("time %f[ms]\n", game->deltaTime);
+				//printf("time %f[ms]\n", game->deltaTime);
 
 			}
 		}

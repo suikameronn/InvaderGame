@@ -25,6 +25,13 @@ Text::Text(TTF_Font* font)
 	changed = true;
 }
 
+Text::~Text()
+{
+	TTF_CloseFont(gFont);
+	SDL_DestroyTexture(mTexture);
+	SDL_FreeSurface(textSurface);
+}
+
 void Text::setFont(TTF_Font* font)
 {
 	gFont = font;

@@ -14,8 +14,6 @@ private:
 	SDL_Color* color;
 	SDL_Color Color;
 
-	Text* label;
-
 	void* exeMethod;
 
 	SDL_Rect* clip = nullptr;
@@ -28,6 +26,9 @@ private:
 	void changeColor(bool hit);
 
 public:
+	Text* label;
+
+
 	Button();
 
 	void setOffSet(float x, float y);

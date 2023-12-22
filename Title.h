@@ -20,10 +20,10 @@ private:
 	};
 
 
-	Text* titleText;
+	unique_ptr<Text> titleText;
 	SDL_Color color;
 
-	Button* button;
+	unique_ptr<Button> button;
 	SDL_Color bColor;
 
 public:

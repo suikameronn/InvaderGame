@@ -20,9 +20,9 @@ void Scene::hitCheckScene(Mouse* mouse)
 {
 	int i;
 
-	for (i = 0; i < hitCheckList.size(); ++i)
+	for (i = 0; i < button_CheckList.size(); ++i)
 	{
-		hitCheckList[i]->hitCheck(mouse);
+		button_CheckList[i]->hitCheck(mouse);
 	}
 }
 
@@ -33,5 +33,22 @@ void Scene::drawScene(SDL_Renderer* gRenderer)
 	for (i = 0; i < drawList.size(); ++i)
 	{
 		drawList[i]->drawObjects(gRenderer);
+	}
+}
+
+void Scene::addObjectToScene(Text* text)
+{
+	drawList.emplace_back(text);
+	button_CheckList.emplace_back(text);
+}
+
+void Scene::addObjectToScene(Button* button)
+{
+	drawList.emplace_back(button);
+	button_CheckList.emplace_back(button);
+
+	if (button->label != nullptr)
+	{
+		drawList.emplace_back(button->label);
 	}
 }

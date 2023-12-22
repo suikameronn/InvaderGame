@@ -6,6 +6,9 @@
 
 #include"Object.h"
 #include"Mouse.h"
+#include"Button.h"
+//#include"Player.h"
+//#include"Enemy.h"
 
 using namespace std;
 
@@ -25,9 +28,12 @@ protected:
 
 	vector<Object*> drawList;
 
-	vector<Object*> Button_checkList;
-	vector<Object*> Player_checkList;
-	vector<Object*> Enemy_checkList;
+	vector<Object*> button_CheckList;
+	vector<Object*> player_CheckList;
+	vector<Object*> enemy_CheckList;
+
+	void addObjectToScene(Text* text);
+	void addObjectToScene(Button* button);
 
 	/*Sceneクラス上で当たり判定を行いたい
 	　マウスが判定になるものと、敵味方のビームが当たり判定の対象になるものを分けたい

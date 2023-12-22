@@ -30,6 +30,8 @@ private:
 public:
 
 	Text();
+	~Text();
+
 	Text(TTF_Font* font);
 	void setText(string text);
 	void setColor(SDL_Color* col);
