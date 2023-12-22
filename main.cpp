@@ -187,8 +187,6 @@ int main(int argc, char** argv) {
 					}
 				}
 
-				currentScene->Update();
-
 				//Handle events on queue
 				while (SDL_PollEvent(&e) != 0)
 				{
@@ -208,13 +206,11 @@ int main(int argc, char** argv) {
 				}
 
 				mouse->getMousePos(&mouse->x, &mouse->y);
-				currentScene->hitCheckScene(&mouse->x, &mouse->y, clicked);
 
 				//Clear screen
 				SDL_SetRenderDrawColor(game.gRenderer.get(), 0, 0, 0, 255);
 				SDL_RenderClear(game.gRenderer.get());
 
-				currentScene->drawScene(game.gRenderer.get());
 
 				//Update screen
 				SDL_RenderPresent(game.gRenderer.get());

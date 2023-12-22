@@ -18,8 +18,5 @@ public:
 
 	Scene();
 
-<<<<<<< HEAD
 	virtual void Update_virtual();
-=======
->>>>>>> Button_Class
 };

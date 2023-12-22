@@ -28,7 +28,6 @@ private:
 	unique_ptr<Listner> listner;
 
 	void changeColor(bool hit);
-	void buttonClicked(auto method);
 
 public:
 	Button();
