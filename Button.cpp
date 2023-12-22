@@ -61,7 +61,7 @@ void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* labelFont, i
 
 void Button::setListner(Listner* obj)
 {
-	listner = obj;
+	listner.reset(obj);
 }
 
 Text* Button::getLabel()
@@ -91,6 +91,7 @@ bool Button::hitCheck(Mouse* mouse)
 			if (mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
 			{
 				changeColor(true);
+				listner->action();
 				return true;
 			}
 		}

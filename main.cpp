@@ -219,8 +219,6 @@ int main(int argc, char** argv) {
 					}
 				}
 
-				currentScene->otherUpdate_virtual();
-
 				mouse->setMouseState();
 				currentScene->hitCheckScene(mouse.get());
 

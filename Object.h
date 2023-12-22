@@ -15,6 +15,7 @@ struct Position
 class Object
 {
 protected:
+	bool erase;
 	bool createdTex;
 	bool changed;
 	bool moveFinish;

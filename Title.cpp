@@ -22,6 +22,31 @@ Title::Title(string titleName, vector<TTF_Font*> fonts)
 	addObjectToScene(button.get());
 }
 
+void Title::Update()
+{
+
+}
+
+void Title::hitCheckScene(int* x, int* y, bool clicked)
+{
+	int i;
+
+	for (i = 0; i < hitCheckList.size(); ++i)
+	{
+		hitCheckList[i]->hitCheck(x, y, clicked);
+	}
+}
+
+void Title::drawScene(SDL_Renderer* gRenderer)
+{
+	int i;
+
+	for (i = 0; i < drawList.size(); ++i)
+	{
+		drawList[i]->drawObjects(gRenderer);
+	}
+}
+
 int Title::sceneChanger()
 {
 	if (sceneChange)
