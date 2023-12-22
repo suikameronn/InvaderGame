@@ -1,24 +1,9 @@
 #include"Scene.h"
 
+
 Scene::Scene()
 {
 	sceneChange = true;
-}
-
-void Update()
-{
-
-}
-
-int Scene::sceneChanger()
-{
-	return -1;
-}
-
-//virtual
-void Scene::otherUpdate_virtual ()
-{
-
 }
 
 void Scene::hitCheckScene(Mouse* mouse)

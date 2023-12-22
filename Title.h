@@ -31,6 +31,6 @@ public:
 	Title(string titleName, vector<TTF_Font*> fonts);
 
 	void Update();
-	void hitCheckScene(int* x, int* y, bool clicked);
+	void hitCheckScene(Mouse* mouse);
 	void drawScene(SDL_Renderer* gRenderer);
 };

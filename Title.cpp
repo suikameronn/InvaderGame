@@ -3,7 +3,6 @@
 Title::Title(string titleName, vector<TTF_Font*> fonts)
 {
 	titleText = make_unique<Text>();
-	//drawList.emplace_back(titleText);
 
 	color = { 255,255,255,255 };
 	titleText->setColor(&color);
@@ -22,18 +21,13 @@ Title::Title(string titleName, vector<TTF_Font*> fonts)
 	addObjectToScene(button.get());
 }
 
-void Title::Update()
-{
-
-}
-
-void Title::hitCheckScene(int* x, int* y, bool clicked)
+void Title::hitCheckScene(Mouse* mouse)
 {
 	int i;
 
-	for (i = 0; i < hitCheckList.size(); ++i)
+	for (i = 0; i < button_CheckList.size(); ++i)
 	{
-		hitCheckList[i]->hitCheck(x, y, clicked);
+		button_CheckList[i]->hitCheck(mouse);
 	}
 }
 
@@ -45,19 +39,4 @@ void Title::drawScene(SDL_Renderer* gRenderer)
 	{
 		drawList[i]->drawObjects(gRenderer);
 	}
-}
-
-int Title::sceneChanger()
-{
-	if (sceneChange)
-	{
-		return 1;
-	}
-
-	return 0;
-}
-
-void Title::otherUpdate_virtual()
-{
-
 }

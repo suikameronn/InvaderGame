@@ -24,7 +24,6 @@ enum ObjType
 class Scene
 {
 protected:
-	int sceneChanger();
 
 	vector<Object*> drawList;
 
@@ -43,10 +42,11 @@ protected:
 	  手作業でするところを、Sceneクラス上で、オブジェクトをリストに入れる関数を作り、その関数内で、オブジェクトのタイプを判定して、
 	  自動で振り分ける*/
 
-	virtual void otherUpdate_virtual();
+public:
+	bool sceneChange;
+
+	Scene();
 
 	void hitCheckScene(Mouse* mouse);
 	void drawScene(SDL_Renderer* gRenderer);
-
-	virtual void Update_virtual();
 };
