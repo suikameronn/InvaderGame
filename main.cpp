@@ -226,8 +226,6 @@ int main(int argc, char** argv) {
 				SDL_SetRenderDrawColor(game->gRenderer.get(), 0, 0, 0, 255);
 				SDL_RenderClear(game->gRenderer.get());
 
-				currentScene->drawScene(game->gRenderer.get());
-
 				//Update screen
 				SDL_RenderPresent(game->gRenderer.get());
 
