@@ -9,7 +9,7 @@ Object::Object()
 	movePos = nullptr;
 
 	createdTex = false;
-	moveFinish = true;
+	actSet = false;
 	changed = true;
 	length = 0;
 }
@@ -24,7 +24,7 @@ void Object::setPos(float px, float py)
 
 void Object::setMove(float px, float py)
 {
-	moveFinish = false;
+	actSet = true;
 
 	if (tarPos == nullptr)
 	{
@@ -51,19 +51,7 @@ void Object::setMove(float px, float py)
 
 void Object::actMove()
 {
-	if (!moveFinish)
-	{
-		if (count > length)
-		{
-			moveFinish = true;
-			count = 0;
-		}
-		else
-		{
-			setPos(pos->x + movePos->x, pos->y + movePos->y);
-			count++;
-		}
-	}
+	//setPos(pos->x + movePos->x, pos->y + movePos->y);
 }
 
 void Object::drawObjects(SDL_Renderer* gRenderer)

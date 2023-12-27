@@ -1,10 +1,35 @@
 #include"Scene.h"
 
+/*
+bool operator<(pair<LARGE_INTEGER*, LARGE_INTEGER*> prev, pair<LARGE_INTEGER*, LARGE_INTEGER*> next)
+{
+	LARGE_INTEGER a;
+	LARGE_INTEGER b;
+	return a < b;
+}
+*/
 
 Scene::Scene()
 {
 	sceneChange = true;
 }
+
+/*
+void Scene::clockInit()
+{
+	QueryPerformanceFrequency(&freq);
+}
+
+void Scene::clockStart()
+{
+	QueryPerformanceCounter(&start);
+}
+
+void Scene::clockEnd()
+{
+	QueryPerformanceCounter(&end);
+}
+*/
 
 void Scene::hitCheckScene(Mouse* mouse)
 {
@@ -26,10 +51,20 @@ void Scene::drawScene(SDL_Renderer* gRenderer)
 	}
 }
 
+void Scene::Update_Scene()
+{
+
+}
+
 void Scene::addObjectToScene(Text* text)
 {
 	drawList.emplace_back(text);
 	button_CheckList.emplace_back(text);
+
+	if (text->actSet)
+	{
+		actTimer[frameCount] = text;
+	}
 }
 
 void Scene::addObjectToScene(Button* button)
@@ -40,5 +75,10 @@ void Scene::addObjectToScene(Button* button)
 	if (button->label != nullptr)
 	{
 		drawList.emplace_back(button->label);
+	}
+
+	if (button->actSet)
+	{
+		actTimer[frameCount] = button;
 	}
 }

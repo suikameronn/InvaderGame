@@ -18,7 +18,6 @@ protected:
 	bool erase;
 	bool createdTex;
 	bool changed;
-	bool moveFinish;
 
 	Position* pos;
 	Position position;
@@ -30,9 +29,10 @@ protected:
 	Position movePosition;
 
 	float length;
-	int count = 0;
 
 public:
+	bool actSet;
+
 	Object();
 	
 	void setPos(float px, float py);

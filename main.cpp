@@ -61,7 +61,7 @@ public:
 	bool init();
 	bool loadMedia();
 
-	int frameCount;
+	float limitFrame;
 	float deltaTime;
 	LARGE_INTEGER freq;
 	LARGE_INTEGER start;
@@ -83,6 +83,7 @@ bool Game::init()
 	bool success = true;
 
 	deltaTime = 0;
+	limitFrame = 1 / 60;
 
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -233,11 +234,12 @@ int main(int argc, char** argv) {
 
 				game->clockEnd();
 
-				game->deltaTime += static_cast<float>(game->end.QuadPart - game->start.QuadPart) * 1000.0 / game->freq.QuadPart;
-				game->frameCount++;
-
-				//printf("time %f[ms]\n", game->deltaTime);
-
+				game->deltaTime = static_cast<float>(game->end.QuadPart - game->start.QuadPart) / game->freq.QuadPart;
+				cout << game->deltaTime << endl;
+				if (game->deltaTime < game->limitFrame)
+				{
+					Sleep(game->limitFrame - game->deltaTime);
+				}
 			}
 		}
 	}

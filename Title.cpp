@@ -21,6 +21,11 @@ Title::Title(string titleName, vector<TTF_Font*> fonts)
 	addObjectToScene(button.get());
 }
 
+void Title::Update_Scene()
+{
+
+}
+
 void Title::hitCheckScene(Mouse* mouse)
 {
 	int i;

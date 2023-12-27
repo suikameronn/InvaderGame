@@ -30,7 +30,8 @@ public:
 
 	Title(string titleName, vector<TTF_Font*> fonts);
 
-	void Update();
 	void hitCheckScene(Mouse* mouse);
 	void drawScene(SDL_Renderer* gRenderer);
+
+	void Update_Scene() override;
 };

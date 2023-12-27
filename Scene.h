@@ -1,12 +1,15 @@
 #pragma once
 
 #include<iostream>
+#include<map>
 #include<vector>
 #include<SDL.h>
+#include <windows.h>
 
 #include"Object.h"
 #include"Mouse.h"
 #include"Button.h"
+
 //#include"Player.h"
 //#include"Enemy.h"
 
@@ -25,6 +28,9 @@ class Scene
 {
 protected:
 
+	int frameCount = 0;
+
+
 	vector<Object*> drawList;
 
 	vector<Object*> button_CheckList;
@@ -34,13 +40,7 @@ protected:
 	void addObjectToScene(Text* text);
 	void addObjectToScene(Button* button);
 
-	/*Sceneクラス上で当たり判定を行いたい
-	　マウスが判定になるものと、敵味方のビームが当たり判定の対象になるものを分けたい
-	 　これは手作業でそれぞれのリストに入れる。
-	  敵機と自分のような当たり判定も、敵味方をそれぞれ手作業で別のリストに入れる。
-	  そして、当たった判定の場合の挙動はそれぞれのクラスを参照する
-	  手作業でするところを、Sceneクラス上で、オブジェクトをリストに入れる関数を作り、その関数内で、オブジェクトのタイプを判定して、
-	  自動で振り分ける*/
+	map<int,Object*> actTimer;
 
 public:
 	bool sceneChange;
@@ -49,4 +49,6 @@ public:
 
 	void hitCheckScene(Mouse* mouse);
 	void drawScene(SDL_Renderer* gRenderer);
+
+	virtual void Update_Scene();
 };
