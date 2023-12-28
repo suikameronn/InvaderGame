@@ -11,7 +11,7 @@ bool operator<(pair<LARGE_INTEGER*, LARGE_INTEGER*> prev, pair<LARGE_INTEGER*, L
 
 Scene::Scene()
 {
-	sceneChange = true;
+
 }
 
 /*

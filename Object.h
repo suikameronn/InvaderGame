@@ -6,6 +6,8 @@
 
 using namespace std;
 
+extern int fps;
+
 struct Position
 {
 	float x;
@@ -37,6 +39,7 @@ public:
 	
 	void setPos(float px, float py);
 	void setMove(float px, float py);
+	void setMove(float px, float py, int fps);
 	void actMove();
 
 	virtual void drawObjects(SDL_Renderer* gRenderer);

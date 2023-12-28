@@ -18,6 +18,9 @@ using namespace std;
 const int SCREEN_WIDTH = 480;
 const int SCREEN_HEIGHT = 640;
 
+int fps;
+int sceneNum = 0;
+
 struct windowDeleter
 {
 	void operator()(SDL_Window* window)
@@ -47,7 +50,6 @@ class Game
 private:
 
 public:
-	bool sceneChange;
 
 	unique_ptr<SDL_Window,windowDeleter> gWindow;
 	unique_ptr<SDL_Renderer,rendererDeleter> gRenderer;
@@ -70,11 +72,11 @@ public:
 	void clockStart();
 	void clockEnd();
 	void clockRestart();
+	void fpsControl();
 };
 
 Game::Game()
 {
-	sceneChange = true;
 }
 
 bool Game::init()
@@ -172,6 +174,21 @@ void Game::clockRestart()
 	deltaTime = 0;
 }
 
+void Game::fpsControl()
+{
+	deltaTime = static_cast<float>(end.QuadPart - start.QuadPart) / freq.QuadPart;
+	cout << deltaTime << endl;
+	if (deltaTime < limitFrame)
+	{
+		Sleep(limitFrame - deltaTime);
+		fps = 60;
+	}
+	else
+	{
+		fps = 1 / deltaTime;
+	}
+}
+
 /**
 *   ƒƒCƒ“
 */
@@ -197,12 +214,10 @@ int main(int argc, char** argv) {
 			//Main loop flag
 			bool quit = false;
 
-			int sceneNum = 0;
-
 			unique_ptr<Scene> currentScene;
 			currentScene = make_unique<Scene>();
 
-			shared_ptr<Mouse> mouse;
+			unique_ptr<Mouse> mouse;
 			mouse = make_unique<Mouse>();
 
 			//While application is running
@@ -210,14 +225,15 @@ int main(int argc, char** argv) {
 			{
 				game->clockStart();
 
-				if (currentScene->sceneChange)
+				currentScene->Update_Scene();
+
+				switch (sceneNum)
 				{
-					switch (sceneNum)
-					{
-					case 0:
-						currentScene.reset(new Title("InvaderGame", game->fontManager));
-						currentScene->sceneChange = false;
-					}
+				case 0:
+					currentScene.reset(new Title("InvaderGame", game->fontManager));
+					break;
+				case -1:
+					break;
 				}
 
 				mouse->setMouseState();
@@ -234,12 +250,7 @@ int main(int argc, char** argv) {
 
 				game->clockEnd();
 
-				game->deltaTime = static_cast<float>(game->end.QuadPart - game->start.QuadPart) / game->freq.QuadPart;
-				cout << game->deltaTime << endl;
-				if (game->deltaTime < game->limitFrame)
-				{
-					Sleep(game->limitFrame - game->deltaTime);
-				}
+				game->fpsControl();
 			}
 		}
 	}

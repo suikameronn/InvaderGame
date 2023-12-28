@@ -49,9 +49,40 @@ void Object::setMove(float px, float py)
 	movePos->y = ly / length;
 }
 
+void Object::setMove(float px, float py, int time)
+{
+	actSet = true;
+
+	if (tarPos == nullptr)
+	{
+		tarPos = &tarPosition;
+	}
+
+	tarPos->x = px;
+	tarPos->y = py;
+
+	int lx, ly;
+	lx = static_cast<int>(tarPos->x - pos->x);
+	ly = static_cast<int>(tarPos->y - pos->y);
+
+	length = static_cast<float>(sqrt(lx * lx + ly * ly) * 10);
+
+	if (movePos == nullptr)
+	{
+		movePos = &movePosition;
+	}
+
+	movePos->x = lx / (fps * time);//ˆê‰ñ‚ÌˆÚ“®—Ê
+	movePos->y = ly / (fps * time);
+}
+
 void Object::actMove()
 {
-	//setPos(pos->x + movePos->x, pos->y + movePos->y);
+	if (actSet)
+	{
+		setPos(pos->x + movePos->x, pos->y + movePos->y);
+	}
+
 }
 
 void Object::drawObjects(SDL_Renderer* gRenderer)

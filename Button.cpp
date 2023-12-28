@@ -104,15 +104,6 @@ bool Button::hitCheck(Mouse* mouse)
 	return false;
 }
 
-void* buttonClicked()
-{
-	void* p;
-
-
-
-	return p;
-}
-
 void Button::drawObjects(SDL_Renderer* gRenderer)
 {
 	SDL_SetRenderDrawColor(gRenderer, color->r,color->g,color->b,color->a);

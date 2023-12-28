@@ -30,7 +30,6 @@ protected:
 
 	int frameCount = 0;
 
-
 	vector<Object*> drawList;
 
 	vector<Object*> button_CheckList;
@@ -43,7 +42,6 @@ protected:
 	map<int,Object*> actTimer;
 
 public:
-	bool sceneChange;
 
 	Scene();
 

@@ -12,5 +12,5 @@ void Listner::action()
 
 void NextScene::action()
 {
-	cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << endl;
+	sceneNum++;
 }
