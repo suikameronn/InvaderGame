@@ -1,5 +1,10 @@
 #define main SDL_main
 
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+
+
 #include<iostream>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -9,6 +14,8 @@
 #include <windows.h>
 
 #include"Title.h"
+#include"CourseSelect.h"
+
 #include"Mouse.h"
 
 #include"Text.h"
@@ -51,14 +58,15 @@ private:
 
 public:
 
-	unique_ptr<SDL_Window,windowDeleter> gWindow;
-	unique_ptr<SDL_Renderer,rendererDeleter> gRenderer;
+	SDL_Window* gWindow;
+	SDL_Renderer* gRenderer;
 
 	vector<TTF_Font*> fontManager;
-	unique_ptr<TTF_Font,fontDeleter> normalFont;
-	unique_ptr<TTF_Font, fontDeleter> titleFont;
+	TTF_Font* normalFont;
+	TTF_Font* titleFont;
 
 	Game();
+	~Game();
 
 	bool init();
 	bool loadMedia();
@@ -77,6 +85,14 @@ public:
 
 Game::Game()
 {
+}
+
+Game::~Game()
+{
+	SDL_DestroyWindow(gWindow);
+	SDL_DestroyRenderer(gRenderer);
+	TTF_CloseFont(normalFont);
+	TTF_CloseFont(titleFont);
 }
 
 bool Game::init()
@@ -102,7 +118,7 @@ bool Game::init()
 		}
 
 		//Create window
-		gWindow.reset(SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN));
+		gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (gWindow == nullptr)
 		{
 			cout << "Window could not be created! SDL Error: %s\n" << SDL_GetError() << endl;
@@ -111,7 +127,7 @@ bool Game::init()
 		else
 		{
 			//Create vsynced renderer for window
-			gRenderer.reset(SDL_CreateRenderer(gWindow.get(), -1, SDL_RENDERER_ACCELERATED));//レンダーを作成
+			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);//レンダーを作成
 			if (gRenderer == nullptr)
 			{
 				cout << "Renderer could not be created! SDL Error: %s\n" << SDL_GetError() << endl;
@@ -120,7 +136,7 @@ bool Game::init()
 			else
 			{
 				//Initialize renderer color
-				SDL_SetRenderDrawColor(gRenderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
+				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 				//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
@@ -145,11 +161,11 @@ bool Game::init()
 
 bool Game::loadMedia()
 {
-	normalFont.reset(TTF_OpenFont("MPLUSRounded1c-Regular.ttf", 28));
-	titleFont.reset(TTF_OpenFont("MPLUSRounded1c-Regular.ttf", 56));
+	normalFont = TTF_OpenFont("MPLUSRounded1c-Regular.ttf", 28);
+	titleFont = TTF_OpenFont("MPLUSRounded1c-Regular.ttf", 56);
 
-	fontManager.emplace_back(normalFont.get());
-	fontManager.emplace_back(titleFont.get());
+	fontManager.emplace_back(normalFont);
+	fontManager.emplace_back(titleFont);
 
 	return true;
 }
@@ -177,7 +193,6 @@ void Game::clockRestart()
 void Game::fpsControl()
 {
 	deltaTime = static_cast<float>(end.QuadPart - start.QuadPart) / freq.QuadPart;
-	cout << deltaTime << endl;
 	if (deltaTime < limitFrame)
 	{
 		Sleep(limitFrame - deltaTime);
@@ -193,9 +208,12 @@ void Game::fpsControl()
 *   メイン
 */
 int main(int argc, char** argv) {
-    Game* game = new Game();
+    unique_ptr<Game> game = make_unique<Game>();
 
 	game->clockInit();
+
+	_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetBreakAlloc(244);
 
 	//Start up SDL and create window
 	if (!game->init())
@@ -215,7 +233,6 @@ int main(int argc, char** argv) {
 			bool quit = false;
 
 			unique_ptr<Scene> currentScene;
-			currentScene = make_unique<Scene>();
 
 			unique_ptr<Mouse> mouse;
 			mouse = make_unique<Mouse>();
@@ -225,28 +242,34 @@ int main(int argc, char** argv) {
 			{
 				game->clockStart();
 
-				currentScene->Update_Scene();
-
 				switch (sceneNum)
 				{
 				case 0:
-					currentScene.reset(new Title("InvaderGame", game->fontManager));
+					currentScene.reset(new Title(game->fontManager));
 					break;
+				case 1:
+					currentScene.reset(new CourseSelect(game->fontManager));
 				case -1:
 					break;
 				}
 
+				currentScene->Update_Scene();
+
 				mouse->setMouseState();
+				if (mouse->quit)
+				{
+					break;
+				}
 				currentScene->hitCheckScene(mouse.get());
 
 				//Clear screen
-				SDL_SetRenderDrawColor(game->gRenderer.get(), 0, 0, 0, 255);
-				SDL_RenderClear(game->gRenderer.get());
+				SDL_SetRenderDrawColor(game->gRenderer, 0, 0, 0, 255);
+				SDL_RenderClear(game->gRenderer);
 
-				currentScene->drawScene(game->gRenderer.get());
+				currentScene->drawScene(game->gRenderer);
 
 				//Update screen
-				SDL_RenderPresent(game->gRenderer.get());
+				SDL_RenderPresent(game->gRenderer);
 
 				game->clockEnd();
 

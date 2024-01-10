@@ -1,6 +1,8 @@
 #pragma once
 #include<iostream>
 #include <SDL.h>
+#include <assert.h>
+
 
 #include"Mouse.h"
 
@@ -17,7 +19,6 @@ struct Position
 class Object
 {
 protected:
-	bool erase;
 	bool createdTex;
 	bool changed;
 
@@ -27,18 +28,26 @@ protected:
 	Position* tarPos;
 	Position tarPosition;
 
-	Position* movePos;
-	Position movePosition;
-
-	float length;
+	int moveCount;
+	int moveCountList;
+	double length;
+	double onceMoveX;
+	double onceMoveY;
+	vector<Position> moveList;
 
 public:
 	bool actSet;
+	bool actSetList;
 
 	Object();
-	
+	virtual ~Object();
+
 	void setPos(float px, float py);
+	void setMoveList(float px, float py);
+	void clearMoveList();
+	void actMoveList();
 	void setMove(float px, float py);
+	void setMove(Position p);
 	void setMove(float px, float py, int fps);
 	void actMove();
 

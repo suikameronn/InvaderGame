@@ -2,16 +2,19 @@
 
 Object::Object()
 {
-	erase = false;
-
 	pos = &position;
-	tarPos = nullptr;
-	movePos = nullptr;
 
 	createdTex = false;
 	actSet = false;
 	changed = true;
 	length = 0;
+	moveCount = 0;
+	moveCountList = 0;
+}
+
+Object::~Object()
+{
+
 }
 
 void Object::setPos(float px, float py)
@@ -22,67 +25,102 @@ void Object::setPos(float px, float py)
 	changed = true;
 }
 
+void Object::setMoveList(float px, float py)
+{
+	if (!actSetList)
+	{
+		moveList.emplace_back(Position{ px,py });
+	}
+	else
+	{
+		cout << "MoveListが終わってからセットする2024 1 5 5:41" << endl;
+	}
+}
+
+void Object::clearMoveList()
+{
+	moveList.clear();
+	moveList.shrink_to_fit();
+}
+
+void Object::actMoveList()
+{
+	actSetList = true;
+
+	reverse(moveList.begin(), moveList.end());
+}
+
 void Object::setMove(float px, float py)
 {
 	actSet = true;
 
-	if (tarPos == nullptr)
-	{
-		tarPos = &tarPosition;
-	}
+	int lx = static_cast<int>(px - pos->x);
+	int ly = static_cast<int>(py - pos->y);
 
-	tarPos->x = px;
-	tarPos->y = py;
+	length = sqrt(lx * lx + ly * ly);
+	moveCount = length;
+	onceMoveX = lx / length;
+	onceMoveY = ly / length;
+}
 
-	int lx, ly;
-	lx = static_cast<int>(tarPos->x - pos->x);
-	ly = static_cast<int>(tarPos->y - pos->y);
+void Object::setMove(Position p)
+{
+	actSet = true;
 
-	length = static_cast<float>(sqrt(lx * lx + ly * ly) * 10);
+	int lx = static_cast<int>(p.x - pos->x);
+	int ly = static_cast<int>(p.y - pos->y);
 
-	if (movePos == nullptr)
-	{
-		movePos = &movePosition;
-	}
-
-	movePos->x = lx / length;//一回の移動量
-	movePos->y = ly / length;
+	length = sqrt(lx * lx + ly * ly);
+	moveCount = length;
+	onceMoveX = lx / length;
+	onceMoveY = ly / length;
 }
 
 void Object::setMove(float px, float py, int time)
 {
-	actSet = true;
+	int lx = static_cast<int>(px - pos->x);
+	int ly = static_cast<int>(py - pos->y);
 
-	if (tarPos == nullptr)
-	{
-		tarPos = &tarPosition;
-	}
-
-	tarPos->x = px;
-	tarPos->y = py;
-
-	int lx, ly;
-	lx = static_cast<int>(tarPos->x - pos->x);
-	ly = static_cast<int>(tarPos->y - pos->y);
-
-	length = static_cast<float>(sqrt(lx * lx + ly * ly) * 10);
-
-	if (movePos == nullptr)
-	{
-		movePos = &movePosition;
-	}
-
-	movePos->x = lx / (fps * time);//一回の移動量
-	movePos->y = ly / (fps * time);
+	length = sqrt(lx * lx + ly * ly);
+	moveCount = length;
+	onceMoveX = lx / time;
+	onceMoveY = ly / time;
 }
 
 void Object::actMove()
 {
-	if (actSet)
+	if(actSet && moveCount > 0)
 	{
-		setPos(pos->x + movePos->x, pos->y + movePos->y);
+		setPos(pos->x + onceMoveX, pos->y + onceMoveY);
+		moveCount--;
+		return;
+	}
+	else
+	{
+		moveCount = 0;
 	}
 
+	if (actSetList)
+	{
+		if (!moveList.empty())
+		{
+			if (moveCountList == 0)
+			{
+				setMove(moveList.back());
+				moveList.pop_back();
+			}
+			else
+			{
+				setPos(pos->x + onceMoveX, pos->y + onceMoveY);
+				moveCount--;
+
+			}
+		}
+		else
+		{
+			cout << "MoveListが空の状態で、actMoveListされた" << endl;
+		}
+	}
 }
 
 void Object::drawObjects(SDL_Renderer* gRenderer)

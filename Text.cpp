@@ -2,7 +2,6 @@
 
 Text::Text()
 {
-	color = nullptr;
 	gFont = nullptr;
 	mWidth = 0;
 	mHeight = 0;
@@ -13,7 +12,6 @@ Text::Text()
 
 Text::Text(TTF_Font* font)
 {
-	color = nullptr;
 	gFont = nullptr;
 	mWidth = 0;
 	mHeight = 0;
@@ -27,7 +25,6 @@ Text::Text(TTF_Font* font)
 
 Text::~Text()
 {
-	TTF_CloseFont(gFont);
 	SDL_DestroyTexture(mTexture);
 	SDL_FreeSurface(textSurface);
 }
@@ -44,9 +41,9 @@ void Text::setText(string str)
 	changed = true;
 }
 
-void Text::setColor(SDL_Color* col)
+void Text::setColor(unsigned char r, unsigned char g, unsigned char b)
 {
-	color = col;
+	color = { r,g,b };
 	changed = true;
 }
 
@@ -58,7 +55,7 @@ void Text::drawObjects(SDL_Renderer* gRenderer)
 
 	if (!createdTex)
 	{
-		textSurface = TTF_RenderText_Solid(gFont, text.c_str(), *color);//文字をレンダリングしたサーフェスを作成
+		textSurface = TTF_RenderText_Solid(gFont, text.c_str(), color);//文字をレンダリングしたサーフェスを作成
 		mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);//テクスチャの作成
 		createdTex = true;
 	}

@@ -14,7 +14,7 @@ private:
 
 	TTF_Font* gFont;
 	string text;
-	SDL_Color* color;
+	SDL_Color color;
 	SDL_Rect renderQuad;
 	SDL_Texture* mTexture;
 	int mWidth;
@@ -34,7 +34,7 @@ public:
 
 	Text(TTF_Font* font);
 	void setText(string text);
-	void setColor(SDL_Color* col);
+	void setColor(unsigned char r, unsigned char g, unsigned char b);
 	void setFont(TTF_Font* font);
 
 	void drawObjects(SDL_Renderer* gRenderer) override;

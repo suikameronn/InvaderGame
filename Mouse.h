@@ -16,6 +16,7 @@ public:
 
 	int mx, my;
 	bool click;
+	bool quit;
 
 	Mouse();
 

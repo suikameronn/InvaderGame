@@ -16,8 +16,6 @@ private:
 	SDL_Color* color;
 	SDL_Color Color;
 
-	void* exeMethod;
-
 	SDL_Rect* clip = nullptr;
 	SDL_Point* center = nullptr;
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
@@ -32,12 +30,12 @@ public:
 
 
 	Button();
+	~Button();
 
 	void setOffSet(float x, float y);
-	void setLabel(string text, SDL_Color* textColor, TTF_Font* labelFont);
-	void setLabel(string text, SDL_Color* textColor, TTF_Font* labelFont,int size);
+	void setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont);
+	void setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont,int size);
 	void setListner(Listner* obj);
-	Text* getLabel();
 
 	bool hitCheck(Mouse* mouse) override;
 	void drawObjects(SDL_Renderer* gRenderer) override;

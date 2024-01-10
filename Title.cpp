@@ -1,49 +1,25 @@
 #include"Title.h"
 
-Title::Title(string titleName, vector<TTF_Font*> fonts)
+Title::Title(vector<TTF_Font*> fonts)
 {
 	sceneNum = -1;
 
-	titleText = make_unique<Text>();
-
-	color = { 255,255,255,255 };
-	titleText->setColor(&color);
-	titleText->setPos(70, 30);
-	//titleText->setMove(100, 60);
-	titleText->setText(titleName);
+	Text* titleText = new Text();
+	titleText->setColor(255,255,255);
+	titleText->setPos(81, 70);
+	titleText->setText("InvaderGame");
 	titleText->setFont(fonts[static_cast<int>(FONTS::BIG)]);
-	addObjectToScene(titleText.get());
+	addObjectToScene(titleText, "TitleText");
 
-	button.reset(new Button());
+	Button* button = new Button();
 	button->Object::setPos(100, 300);
 	button->setOffSet(300, 100);
-	bColor = { 255,255,255,255 };
 	button->setListner(new NextScene());
-	button->setLabel("StageSelect", &bColor, fonts[static_cast<int>(FONTS::NORMAL)], 28);
-	addObjectToScene(button.get());
+	button->setLabel("StageSelect", 255,255,255, fonts[static_cast<int>(FONTS::NORMAL)], 28);
+	addObjectToScene(button,"ToSceneSelect");
 }
 
 void Title::Update_Scene()
 {
 
-}
-
-void Title::hitCheckScene(Mouse* mouse)
-{
-	int i;
-
-	for (i = 0; i < button_CheckList.size(); ++i)
-	{
-		button_CheckList[i]->hitCheck(mouse);
-	}
-}
-
-void Title::drawScene(SDL_Renderer* gRenderer)
-{
-	int i;
-
-	for (i = 0; i < drawList.size(); ++i)
-	{
-		drawList[i]->drawObjects(gRenderer);
-	}
 }

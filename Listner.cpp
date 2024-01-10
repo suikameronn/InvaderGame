@@ -12,5 +12,5 @@ void Listner::action()
 
 void NextScene::action()
 {
-	sceneNum++;
+	sceneNum = 1;
 }

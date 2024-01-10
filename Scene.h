@@ -1,6 +1,7 @@
 #pragma once
 
 #include<iostream>
+#include <unordered_map>
 #include<map>
 #include<vector>
 #include<SDL.h>
@@ -8,6 +9,7 @@
 
 #include"Object.h"
 #include"Mouse.h"
+#include"Text.h"
 #include"Button.h"
 
 //#include"Player.h"
@@ -19,6 +21,7 @@ enum FONTS;
 
 enum ObjType
 {
+	TEXT,
 	BUTTON,
 	PLAYER,
 	ENEMY
@@ -30,20 +33,23 @@ protected:
 
 	int frameCount = 0;
 
-	vector<Object*> drawList;
+	unordered_map<string, unique_ptr<Object>> objList;
 
-	vector<Object*> button_CheckList;
-	vector<Object*> player_CheckList;
-	vector<Object*> enemy_CheckList;
+	unordered_map<string,unique_ptr<Object>,less<>> drawList;
 
-	void addObjectToScene(Text* text);
-	void addObjectToScene(Button* button);
+	unordered_map<string, unique_ptr<Object>> button_CheckList;
+	unordered_map<string, unique_ptr<Object>> player_CheckList;
+	unordered_map<string, unique_ptr<Object>> enemy_CheckList;
+
+	void addObjectToScene(Text* text,string objName);
+	void addObjectToScene(Button* button, string objName);
 
 	map<int,Object*> actTimer;
 
 public:
 
 	Scene();
+	virtual ~Scene();
 
 	void hitCheckScene(Mouse* mouse);
 	void drawScene(SDL_Renderer* gRenderer);

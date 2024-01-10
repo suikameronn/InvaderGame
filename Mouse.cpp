@@ -5,6 +5,7 @@ Mouse::Mouse()
 	mx = 0;
 	my = 0;
 	click = false;
+	quit = false;
 }
 
 void Mouse::setMouseState()
@@ -21,6 +22,10 @@ void Mouse::setMouseState()
 		else if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT)
 		{
 			click = false;
+		}
+		else if (e.type == SDL_QUIT)
+		{
+			quit = true;
 		}
 	}
 }

@@ -7,8 +7,14 @@ Button::Button()
 
 	Color = { 125,125,125,255 };
 	color = &Color;
+}
 
-	exeMethod = nullptr;
+Button::~Button()
+{
+	if (label != nullptr)
+	{
+		delete label;
+	}
 }
 
 void Button::setOffSet(float x, float y)
@@ -17,7 +23,7 @@ void Button::setOffSet(float x, float y)
 	offSet->y = y;
 }
 
-void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* font)
+void Button::setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* font)
 {
 	if (label == nullptr)
 	{
@@ -25,10 +31,10 @@ void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* font)
 	}
 	label->setText(text);
 	label->setFont(font);
-	label->setColor(labelColor);
+	label->setColor(r,g,b);
 }
 
-void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* labelFont, int size)
+void Button::setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont, int size)
 {
 	if (label == nullptr)
 	{
@@ -36,7 +42,7 @@ void Button::setLabel(string text, SDL_Color* labelColor, TTF_Font* labelFont, i
 	}
 	label->setText(text);
 	label->setFont(labelFont);
-	label->setColor(labelColor);
+	label->setColor(r,g,b);
 
 	if (offSet->x != 0 && offSet->y != 0)
 	{
@@ -64,11 +70,6 @@ void Button::setListner(Listner* obj)
 	listner.reset(obj);
 }
 
-Text* Button::getLabel()
-{
-	return label;
-}
-
 //private
 void Button::changeColor(bool hit)
 {
@@ -84,11 +85,11 @@ void Button::changeColor(bool hit)
 
 bool Button::hitCheck(Mouse* mouse)
 {
-	if (mouse->click)
+	if (mouse->mx > Object::pos->x && mouse->mx < Object::pos->x + offSet->x)
 	{
-		if (mouse->mx > Object::pos->x && mouse->mx < Object::pos->x + offSet->x)
+		if (mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
 		{
-			if (mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
+			if (mouse->click)
 			{
 				changeColor(true);
 				listner->action();
@@ -110,4 +111,9 @@ void Button::drawObjects(SDL_Renderer* gRenderer)
 
 	SDL_Rect rect = { Object::pos->x, Object::pos->y, offSet->x, offSet->y };
 	SDL_RenderFillRect(gRenderer, &rect);
+
+	if (label != nullptr)
+	{
+		label->drawObjects(gRenderer);
+	}
 }
