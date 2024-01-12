@@ -15,6 +15,7 @@ private:
 public:
 
 	int mx, my;
+	int wheel;
 	bool click;
 	bool quit;
 

@@ -2,7 +2,7 @@
 
 Scene::Scene()
 {
-
+	sceneNum = -1;
 }
 
 Scene::~Scene()

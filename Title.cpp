@@ -2,8 +2,6 @@
 
 Title::Title(vector<TTF_Font*> fonts)
 {
-	sceneNum = -1;
-
 	Text* titleText = new Text();
 	titleText->setColor(255,255,255);
 	titleText->setPos(81, 70);

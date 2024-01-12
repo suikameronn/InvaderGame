@@ -23,9 +23,26 @@ void Mouse::setMouseState()
 		{
 			click = false;
 		}
-		else if (e.type == SDL_QUIT)
+		
+		if (e.type == SDL_QUIT)
 		{
 			quit = true;
+		}
+
+		if (e.type == SDL_MOUSEWHEEL)
+		{
+			if (e.wheel.y > 0)
+			{
+				wheel = -1;
+			}
+			else
+			{
+				wheel = 1;
+			}
+		}
+		else
+		{
+			wheel = 0;
 		}
 	}
 }

@@ -26,7 +26,7 @@ Text::Text(TTF_Font* font)
 Text::~Text()
 {
 	SDL_DestroyTexture(mTexture);
-	SDL_FreeSurface(textSurface);
+	//SDL_FreeSurface(textSurface);
 }
 
 void Text::setFont(TTF_Font* font)
