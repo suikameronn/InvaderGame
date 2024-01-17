@@ -17,6 +17,16 @@ Object::~Object()
 
 }
 
+float Object::currentPosX()
+{
+	return pos->x;
+}
+
+float Object::currentPosY()
+{
+	return pos->y;
+}
+
 void Object::setPos(float px, float py)
 {
 	pos->x = px;
@@ -124,6 +134,11 @@ void Object::actMove()
 }
 
 void Object::drawObjects(SDL_Renderer* gRenderer)
+{
+
+}
+
+void Object::drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset)
 {
 
 }

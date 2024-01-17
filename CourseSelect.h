@@ -2,6 +2,7 @@
 #include<iostream>
 
 #include"Scene.h"
+#include"ScrollPanel.h"
 
 using namespace std;
 

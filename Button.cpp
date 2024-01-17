@@ -111,9 +111,24 @@ void Button::drawObjects(SDL_Renderer* gRenderer)
 
 	SDL_Rect rect = { Object::pos->x, Object::pos->y, offSet->x, offSet->y };
 	SDL_RenderFillRect(gRenderer, &rect);
-
 	if (label != nullptr)
 	{
 		label->drawObjects(gRenderer);
+	}
+}
+
+void Button::drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset)
+{
+	if (Object::pos->y - scrollPos->y < 0)
+	{
+		SDL_SetRenderDrawColor(gRenderer, color->r, color->g, color->b, color->a);
+
+		SDL_Rect rect = { Object::pos->x + scrollPos->x, Object::pos->y + scrollPos->y, offSet->x, offSet->y };
+		SDL_RenderFillRect(gRenderer, &rect);
+
+		if (label != nullptr)
+		{
+			label->drawObjects(gRenderer);
+		}
 	}
 }

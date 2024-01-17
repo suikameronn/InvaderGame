@@ -6,6 +6,7 @@ Text::Text()
 	mWidth = 0;
 	mHeight = 0;
 	mTexture = nullptr;
+	clip = nullptr;
 	renderQuad = { 0 };
 	textSurface = nullptr;
 }
@@ -16,6 +17,7 @@ Text::Text(TTF_Font* font)
 	mWidth = 0;
 	mHeight = 0;
 	mTexture = nullptr;
+	clip = nullptr;
 	renderQuad = { 0 };
 	textSurface = nullptr;
 
@@ -26,6 +28,7 @@ Text::Text(TTF_Font* font)
 Text::~Text()
 {
 	SDL_DestroyTexture(mTexture);
+	delete clip;
 	//SDL_FreeSurface(textSurface);
 }
 
@@ -77,5 +80,52 @@ void Text::drawObjects(SDL_Renderer* gRenderer)
 	//Render to screen
 	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
 
+	changed = false;
+}
+
+void Text::drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offSet)
+{
+	actMove();
+
+	if (!createdTex)
+	{
+		textSurface = TTF_RenderText_Solid(gFont, text.c_str(), color);//文字をレンダリングしたサーフェスを作成
+		mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);//テクスチャの作成
+		createdTex = true;
+	}
+
+	if (changed)
+	{
+		mWidth = textSurface->w;
+		mHeight = textSurface->h;
+
+		if (clip == nullptr)
+		{
+			clip = new SDL_Rect();
+		}
+
+		if (pos->y < 0)
+		{
+			cout << "up" << endl;
+			*clip = { 0,-(int)pos->y, mWidth, mHeight + (int)pos->y };
+			renderQuad = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y) - (int)pos->y, clip->w, clip->h };
+		}
+		else if(pos->y + mHeight > offSet->y)
+		{
+			cout << "down" << endl;
+			cout << int(pos->y - offSet->y) << endl;
+			//*clip = { 0,0 , mWidth, mHeight }
+			*clip = { 0, 0,mWidth,int((pos->y + mHeight) - offSet->y) };
+			renderQuad = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y) - int((pos->y + mHeight) - offSet->y), clip->w, clip->h };
+		}
+		else
+		{
+			cout << "center" << endl;
+			*clip = { 0,0, mWidth, mHeight };
+			renderQuad = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y), clip->w, clip->h };
+		}
+	}
+	//Render to screen
+	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
 	changed = false;
 }

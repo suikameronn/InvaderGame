@@ -15,14 +15,13 @@ private:
 	TTF_Font* gFont;
 	string text;
 	SDL_Color color;
+	SDL_Rect* clip;
 	SDL_Rect renderQuad;
 	SDL_Texture* mTexture;
 	int mWidth;
 	int mHeight;
 	SDL_Surface* textSurface;
 
-
-	SDL_Rect* clip = nullptr;
 	SDL_Point* center = nullptr;
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 	double angle = 0;
@@ -38,5 +37,6 @@ public:
 	void setFont(TTF_Font* font);
 
 	void drawObjects(SDL_Renderer* gRenderer) override;
+	void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset) override;
 };
 

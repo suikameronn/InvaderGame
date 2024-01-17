@@ -11,6 +11,7 @@
 #include"Mouse.h"
 #include"Text.h"
 #include"Button.h"
+#include"ScrollPanel.h"
 
 //#include"Player.h"
 //#include"Enemy.h"
@@ -43,6 +44,7 @@ protected:
 
 	void addObjectToScene(Text* text,string objName);
 	void addObjectToScene(Button* button, string objName);
+	void addObjectToScene(ScrollPanel* button, string objName);
 
 	map<int,Object*> actTimer;
 

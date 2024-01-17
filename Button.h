@@ -39,4 +39,5 @@ public:
 
 	bool hitCheck(Mouse* mouse) override;
 	void drawObjects(SDL_Renderer* gRenderer) override;
+	void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset) override;
 };

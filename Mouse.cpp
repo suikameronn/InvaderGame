@@ -10,6 +10,8 @@ Mouse::Mouse()
 
 void Mouse::setMouseState()
 {
+	wheel = 0;
+
 	SDL_GetMouseState(&mx, &my);
 
 	//Handle events on queue
@@ -31,6 +33,7 @@ void Mouse::setMouseState()
 
 		if (e.type == SDL_MOUSEWHEEL)
 		{
+			cout << e.wheel.y << endl;
 			if (e.wheel.y > 0)
 			{
 				wheel = -1;

@@ -2,24 +2,24 @@
 
 ScrollPanel::ScrollPanel()
 {
-	scrollSpeed = 5.0f;
-	width = 200;
-	height = 300;
+	scrollSpeed = 1.0f;
+	offset = { 0 };
+	offSet = &offset;
 	color = { 0,0,0,0 };
 }
 
-void ScrollPanel::setPanelSize(int width, int height)
+void ScrollPanel::setPanelSize(float w, float h)
 {
-	width = width;
-	height = height;
+	offSet->x = w;
+	offSet->y = h;
 }
 
-void ScrollPanel::setPanelSize(int x, int y, int w, int h)
+void ScrollPanel::setPanelSize(int x, int y, float w, float h)
 {
 	this->setPos(x, y);
 
-	width = w;
-	height = h;
+	offSet->x = w;
+	offSet->y = h;
 }
 
 void ScrollPanel::setScrollSpeed(float speed)
@@ -42,27 +42,37 @@ void ScrollPanel::addObjectList(Object* obj)
 	objectList.emplace_back(obj);
 }
 
-void ScrollPanel::moveObjects(int wheel)
+void ScrollPanel::moveObjects(float wheel)
 {
-	iterator<Object*> itr;
-
+	for (auto itr = objectList.begin(); itr != objectList.end(); ++itr)
+	{
+		(*itr)->setPos((*itr)->currentPosX(), (*itr)->currentPosY() - wheel * scrollSpeed);
+	}
 }
 
 bool ScrollPanel::hitCheck(Mouse* mouse)
 {
-	if (mouse->mx > Object::pos->x && mouse->mx < Object::pos->x + width)
+	if (mouse->mx > this->pos->x && mouse->mx < this->pos->x + offSet->x)
 	{
-		if (mouse->my > Object::pos->y && mouse->my < Object::pos->y + height)
+		if (mouse->my > this->pos->y && mouse->my < this->pos->y + offSet->y)
 		{
-
+			moveObjects(mouse->wheel);
+			return true;
 		}
 	}
+
+	return false;
 }
 
 void ScrollPanel::drawObjects(SDL_Renderer* gRenderer)
 {
 	SDL_SetRenderDrawColor(gRenderer, color.r, color.g, color.b, color.a);
 
-	SDL_Rect rect = { Object::pos->x, Object::pos->y, Object::pos->x + width, Object::pos->y + height};
+	SDL_Rect rect = { pos->x, pos->y, offSet->x, offSet->y};
 	SDL_RenderFillRect(gRenderer, &rect);
+
+	for (auto itr = objectList.begin(); itr != objectList.end(); ++itr)
+	{
+		(*itr)->drawObjectsScroll(gRenderer, pos,offSet);
+	}
 }

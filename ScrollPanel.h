@@ -2,25 +2,25 @@
 #include"Object.h"
 #include"Button.h"
 
-class ScrollPanel:Object
+class ScrollPanel:public Object
 {
 private:
 	float scrollSpeed;
-	int width;
-	int height;
+	Position* offSet;
+	Position offset;
 	SDL_Color color;
-	vector<Object*> objectList;
+	vector<unique_ptr<Object>> objectList;
 public:
 
 	ScrollPanel();
-	void setPanelSize(int width, int height);
-	void setPanelSize(int x, int y, int width, int height);
+	void setPanelSize(float width, float height);
+	void setPanelSize(int x, int y, float width, float height);
 	void setScrollSpeed(float scrollSpeed);
 	void setScrollSpeed(int scrollSpeed);
 	void setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 	void addObjectList(Object* obj);
 
-	void moveObjects(int wheel);
+	void moveObjects(float wheel);
 
 	bool hitCheck(Mouse* mouse) override;
 	void drawObjects(SDL_Renderer* gRenderer) override;
