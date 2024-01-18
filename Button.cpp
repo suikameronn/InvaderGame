@@ -117,18 +117,41 @@ void Button::drawObjects(SDL_Renderer* gRenderer)
 	}
 }
 
-void Button::drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset)
+void Button::drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos, Position* scrollOffSet)
 {
-	if (Object::pos->y - scrollPos->y < 0)
+	SDL_SetRenderDrawColor(gRenderer, color->r, color->g, color->b, color->a);
+
+	SDL_Rect rect;
+	if (pos->y < 0)
 	{
-		SDL_SetRenderDrawColor(gRenderer, color->r, color->g, color->b, color->a);
-
-		SDL_Rect rect = { Object::pos->x + scrollPos->x, Object::pos->y + scrollPos->y, offSet->x, offSet->y };
-		SDL_RenderFillRect(gRenderer, &rect);
-
-		if (label != nullptr)
+		if (pos->y + offSet->y < 0)
 		{
-			label->drawObjects(gRenderer);
+			rect = { 0,0,0,0 };
 		}
+		else
+		{
+			rect = { int(pos->x + scrollPos->x), int(scrollPos->y), int(offSet->x), int(offSet->y + pos->y) };
+		}
+	}
+	else if (pos->y + this->offSet->y > scrollOffSet->y)
+	{
+		if (pos->y > scrollOffSet->y)
+		{
+			rect = { 0,0,0,0 };
+		}
+		else
+		{
+			rect = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y), int(offSet->x), int(offSet->y - (pos->y + offSet->y - scrollOffSet->y)) };
+		}
+	}
+	else
+	{
+		rect = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y), int(offSet->x), int(offSet->y) };
+	}
+	
+	SDL_RenderFillRect(gRenderer, &rect);
+	if (label != nullptr)
+	{
+		label->drawObjectsScroll(gRenderer,scrollPos,scrollOffSet);
 	}
 }
