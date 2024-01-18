@@ -113,10 +113,10 @@ void Text::drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Positi
 		else if(pos->y + mHeight > offSet->y)
 		{
 			cout << "down" << endl;
-			cout << int(pos->y - offSet->y) << endl;
+			cout << (int)pos->y + mHeight << endl;
 			//*clip = { 0,0 , mWidth, mHeight }
-			*clip = { 0, 0,mWidth,int((pos->y + mHeight) - offSet->y) };
-			renderQuad = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y) - int((pos->y + mHeight) - offSet->y), clip->w, clip->h };
+			*clip = { 0, 0,mWidth, int(mHeight - (pos->y + mHeight - offSet->y))};
+			renderQuad = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y), clip->w, clip->h };
 		}
 		else
 		{
