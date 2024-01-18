@@ -23,11 +23,13 @@ private:
 
 	unique_ptr<Listner> listner;
 
+	int fontSize;
+
+	void setPosText();
 	void changeColor(bool hit);
 
 public:
 	Text* label;
-
 
 	Button();
 	~Button();
@@ -37,7 +39,9 @@ public:
 	void setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont,int size);
 	void setListner(Listner* obj);
 
+	void setPos(float px, float py) override;
 	bool hitCheck(Mouse* mouse) override;
+	bool hitCheckScroll(Mouse* mouse,Position* scrollPos,Position* scrollOffSet) override;
 	void drawObjects(SDL_Renderer* gRenderer) override;
 	void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset) override;
 };

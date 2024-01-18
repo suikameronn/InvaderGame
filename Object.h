@@ -45,7 +45,7 @@ public:
 	float currentPosX();
 	float currentPosY();
 
-	void setPos(float px, float py);
+	virtual void setPos(float px, float py);
 	void setMoveList(float px, float py);
 	void clearMoveList();
 	void actMoveList();
@@ -57,4 +57,5 @@ public:
 	virtual void drawObjects(SDL_Renderer* gRenderer);
 	virtual void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset);
 	virtual bool hitCheck(Mouse* mouse);
+	virtual bool hitCheckScroll(Mouse* mouse,Position* scrollPos, Position* scrollOffSet);
 };

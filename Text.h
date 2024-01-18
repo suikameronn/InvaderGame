@@ -13,7 +13,6 @@ class Text:public Object
 private:
 
 	TTF_Font* gFont;
-	string text;
 	SDL_Color color;
 	SDL_Rect* clip;
 	SDL_Rect renderQuad;
@@ -26,6 +25,8 @@ private:
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 	double angle = 0;
 
+	string text;
+
 public:
 
 	Text();
@@ -35,6 +36,7 @@ public:
 	void setText(string text);
 	void setColor(unsigned char r, unsigned char g, unsigned char b);
 	void setFont(TTF_Font* font);
+	string getText();
 
 	void drawObjects(SDL_Renderer* gRenderer) override;
 	void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset) override;

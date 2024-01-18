@@ -7,6 +7,8 @@ Button::Button()
 
 	Color = { 125,125,125,255 };
 	color = &Color;
+
+	fontSize = 28;
 }
 
 Button::~Button()
@@ -17,39 +19,19 @@ Button::~Button()
 	}
 }
 
-void Button::setOffSet(float x, float y)
+void Button::setPos(float px, float py)
 {
-	offSet->x = x;
-	offSet->y = y;
-}
+	pos->x = px;
+	pos->y = py;
 
-void Button::setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* font)
-{
-	if (label == nullptr)
+	changed = true;
+
+	if(offSet != nullptr && label != nullptr)
 	{
-		label = new Text();
-	}
-	label->setText(text);
-	label->setFont(font);
-	label->setColor(r,g,b);
-}
+		int sizeX = fontSize / 2;
+		int sizeY = fontSize;
 
-void Button::setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont, int size)
-{
-	if (label == nullptr)
-	{
-		label = new Text();
-	}
-	label->setText(text);
-	label->setFont(labelFont);
-	label->setColor(r,g,b);
-
-	if (offSet->x != 0 && offSet->y != 0)
-	{
-		int sizeX = size / 2;
-		int sizeY = size;
-
-		int len = strlen(text.c_str());
+		int len = strlen(label->getText().c_str());
 
 		int centerX = (Object::pos->x * 2 + offSet->x) / 2;
 		int centerY = (Object::pos->y * 2 + offSet->y) / 2;
@@ -63,6 +45,67 @@ void Button::setLabel(string text, unsigned char r, unsigned char g, unsigned ch
 			label->setPos(centerX - (sizeX / 2) - sizeX * (len / 2), centerY - sizeY);
 		}
 	}
+}
+
+void Button::setPosText()
+{
+	if (offSet != nullptr && label != nullptr)
+	{
+		int sizeX = fontSize / 2;
+		int sizeY = fontSize;
+
+		int len = strlen(label->getText().c_str());
+
+		int centerX = (Object::pos->x * 2 + offSet->x) / 2;
+		int centerY = (Object::pos->y * 2 + offSet->y) / 2;
+
+		if (len % 2 == 0)
+		{
+			label->setPos(centerX - sizeX * (len / 2), centerY - sizeY);
+		}
+		else
+		{
+			label->setPos(centerX - (sizeX / 2) - sizeX * (len / 2), centerY - sizeY);
+		}
+
+		changed = true;
+	}
+}
+
+void Button::setOffSet(float x, float y)
+{
+	offSet->x = x;
+	offSet->y = y;
+
+	setPosText();
+}
+
+void Button::setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* font)
+{
+	if (label == nullptr)
+	{
+		label = new Text();
+	}
+	label->setText(text);
+	label->setFont(font);
+	label->setColor(r,g,b);
+
+	setPosText();
+}
+
+void Button::setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont, int size)
+{
+	fontSize = size;
+
+	if (label == nullptr)
+	{
+		label = new Text();
+	}
+	label->setText(text);
+	label->setFont(labelFont);
+	label->setColor(r, g, b);
+
+	setPosText();
 }
 
 void Button::setListner(Listner* obj)
@@ -89,9 +132,39 @@ bool Button::hitCheck(Mouse* mouse)
 	{
 		if (mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
 		{
-			if (mouse->click)
+			if (mouse->clickDown)
 			{
 				changeColor(true);
+				return true;
+			}
+			else if (mouse->clickUp)
+			{
+				listner->action();
+				return true;
+			}
+		}
+	}
+	else
+	{
+		changeColor(false);
+	}
+
+	return false;
+}
+
+bool Button::hitCheckScroll(Mouse* mouse,Position* scrollPos,Position* scrollOffSet)
+{
+	if (mouse->mx > Object::pos->x + scrollPos->x && mouse->mx < Object::pos->x + offSet->x + scrollOffSet->x)
+	{
+		if (mouse->my > Object::pos->y + scrollPos->y && mouse->my < Object::pos->y + offSet->y + scrollOffSet->y)
+		{
+			if (mouse->clickDown)
+			{
+				changeColor(true);
+				return true;
+			}
+			else if (mouse->clickUp)
+			{
 				listner->action();
 				return true;
 			}

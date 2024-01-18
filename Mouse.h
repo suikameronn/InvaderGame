@@ -16,7 +16,8 @@ public:
 
 	int mx, my;
 	int wheel;
-	bool click;
+	bool clickDown;
+	bool clickUp;
 	bool quit;
 
 	Mouse();

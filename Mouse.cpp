@@ -4,7 +4,8 @@ Mouse::Mouse()
 {
 	mx = 0;
 	my = 0;
-	click = false;
+	clickDown = false;
+	clickUp = false;
 	quit = false;
 }
 
@@ -17,13 +18,22 @@ void Mouse::setMouseState()
 	//Handle events on queue
 	while (SDL_PollEvent(&e) != 0)
 	{
+		
 		if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
 		{
-			click = true;
+			cout << "Down" << endl;
+			clickDown = true;
 		}
 		else if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT)
 		{
-			click = false;
+			cout << "Up" << endl;
+			clickUp = true;
+		}
+		else
+		{
+			cout << "Middle" << endl;
+			clickDown = false;
+			clickUp = false;
 		}
 		
 		if (e.type == SDL_QUIT)

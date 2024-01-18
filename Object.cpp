@@ -147,3 +147,8 @@ bool Object::hitCheck(Mouse* mouse)
 {
 	return false;
 }
+
+bool Object::hitCheckScroll(Mouse* mouse, Position* scrollPos, Position* scrollOffSet)
+{
+	return false;
+}

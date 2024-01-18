@@ -50,7 +50,10 @@ void Text::setColor(unsigned char r, unsigned char g, unsigned char b)
 	changed = true;
 }
 
-
+string Text::getText()
+{
+	return text;
+}
 
 void Text::drawObjects(SDL_Renderer* gRenderer)
 {
@@ -106,21 +109,16 @@ void Text::drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Positi
 
 		if (pos->y < 0)
 		{
-			cout << "up" << endl;
 			*clip = { 0,-(int)pos->y, mWidth, mHeight + (int)pos->y };
 			renderQuad = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y) - (int)pos->y, clip->w, clip->h };
 		}
 		else if(pos->y + mHeight > offSet->y)
 		{
-			cout << "down" << endl;
-			cout << (int)pos->y + mHeight << endl;
-			//*clip = { 0,0 , mWidth, mHeight }
 			*clip = { 0, 0,mWidth, int(mHeight - (pos->y + mHeight - offSet->y))};
 			renderQuad = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y), clip->w, clip->h };
 		}
 		else
 		{
-			cout << "center" << endl;
 			*clip = { 0,0, mWidth, mHeight };
 			renderQuad = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y), clip->w, clip->h };
 		}

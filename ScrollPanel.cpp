@@ -57,6 +57,10 @@ bool ScrollPanel::hitCheck(Mouse* mouse)
 		if (mouse->my > this->pos->y && mouse->my < this->pos->y + offSet->y)
 		{
 			moveObjects(mouse->wheel);
+			for (auto itr = objectList.begin(); itr != objectList.end(); ++itr)
+			{
+				(*itr)->hitCheckScroll(mouse, pos, offSet);
+			}
 			return true;
 		}
 	}

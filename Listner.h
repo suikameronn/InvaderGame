@@ -15,3 +15,8 @@ class NextScene : public Listner
 {
 	void action() override;
 };
+
+class Test :public Listner
+{
+	void action() override;
+};

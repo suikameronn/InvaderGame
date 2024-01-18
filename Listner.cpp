@@ -14,3 +14,8 @@ void NextScene::action()
 {
 	sceneNum = 1;
 }
+
+void Test::action()
+{
+	cout << "ListnerTest" << endl;
+}
