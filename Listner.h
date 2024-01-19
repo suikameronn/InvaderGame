@@ -11,7 +11,12 @@ public:
 	virtual void action();
 };
 
-class NextScene : public Listner
+class TitleToSelect : public Listner
+{
+	void action() override;
+};
+
+class SelectToTitle : public Listner
 {
 	void action() override;
 };

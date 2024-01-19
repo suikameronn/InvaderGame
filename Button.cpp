@@ -128,21 +128,26 @@ void Button::changeColor(bool hit)
 
 bool Button::hitCheck(Mouse* mouse)
 {
-	if (mouse->mx > Object::pos->x && mouse->mx < Object::pos->x + offSet->x)
+	if (mouse->mx > Object::pos->x && mouse->mx < Object::pos->x + offSet->x
+		&& mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
 	{
-		if (mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
+		if (mouse->clickUp)
 		{
-			if (mouse->clickDown)
-			{
-				changeColor(true);
-				return true;
-			}
-			else if (mouse->clickUp)
-			{
-				listner->action();
-				return true;
-			}
+			changeColor(false);
+			listner->action();
+			mouse->setFalseClickUpDown();
+			return true;
 		}
+		else if (mouse->clickDown)
+		{
+			changeColor(true);
+			return true;
+		}
+	}
+	else if (mouse->clickDown || mouse->clickUp)
+	{
+		mouse->setFalseClickUpDown();
+		changeColor(false);
 	}
 	else
 	{
@@ -154,21 +159,26 @@ bool Button::hitCheck(Mouse* mouse)
 
 bool Button::hitCheckScroll(Mouse* mouse,Position* scrollPos,Position* scrollOffSet)
 {
-	if (mouse->mx > Object::pos->x + scrollPos->x && mouse->mx < Object::pos->x + offSet->x + scrollOffSet->x)
+	if (mouse->mx > Object::pos->x + scrollPos->x && mouse->mx < Object::pos->x + offSet->x + scrollOffSet->x
+		&& mouse->my > Object::pos->y + scrollPos->y && mouse->my < Object::pos->y + offSet->y + scrollOffSet->y)
 	{
-		if (mouse->my > Object::pos->y + scrollPos->y && mouse->my < Object::pos->y + offSet->y + scrollOffSet->y)
+		if (mouse->clickUp)
 		{
-			if (mouse->clickDown)
-			{
-				changeColor(true);
-				return true;
-			}
-			else if (mouse->clickUp)
-			{
-				listner->action();
-				return true;
-			}
+			changeColor(false);
+			listner->action();
+			mouse->setFalseClickUpDown();
+			return true;
 		}
+		else if (mouse->clickDown)
+		{
+			changeColor(true);
+			return true;
+		}
+	}
+	else if (mouse->clickDown || mouse->clickUp)
+	{
+		mouse->setFalseClickUpDown();
+		changeColor(false);
 	}
 	else
 	{

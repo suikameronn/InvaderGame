@@ -23,4 +23,5 @@ public:
 	Mouse();
 
 	void setMouseState();
+	void setFalseClickUpDown();
 };

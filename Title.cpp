@@ -10,9 +10,9 @@ Title::Title(vector<TTF_Font*> fonts)
 	addObjectToScene(titleText, "TitleText");
 
 	Button* button = new Button();
-	button->Object::setPos(100, 300);
+	button->setPos(100, 300);
 	button->setOffSet(300, 100);
-	button->setListner(new Test());/*NextScene*/
+	button->setListner(new TitleToSelect());/*NextScene*/
 	button->setLabel("StageSelect", 255,255,255, fonts[static_cast<int>(FONTS::NORMAL)], 28);
 	addObjectToScene(button,"ToSceneSelect");
 }
