@@ -62,6 +62,7 @@ public:
 	SDL_Renderer* gRenderer;
 
 	vector<TTF_Font*> fontManager;
+	TTF_Font* smallFont;
 	TTF_Font* normalFont;
 	TTF_Font* titleFont;
 
@@ -161,9 +162,11 @@ bool Game::init()
 
 bool Game::loadMedia()
 {
+	smallFont = TTF_OpenFont("MPLUSRounded1c-Regular.ttf", 14);
 	normalFont = TTF_OpenFont("MPLUSRounded1c-Regular.ttf", 28);
 	titleFont = TTF_OpenFont("MPLUSRounded1c-Regular.ttf", 56);
 
+	fontManager.emplace_back(smallFont);
 	fontManager.emplace_back(normalFont);
 	fontManager.emplace_back(titleFont);
 
@@ -235,6 +238,7 @@ int main(int argc, char** argv) {
 			unique_ptr<Scene> currentScene;
 
 			unique_ptr<Mouse> mouse;
+
 			mouse = make_unique<Mouse>();
 
 			//While application is running

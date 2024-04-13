@@ -31,12 +31,13 @@ public:
 
 	Text();
 	~Text();
-
 	Text(TTF_Font* font);
+
 	void setText(string text);
 	void setColor(unsigned char r, unsigned char g, unsigned char b);
 	void setFont(TTF_Font* font);
 	string getText();
+	float getBottom() override;
 
 	void drawObjects(SDL_Renderer* gRenderer) override;
 	void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset) override;

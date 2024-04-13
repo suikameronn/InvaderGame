@@ -17,14 +17,19 @@ Object::~Object()
 
 }
 
-float Object::currentPosX()
+float Object::currentPosX()const
 {
 	return pos->x;
 }
 
-float Object::currentPosY()
+float Object::currentPosY()const
 {
 	return pos->y;
+}
+
+float Object::getBottom()
+{
+	return 0.0f;
 }
 
 void Object::setPos(float px, float py)

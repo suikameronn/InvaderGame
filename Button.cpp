@@ -47,6 +47,11 @@ void Button::setPos(float px, float py)
 	}
 }
 
+float Button::getBottom()
+{
+	return pos->y + offSet->y;
+}
+
 void Button::setPosText()
 {
 	if (offSet != nullptr && label != nullptr)
@@ -159,8 +164,8 @@ bool Button::hitCheck(Mouse* mouse)
 
 bool Button::hitCheckScroll(Mouse* mouse,Position* scrollPos,Position* scrollOffSet)
 {
-	if (mouse->mx > Object::pos->x + scrollPos->x && mouse->mx < Object::pos->x + offSet->x + scrollOffSet->x
-		&& mouse->my > Object::pos->y + scrollPos->y && mouse->my < Object::pos->y + offSet->y + scrollOffSet->y)
+	if (mouse->mx > pos->x + scrollPos->x && mouse->mx < pos->x + offSet->x + scrollPos->x
+		&& mouse->my > pos->y + scrollPos->y && mouse->my < pos->y + offSet->y + scrollPos->y)
 	{
 		if (mouse->clickUp)
 		{
@@ -177,7 +182,6 @@ bool Button::hitCheckScroll(Mouse* mouse,Position* scrollPos,Position* scrollOff
 	}
 	else if (mouse->clickDown || mouse->clickUp)
 	{
-		mouse->setFalseClickUpDown();
 		changeColor(false);
 	}
 	else

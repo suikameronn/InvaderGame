@@ -10,6 +10,7 @@ class CourseSelect: public Scene
 {
 	enum class FONTS
 	{
+		SMALL,
 		NORMAL,
 		BIG
 	};

@@ -42,8 +42,9 @@ public:
 	Object();
 	virtual ~Object();
 
-	float currentPosX();
-	float currentPosY();
+	float currentPosX() const;
+	float currentPosY() const;
+	virtual float getBottom();
 
 	virtual void setPos(float px, float py);
 	void setMoveList(float px, float py);

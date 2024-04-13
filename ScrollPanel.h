@@ -1,4 +1,6 @@
 #pragma once
+#include<algorithm>
+
 #include"Object.h"
 #include"Button.h"
 
@@ -6,10 +8,13 @@ class ScrollPanel:public Object
 {
 private:
 	float scrollSpeed;
+	float margin;
 	Position* offSet;
 	Position offset;
 	SDL_Color color;
 	vector<unique_ptr<Object>> objectList;
+	vector<unique_ptr<Object>>::iterator hittedObject;//スクロールパネル上のみ
+
 public:
 
 	ScrollPanel();
@@ -18,6 +23,7 @@ public:
 	void setScrollSpeed(float scrollSpeed);
 	void setScrollSpeed(int scrollSpeed);
 	void setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+	void setScrollLimit(float topMargin, float bottomMargin);
 	void addObjectList(Object* obj);
 
 	void moveObjects(float wheel);

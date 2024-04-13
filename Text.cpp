@@ -55,6 +55,11 @@ string Text::getText()
 	return text;
 }
 
+float Text::getBottom()
+{
+	return pos->y + mHeight;
+}
+
 void Text::drawObjects(SDL_Renderer* gRenderer)
 {
 	actMove();

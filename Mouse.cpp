@@ -22,13 +22,11 @@ void Mouse::setMouseState()
 		
 		if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
 		{
-			cout << "Down" << endl;
 			clickDown = true;
 			break;
 		}
 		else if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT)
 		{
-			cout << "Up" << endl;
 			clickUp = true;
 			break;
 		}

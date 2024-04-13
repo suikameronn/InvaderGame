@@ -13,6 +13,7 @@ private:
 
 	enum class FONTS
 	{
+		SMALL,
 		NORMAL,
 		BIG
 	};

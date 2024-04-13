@@ -40,6 +40,7 @@ public:
 	void setListner(Listner* obj);
 
 	void setPos(float px, float py) override;
+	float getBottom() override;
 	bool hitCheck(Mouse* mouse) override;
 	bool hitCheckScroll(Mouse* mouse,Position* scrollPos,Position* scrollOffSet) override;
 	void drawObjects(SDL_Renderer* gRenderer) override;
