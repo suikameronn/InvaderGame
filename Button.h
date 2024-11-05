@@ -7,7 +7,9 @@
 
 using namespace std;
 
-class Button : public Text,public Listner
+class Scene;
+
+class Button : public Text
 {
 private:
 	Position* offSet = nullptr;
@@ -21,7 +23,7 @@ private:
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 	double angle = 0;
 
-	unique_ptr<Listner> listner;
+	std::function<void()> listner;
 
 	int fontSize;
 
@@ -34,15 +36,17 @@ public:
 	Button();
 	~Button();
 
-	void setOffSet(float x, float y);
+	void setOffSet(float x, float y) override;
 	void setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont);
 	void setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont,int size);
-	void setListner(Listner* obj);
+	void setLabel(string text);
+	Text* getLabel() { return label; }
+	void setListner(std::function<void()> f);
 
 	void setPos(float px, float py) override;
 	float getBottom() override;
-	bool hitCheck(Mouse* mouse) override;
-	bool hitCheckScroll(Mouse* mouse,Position* scrollPos,Position* scrollOffSet) override;
+	bool hitCheck() override;
+	bool hitCheckScroll(Position* scrollPos,Position* scrollOffSet) override;
 	void drawObjects(SDL_Renderer* gRenderer) override;
 	void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset) override;
 };

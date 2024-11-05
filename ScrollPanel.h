@@ -28,7 +28,7 @@ public:
 
 	void moveObjects(float wheel);
 
-	bool hitCheck(Mouse* mouse) override;
+	bool hitCheck() override;
 	void drawObjects(SDL_Renderer* gRenderer) override;
 
 };

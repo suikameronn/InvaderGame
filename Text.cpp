@@ -9,6 +9,8 @@ Text::Text()
 	clip = nullptr;
 	renderQuad = { 0 };
 	textSurface = nullptr;
+
+	type = TEXT;
 }
 
 Text::Text(TTF_Font* font)
@@ -23,6 +25,8 @@ Text::Text(TTF_Font* font)
 
 	gFont = font;
 	changed = true;
+
+	type = TEXT;
 }
 
 Text::~Text()

@@ -1,30 +1,18 @@
 #pragma once
 #include<iostream>
+#include<vector>
+#include<SDL.h>
 
 #include"Scene.h"
-#include"ScrollPanel.h"
 
 using namespace std;
 
 class CourseSelect: public Scene
 {
-	enum class FONTS
-	{
-		SMALL,
-		NORMAL,
-		BIG
-	};
-
-
-	unique_ptr<Text> titleText;
-	SDL_Color color;
-
-	unique_ptr<Button> button;
-	SDL_Color bColor;
 
 public:
-	
-	CourseSelect(vector<TTF_Font*> fonts);
 
-	void Update_Scene() override;
+	CourseSelect(vector<TTF_Font*> fonts,SDL_Renderer* gRenderer);
+
+	int Update_Scene() override;
 };

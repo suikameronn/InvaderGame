@@ -2,7 +2,7 @@
 #include<iostream>
 #include <SDL.h>
 #include <assert.h>
-
+#include<functional>
 
 #include"Mouse.h"
 
@@ -16,9 +16,19 @@ struct Position
 	float y;
 };
 
+enum OBJECT
+{
+	EMPTY,
+	TEXT,
+	BUTTON,
+	SCROLL
+};
+
 class Object
 {
 protected:
+	OBJECT type;
+
 	bool createdTex;
 	bool changed;
 
@@ -42,11 +52,15 @@ public:
 	Object();
 	virtual ~Object();
 
+	OBJECT getType() { return type; }
+
 	float currentPosX() const;
 	float currentPosY() const;
 	virtual float getBottom();
 
 	virtual void setPos(float px, float py);
+	virtual void setOffSet(float x, float y) {};
+
 	void setMoveList(float px, float py);
 	void clearMoveList();
 	void actMoveList();
@@ -57,6 +71,6 @@ public:
 
 	virtual void drawObjects(SDL_Renderer* gRenderer);
 	virtual void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset);
-	virtual bool hitCheck(Mouse* mouse);
-	virtual bool hitCheckScroll(Mouse* mouse,Position* scrollPos, Position* scrollOffSet);
+	virtual bool hitCheck();
+	virtual bool hitCheckScroll(Position* scrollPos, Position* scrollOffSet);
 };

@@ -9,6 +9,10 @@ Button::Button()
 	color = &Color;
 
 	fontSize = 28;
+
+	listner = [=] {return; };
+
+	type = BUTTON;
 }
 
 Button::~Button()
@@ -113,9 +117,18 @@ void Button::setLabel(string text, unsigned char r, unsigned char g, unsigned ch
 	setPosText();
 }
 
-void Button::setListner(Listner* obj)
+void Button::setLabel(string text)
 {
-	listner.reset(obj);
+	if (label == nullptr)
+	{
+		label = new Text();
+	}
+	label->setText(text);
+}
+
+void Button::setListner(std::function<void()> f)
+{
+	listner = f;
 }
 
 //private
@@ -131,15 +144,17 @@ void Button::changeColor(bool hit)
 	}
 }
 
-bool Button::hitCheck(Mouse* mouse)
+bool Button::hitCheck()
 {
+	Mouse* mouse = Mouse::GetInstance();
+
 	if (mouse->mx > Object::pos->x && mouse->mx < Object::pos->x + offSet->x
 		&& mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
 	{
 		if (mouse->clickUp)
 		{
 			changeColor(false);
-			listner->action();
+			listner();
 			mouse->setFalseClickUpDown();
 			return true;
 		}
@@ -162,15 +177,17 @@ bool Button::hitCheck(Mouse* mouse)
 	return false;
 }
 
-bool Button::hitCheckScroll(Mouse* mouse,Position* scrollPos,Position* scrollOffSet)
+bool Button::hitCheckScroll(Position* scrollPos,Position* scrollOffSet)
 {
+	Mouse* mouse = Mouse::GetInstance();
+
 	if (mouse->mx > pos->x + scrollPos->x && mouse->mx < pos->x + offSet->x + scrollPos->x
 		&& mouse->my > pos->y + scrollPos->y && mouse->my < pos->y + offSet->y + scrollPos->y)
 	{
 		if (mouse->clickUp)
 		{
 			changeColor(false);
-			listner->action();
+			listner();
 			mouse->setFalseClickUpDown();
 			return true;
 		}

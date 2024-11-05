@@ -11,16 +11,9 @@ class Title : public Scene
 {
 private:
 
-	enum class FONTS
-	{
-		SMALL,
-		NORMAL,
-		BIG
-	};
-
 public:
 
-	Title(vector<TTF_Font*> fonts);
+	Title(vector<TTF_Font*> fonts, SDL_Renderer* gRenderer);
 
-	void Update_Scene() override;
+	int Update_Scene() override;
 };

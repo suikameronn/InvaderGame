@@ -1,5 +1,7 @@
 #include"Mouse.h"
 
+Mouse* Mouse::instance = nullptr;
+
 Mouse::Mouse()
 {
 	mx = 0;
@@ -7,6 +9,11 @@ Mouse::Mouse()
 	clickDown = false;
 	clickUp = false;
 	quit = false;
+}
+
+Mouse::~Mouse()
+{
+
 }
 
 void Mouse::setMouseState()

@@ -10,6 +10,8 @@ Object::Object()
 	length = 0;
 	moveCount = 0;
 	moveCountList = 0;
+
+	type = EMPTY;
 }
 
 Object::~Object()
@@ -148,12 +150,12 @@ void Object::drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Posi
 
 }
 
-bool Object::hitCheck(Mouse* mouse)
+bool Object::hitCheck()
 {
 	return false;
 }
 
-bool Object::hitCheckScroll(Mouse* mouse, Position* scrollPos, Position* scrollOffSet)
+bool Object::hitCheckScroll(Position* scrollPos, Position* scrollOffSet)
 {
 	return false;
 }

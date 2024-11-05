@@ -7,6 +7,8 @@ ScrollPanel::ScrollPanel()
 	offset = { 0 };
 	offSet = &offset;
 	color = { 0,0,0,0 };
+
+	type = SCROLL;
 }
 
 void ScrollPanel::setPanelSize(float w, float h)
@@ -86,8 +88,9 @@ void ScrollPanel::moveObjects(float wheel)
 	}
 }
 
-bool ScrollPanel::hitCheck(Mouse* mouse)
+bool ScrollPanel::hitCheck()
 {
+	Mouse* mouse = Mouse::GetInstance();
 
 	if (mouse->mx > this->pos->x && mouse->mx < this->pos->x + offSet->x)
 	{
@@ -96,7 +99,7 @@ bool ScrollPanel::hitCheck(Mouse* mouse)
 			moveObjects(mouse->wheel);
 			for (auto itr = objectList.begin(); itr != objectList.end(); ++itr)
 			{
-				(*itr)->hitCheckScroll(mouse, pos, offSet);
+				(*itr)->hitCheckScroll(pos, offSet);
 			}
 
 			return true;
