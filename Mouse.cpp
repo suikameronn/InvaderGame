@@ -9,6 +9,7 @@ Mouse::Mouse()
 	clickDown = false;
 	clickUp = false;
 	quit = false;
+	spaceKey = false;
 }
 
 Mouse::~Mouse()
@@ -36,6 +37,15 @@ void Mouse::setMouseState()
 		{
 			clickUp = true;
 			break;
+		}
+
+		if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+		{
+ 			spaceKey = true;
+		}
+		else if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_SPACE)
+		{
+			spaceKey = false;
 		}
 		
 		if (e.type == SDL_QUIT)

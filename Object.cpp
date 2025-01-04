@@ -12,6 +12,8 @@ Object::Object()
 	moveCountList = 0;
 
 	type = EMPTY;
+
+	visible = true;
 }
 
 Object::~Object()
@@ -95,48 +97,29 @@ void Object::setMove(Position p)
 
 void Object::setMove(float px, float py, int time)
 {
+	actSet = true;
+
 	int lx = static_cast<int>(px - pos->x);
 	int ly = static_cast<int>(py - pos->y);
 
-	length = sqrt(lx * lx + ly * ly);
-	moveCount = length;
-	onceMoveX = lx / time;
-	onceMoveY = ly / time;
+	moveCount = time;
+	onceMoveX = lx / static_cast<float>(time);
+	onceMoveY = ly / static_cast<float>(time);
 }
 
-void Object::actMove()
+bool Object::actMove()
 {
 	if(actSet && moveCount > 0)
 	{
 		setPos(pos->x + onceMoveX, pos->y + onceMoveY);
 		moveCount--;
-		return;
+		return false;
 	}
 	else
 	{
+		actSet = false;
 		moveCount = 0;
-	}
-
-	if (actSetList)
-	{
-		if (!moveList.empty())
-		{
-			if (moveCountList == 0)
-			{
-				setMove(moveList.back());
-				moveList.pop_back();
-			}
-			else
-			{
-				setPos(pos->x + onceMoveX, pos->y + onceMoveY);
-				moveCount--;
-
-			}
-		}
-		else
-		{
-			cout << "MoveList‚ª‹ó‚Ìó‘Ô‚ÅAactMoveList‚³‚ê‚½" << endl;
-		}
+		return true;
 	}
 }
 

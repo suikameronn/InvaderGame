@@ -10,7 +10,7 @@ GameManager::GameManager()
 
 		init();
 		loadMedia();
-		currentScene.reset(new CourseSelect(fontManager,gRenderer));
+		currentScene.reset(new Title(fontManager,gRenderer));
 	}
 }
 
@@ -41,7 +41,7 @@ bool GameManager::init()
 	bool success = true;
 
 	deltaTime = 0;
-	limitFrame = 1 / 60;
+	limitFrame = 1.0f / 60.0f;
 
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -58,7 +58,7 @@ bool GameManager::init()
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width,screen_height, SDL_WINDOW_SHOWN);
 		if (gWindow == nullptr)
 		{
 			cout << "Window could not be created! SDL Error: %s\n" << SDL_GetError() << endl;
@@ -108,6 +108,12 @@ bool GameManager::loadMedia()
 	fontManager.emplace_back(smallFont);
 	fontManager.emplace_back(normalFont);
 	fontManager.emplace_back(titleFont);
+
+	IMG_Init(IMG_INIT_PNG);
+	images.emplace_back(IMG_Load("Images/ufo_01_gray.png"));
+	images.emplace_back(IMG_Load("Images/ufo_01_purple.png"));
+
+	crashTexture = SDL_CreateTextureFromSurface(gRenderer, IMG_Load("Images/bakuhatsu_01.png"));
 
 	return true;
 }
@@ -195,5 +201,7 @@ void GameManager::changeScene(int nextSceneNum)
 	case 2:
 		currentScene.reset(new CourseSelect(fontManager, gRenderer));
 		break;
+	case 3:
+		currentScene.reset(new MainGame("C:/Users/sugiyama/Documents/InvaderGame/luaScript/test.lua",images, gRenderer));
 	}
 }

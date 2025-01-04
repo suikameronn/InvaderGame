@@ -3,8 +3,6 @@
 #include<SDL.h>
 
 #include"Text.h"
-#include"Listner.h"
-
 using namespace std;
 
 class Scene;
@@ -39,9 +37,10 @@ public:
 	void setOffSet(float x, float y) override;
 	void setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont);
 	void setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont,int size);
+	void setLabelSize(int size);
 	void setLabel(string text);
 	Text* getLabel() { return label; }
-	void setListner(std::function<void()> f);
+	void setNextScene(std::function<void()> f);
 
 	void setPos(float px, float py) override;
 	float getBottom() override;

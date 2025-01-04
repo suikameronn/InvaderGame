@@ -5,8 +5,12 @@
 
 #include"Title.h"
 #include"CourseSelect.h"
+#include"MainGame.h"
 
 using namespace std;
+
+const int screen_width = SCREEN_WIDTH;
+const int screen_height = SCREEN_HEIGHT;
 
 struct windowDeleter
 {
@@ -30,13 +34,8 @@ private:
 
 	static GameManager* instance;
 
-	const int SCREEN_WIDTH = 480;
-	const int SCREEN_HEIGHT = 640;
-
 	int fps;
 	bool quiet;
-
-	std::unique_ptr<Scene> currentScene;
 
 	GameManager();
 	~GameManager();
@@ -48,6 +47,8 @@ private:
 	TTF_Font* smallFont;
 	TTF_Font* normalFont;
 	TTF_Font* titleFont;
+
+	std::vector<SDL_Surface*> images;
 
 	bool init();
 	bool loadMedia();
@@ -66,6 +67,8 @@ private:
 
 public:
 
+	std::unique_ptr<Scene> currentScene;
+
 	static GameManager* GetInstance()
 	{
 		if (instance)
@@ -77,6 +80,8 @@ public:
 			instance = new GameManager();
 		}
 	}
+
+	SDL_Texture* crashTexture;
 
 	void DestroyGameManager();
 

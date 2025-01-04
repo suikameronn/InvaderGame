@@ -18,7 +18,7 @@ CourseSelect::CourseSelect(vector<TTF_Font*> fonts,SDL_Renderer* gRenderer)
 
 	int nextSceneNum = 1;
 	std::function<void()> eventFunction = [=]() {changeScene(nextSceneNum); };
-	back->setListner(eventFunction);
+	//back->setListner(eventFunction);
 	addObjectToScene(back,"back");
 
 	int i = 1;
@@ -26,6 +26,8 @@ CourseSelect::CourseSelect(vector<TTF_Font*> fonts,SDL_Renderer* gRenderer)
 	for (i = 0; i < 10; i++)
 	{
 		Button* StageSelect = new Button();
+		std::function<void()> eventFunction = [=]() {changeScene(3); };
+		//StageSelect->setListner(eventFunction);
 		StageSelect->setPos(50, 5 + i * 150);
 		StageSelect->setOffSet(200, 100);
 		StageSelect->setLabel(std::to_string(i), 255, 255, 255, fonts[static_cast<int>(FONTS::NORMAL)], 28);

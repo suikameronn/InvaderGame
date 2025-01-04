@@ -3,11 +3,11 @@
 #include<vector>
 #include<SDL.h>
 
-#include"Scene.h"
+#include"MenuScene.h"
 
 using namespace std;
 
-class CourseSelect: public Scene
+class CourseSelect: public MenuScene
 {
 
 public:

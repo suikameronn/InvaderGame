@@ -18,7 +18,7 @@ Title::Title(vector<TTF_Font*> fonts, SDL_Renderer* gRenderer)
 
 	int nextSceneNum = 2;
 	std::function<void()> eventFunction = [=]() {changeScene(nextSceneNum); };
-	button->setListner(eventFunction);
+	button->setNextScene(eventFunction);
 	addObjectToScene(button,"ToSceneSelect");
 
 	this->nextSceneNum = 0;

@@ -110,14 +110,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\SDL2-2.30.7\include;C:\SDL2\SDL2_image-2.8.2\include;C:\SDL2\SDL2_ttf-2.22.0\include;C:\Users\sugiyama\Downloads\lua-5.4.2_Win64_dllw6_lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SDL2\SDL2-2.30.7\include;C:\SDL2\SDL2_image-2.8.2\include;C:\SDL2\SDL2_ttf-2.22.0\include;C:\Users\sugiyama\Documents\InvaderGame\lua-5.4.2_Win64_dll17_lib\include;sol</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SDL2\SDL2-2.30.7\lib\x64;C:\SDL2\SDL2_image-2.8.2\lib\x64;C:\SDL2\SDL2_ttf-2.22.0\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2_ttf.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;Shell32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SDL2\SDL2-2.30.7\lib\x64;C:\SDL2\SDL2_image-2.8.2\lib\x64;C:\SDL2\SDL2_ttf-2.22.0\lib\x64;C:\Users\sugiyama\Documents\InvaderGame\lua-5.4.2_Win64_dll17_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2_ttf.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;Shell32.lib;lua54.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,42 +129,54 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\SDL2-2.30.7\include;C:\SDL2\SDL2_image-2.8.2\include;C:\SDL2\SDL2_ttf-2.22.0\include;C:\Users\sugiyama\Downloads\lua-5.4.2_Win64_dllw6_lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SDL2\SDL2-2.30.7\include;C:\SDL2\SDL2_image-2.8.2\include;C:\SDL2\SDL2_ttf-2.22.0\include;C:\Users\sugiyama\Documents\InvaderGame\lua-5.4.2_Win64_dll17_lib\include;sol</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SDL2\SDL2-2.30.7\lib\x64;C:\SDL2\SDL2_image-2.8.2\lib\x64;C:\SDL2\SDL2_ttf-2.22.0\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2_ttf.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;Shell32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SDL2\SDL2-2.30.7\lib\x64;C:\SDL2\SDL2_image-2.8.2\lib\x64;C:\SDL2\SDL2_ttf-2.22.0\lib\x64;C:\Users\sugiyama\Documents\InvaderGame\lua-5.4.2_Win64_dll17_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2_ttf.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;Shell32.lib;lua54.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CourseSelect.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyWaveGroup.cpp" />
+    <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="Listner.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="MenuScene.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScrollPanel.cpp" />
-    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CourseSelect.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyWaveGroup.h" />
+    <ClInclude Include="EnumList.h" />
+    <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="Listner.h" />
+    <ClInclude Include="MainGame.h" />
+    <ClInclude Include="MenuScene.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScrollPanel.h" />
-    <ClInclude Include="TestScene.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Title.h" />
   </ItemGroup>

@@ -33,6 +33,7 @@ public:
 	int wheel;
 	bool clickDown;
 	bool clickUp;
+	bool spaceKey;
 	bool quit;
 
 	void setMouseState();

@@ -4,7 +4,15 @@
 #include <assert.h>
 #include<functional>
 
+#include"lua.hpp"
+#include"lualib.h"
+#include"luaconf.h"
+#include"lauxlib.h"
+
 #include"Mouse.h"
+
+#define SCREEN_WIDTH 480
+#define SCREEN_HEIGHT 640
 
 using namespace std;
 
@@ -21,12 +29,17 @@ enum OBJECT
 	EMPTY,
 	TEXT,
 	BUTTON,
-	SCROLL
+	SCROLL,
+	PLAYER,
+	ENEMY,
+	BULLET
 };
 
 class Object
 {
 protected:
+	bool visible;
+
 	OBJECT type;
 
 	bool createdTex;
@@ -40,9 +53,9 @@ protected:
 
 	int moveCount;
 	int moveCountList;
-	double length;
-	double onceMoveX;
-	double onceMoveY;
+	float length;
+	float onceMoveX;
+	float onceMoveY;
 	vector<Position> moveList;
 
 public:
@@ -53,6 +66,7 @@ public:
 	virtual ~Object();
 
 	OBJECT getType() { return type; }
+	bool isVisible() { return visible; }
 
 	float currentPosX() const;
 	float currentPosY() const;
@@ -64,10 +78,10 @@ public:
 	void setMoveList(float px, float py);
 	void clearMoveList();
 	void actMoveList();
-	void setMove(float px, float py);
+	virtual void setMove(float px, float py);
 	void setMove(Position p);
 	void setMove(float px, float py, int fps);
-	void actMove();
+	virtual bool actMove();
 
 	virtual void drawObjects(SDL_Renderer* gRenderer);
 	virtual void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset);

@@ -10,8 +10,6 @@ Button::Button()
 
 	fontSize = 28;
 
-	listner = [=] {return; };
-
 	type = BUTTON;
 }
 
@@ -54,6 +52,11 @@ void Button::setPos(float px, float py)
 float Button::getBottom()
 {
 	return pos->y + offSet->y;
+}
+
+void Button::setLabelSize(int size)
+{
+	fontSize = size;
 }
 
 void Button::setPosText()
@@ -126,7 +129,7 @@ void Button::setLabel(string text)
 	label->setText(text);
 }
 
-void Button::setListner(std::function<void()> f)
+void Button::setNextScene(std::function<void()> f)
 {
 	listner = f;
 }
