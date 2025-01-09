@@ -10,7 +10,7 @@ GameManager::GameManager()
 
 		init();
 		loadMedia();
-		currentScene.reset(new Title(fontManager,gRenderer));
+		currentScene.reset(new MenuScene("luaScript/Title.lua"));
 	}
 }
 
@@ -112,6 +112,7 @@ bool GameManager::loadMedia()
 	IMG_Init(IMG_INIT_PNG);
 	images.emplace_back(IMG_Load("Images/ufo_01_gray.png"));
 	images.emplace_back(IMG_Load("Images/ufo_01_purple.png"));
+	images.emplace_back(IMG_Load("Images/space.png"));
 
 	crashTexture = SDL_CreateTextureFromSurface(gRenderer, IMG_Load("Images/bakuhatsu_01.png"));
 
@@ -150,6 +151,21 @@ void GameManager::fpsControl()
 	{
 		fps = 1 / deltaTime;
 	}
+}
+
+TTF_Font* GameManager::getFont(FONTS fonts)
+{
+	return fontManager[fonts];
+}
+
+SDL_Renderer* GameManager::getRenderer()
+{
+	return gRenderer;
+}
+
+SDL_Surface* GameManager::getImages(int index)
+{
+	return images[index];
 }
 
 void GameManager::LoopGame()
@@ -193,15 +209,15 @@ void GameManager::SwapScreen()
 
 void GameManager::changeScene(int nextSceneNum)
 {
+	std::string path = currentScene->getNextLuaPath();
+
 	switch (nextSceneNum)
 	{
 	case 1:
-		currentScene.reset(new Title(fontManager, gRenderer));
+		currentScene.reset(new MenuScene(path));
 		break;
 	case 2:
-		currentScene.reset(new CourseSelect(fontManager, gRenderer));
+		currentScene.reset(new MainGame(path));
 		break;
-	case 3:
-		currentScene.reset(new MainGame("luaScript/test.lua",images, gRenderer));
 	}
 }

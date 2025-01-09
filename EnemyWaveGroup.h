@@ -32,7 +32,12 @@ public:
 
 	void setHP(int hp);
 	void setBulletLimit(int limit);
-	void setBulletStatus(float dirX, float dirY, float speed, float width, float height, SDL_Color color, float rate);
+	void addBulletDir(float x, float y);
+	void setBulletSpeed(float speed);
+	void setBulletSize(int width, int height);
+	void addBulletColor(SDL_Color color);
+	void setBulletRate(float rate);
+	void setBulletReflect(bool reflect, int count);
 	void setLuaScript(std::string updateScriptPath);
 	void setInitPos(float x, float y);
 	void setSpeed(float speedX,float speedY);

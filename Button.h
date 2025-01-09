@@ -7,9 +7,11 @@ using namespace std;
 
 class Scene;
 
-class Button : public Text
+class Button : public Object
 {
 private:
+	bool pushed;
+
 	Position* offSet = nullptr;
 	Position OffSet;
 
@@ -33,6 +35,8 @@ public:
 
 	Button();
 	~Button();
+
+	void Update();
 
 	void setOffSet(float x, float y) override;
 	void setLabel(string text, unsigned char r, unsigned char g, unsigned char b, TTF_Font* labelFont);

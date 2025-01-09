@@ -7,12 +7,15 @@ class Bullet:public GameEntity
 private:
 	bool restart;
 
-	float dirX, dirY;
-	float speed;
+	int reflected;
 
-	float width, height;
+	float dirX;
+	float dirY;
 
-	SDL_Color color;
+
+	BulletInfo info;
+
+	bool borderCheck();
 
 public:
 	Bullet(BulletInfo info);
@@ -25,7 +28,7 @@ public:
 
 	void drawObjects(SDL_Renderer* gRenderer) override;
 
-	CollisionBox& getCollisionBox() override;
+	void calcCollisionBox() override;
 
 	void restartCheck();
 	void Restart();

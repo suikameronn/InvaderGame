@@ -51,12 +51,18 @@ protected:
 	Position* tarPos;
 	Position tarPosition;
 
+	float disappearTime;
+	float disappearInterval;
+	int disappearCount;
+
 	int moveCount;
 	int moveCountList;
 	float length;
 	float onceMoveX;
 	float onceMoveY;
 	vector<Position> moveList;
+
+	void disappear();
 
 public:
 	bool actSet;
@@ -83,8 +89,12 @@ public:
 	void setMove(float px, float py, int fps);
 	virtual bool actMove();
 
+	void setDisappear(float time, int count);
+
 	virtual void drawObjects(SDL_Renderer* gRenderer);
 	virtual void drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos,Position* offset);
 	virtual bool hitCheck();
 	virtual bool hitCheckScroll(Position* scrollPos, Position* scrollOffSet);
+
+	virtual void Update();
 };

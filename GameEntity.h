@@ -3,31 +3,27 @@
 
 struct BulletInfo
 {
-	float dirX;
-	float dirY;
+	bool reflect;
+	int reflectCount;
+	std::vector<float> dirX;
+	std::vector<float> dirY;
 	float speed;
 	float width;
 	float height;
 	float rate;
-	SDL_Color color;
+	std::vector<SDL_Color> colors;
+
+	void addBulletDir(float x, float y)
+	{
+		dirX.push_back(x);
+		dirY.push_back(y);
+	}
 };
 
 struct CollisionBox
 {
-	Position rightDown;
-	Position center;
-
-	CollisionBox() {}
-	CollisionBox(Position rightDown)
-	{
-		this->rightDown = rightDown;
-	}
-
-	void calcCenterPos(Position& currentPos)
-	{
-		center.x = (currentPos.x + (currentPos.x + rightDown.x)) / 2.0f;
-		center.y = (currentPos.y + (currentPos.y + rightDown.y)) / 2.0f;
-	}
+	float lx, ly;
+	float rx, ry;
 };
 
 class GameEntity : public Object
@@ -60,7 +56,6 @@ public:
 	~GameEntity() override {};
 
 	bool luaUpdate;
-	virtual void Update() = 0;
 
 	virtual void luaFunctionRegister() {}
 
@@ -74,7 +69,8 @@ public:
 
 	void drawObjects(SDL_Renderer* gRenderer) override;
 
-	virtual CollisionBox& getCollisionBox();
+	virtual void calcCollisionBox();
+	CollisionBox& getCollisionBox();
 	virtual bool hitCheck(const CollisionBox& oppCollisionBox);
 	virtual void hittedAction(OBJECT opponentType) {};
 };

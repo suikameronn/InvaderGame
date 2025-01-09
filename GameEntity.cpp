@@ -79,29 +79,29 @@ void GameEntity::setTexScale(float texScale)
 	this->texScale = texScale;
 }
 
+void GameEntity::calcCollisionBox()
+{
+	collisionBox.lx = pos->x;
+	collisionBox.ly = pos->y;
+	collisionBox.rx = pos->x + texWidth;
+	collisionBox.ry = pos->y + texHeight;
+}
+
 CollisionBox& GameEntity::getCollisionBox()
 {
-	collisionBox.center.x = pos->x + (texWidth / 2);
-	collisionBox.center.y = pos->y + (texHeight / 2);
-	collisionBox.rightDown.x = pos->x + texWidth;
-	collisionBox.rightDown.y = pos->y + texHeight;
-
 	return collisionBox;
 }
 
 bool GameEntity::hitCheck(const CollisionBox& oppCollisionBox)
 {
-	this->collisionBox.calcCenterPos(position);
-
-	float xDistance = abs(this->collisionBox.center.x - oppCollisionBox.center.x);
-	float yDistance = abs(this->collisionBox.center.y - oppCollisionBox.center.y);
-
-	float xSize = (this->collisionBox.rightDown.x + oppCollisionBox.rightDown.x) / 2.0f;
-	float ySize = (this->collisionBox.rightDown.y + oppCollisionBox.rightDown.y) / 2.0f;
-
-	if (xDistance <= xSize && yDistance <= ySize)
+	if (collisionBox.lx <= oppCollisionBox.rx
+		&& collisionBox.rx >= oppCollisionBox.lx)
 	{
-		return true;
+		if (collisionBox.ly <= oppCollisionBox.ry
+			&& collisionBox.ry >= oppCollisionBox.ly)
+		{
+			return true;
+		}
 	}
 
 	return false;

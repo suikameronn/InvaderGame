@@ -145,7 +145,6 @@
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="CourseSelect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyWaveGroup.cpp" />
     <ClCompile Include="GameEntity.cpp" />
@@ -159,12 +158,10 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScrollPanel.cpp" />
     <ClCompile Include="Text.cpp" />
-    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="CourseSelect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyWaveGroup.h" />
     <ClInclude Include="EnumList.h" />
@@ -178,7 +175,6 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScrollPanel.h" />
     <ClInclude Include="Text.h" />
-    <ClInclude Include="Title.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

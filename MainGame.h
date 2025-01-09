@@ -5,17 +5,29 @@
 #include"Player.h"
 #include"EnemyWaveGroup.h"
 
+class GamaManager;
+
 class MainGame :public Scene
 {
 private:
 	Player* player;
+	bool playerCrash;
 
 	lua_State* lua;
 
+	float backSpaceHeight;
+	int backSpaceTextureHeight;
+	SDL_Rect sourceRect;
+	SDL_Rect dstRect;
+	SDL_Texture* backSpaceTexture;
+	
 	std::vector<SDL_Texture*> textures;
 
+	bool waveTextVisible;
+	float waveTextVisibleTime;
 	int currentWaveIndex;
 	std::vector<EnemyWave*> enemyWaves;
+	Text* waveText;
 
 	int nextScene;
 
@@ -26,12 +38,14 @@ private:
 	void nextWave();
 
 public:
-	MainGame(std::string stageLuaFilePath,std::vector<SDL_Surface*>& images,SDL_Renderer* gRenderer);
+	MainGame(std::string stageLuaFilePath);
 	~MainGame() override;
 
 	EnemyWave* createEnemyWaves();
 
 	SDL_Texture* getTexture(int number);
+
+	void drawSpace();
 
 	void initFrameSettings();
 
@@ -193,45 +207,165 @@ static int glueSetHP(lua_State* lua)
 		enemyGroup->setHP(hp);
 		break;
 	}
+	case PLAYER:
+	{
+		Player* player = dynamic_cast<Player*>(entity);
+		player->setHP(hp);
+	}
 	}
 
 	return 0;
 }
 
-static int glueSetBulletStatus(lua_State* lua)
+static int glueAddBulletDir(lua_State* lua)
 {
-	GameEntity* entity = static_cast<GameEntity*>(lua_touserdata(lua, -10));
+	GameEntity* entity = static_cast<GameEntity*>(lua_touserdata(lua, -3));
 
-	float dirX = static_cast<float>(lua_tonumber(lua, -9));
-	float dirY = static_cast<float>(lua_tonumber(lua, -8));
-	float speed = static_cast<float>(lua_tonumber(lua, -7));
-	float width = static_cast<float>(lua_tonumber(lua, -6));
-	float height = static_cast<float>(lua_tonumber(lua, -5));
-	float r = static_cast<float>(lua_tonumber(lua, -4));
-	float g = static_cast<float>(lua_tonumber(lua, -3));
-	float b = static_cast<float>(lua_tonumber(lua, -2));
-	float rate = static_cast<float>(lua_tonumber(lua, -1));
-
-	SDL_Color color = { r, g, b };
+	float dirX = static_cast<float>(lua_tonumber(lua, -2));
+	float dirY = static_cast<float>(lua_tonumber(lua, -1));
 
 	switch (entity->getType())
 	{
 	case ENEMY:
 	{
 		EnemyGroup* enemyGroup = dynamic_cast<EnemyGroup*>(entity);
-		enemyGroup->setBulletStatus(dirX, dirY, speed,width,height,color,rate);
+		enemyGroup->addBulletDir(dirX, dirY);
 		break;
 	}
 	case PLAYER:
 	{
 		Player* player = dynamic_cast<Player*>(entity);
-		player->bulletInfo.dirX = dirX;
-		player->bulletInfo.dirY = dirY;
+		player->bulletInfo.dirX.push_back(dirX);
+		player->bulletInfo.dirY.push_back(dirY);
+		break;
+	}
+	}
+
+	return 0;
+}
+
+static int glueSetBulletSpeed(lua_State* lua)
+{
+	GameEntity* entity = static_cast<GameEntity*>(lua_touserdata(lua, -2));
+	float speed = static_cast<float>(lua_tonumber(lua, -1));
+
+	switch (entity->getType())
+	{
+	case ENEMY:
+	{
+		EnemyGroup* enemyGroup = dynamic_cast<EnemyGroup*>(entity);
+		enemyGroup->setBulletSpeed(speed);
+		break;
+	}
+	case PLAYER:
+	{
+		Player* player = dynamic_cast<Player*>(entity);
 		player->bulletInfo.speed = speed;
+		break;
+	}
+	}
+
+	return 0;
+}
+
+static int glueSetBulletSize(lua_State* lua)
+{
+	GameEntity* entity = static_cast<GameEntity*>(lua_touserdata(lua, -3));
+	float width = static_cast<float>(lua_tonumber(lua, -2));
+	float height = static_cast<float>(lua_tonumber(lua, -1));
+
+	switch (entity->getType())
+	{
+	case ENEMY:
+	{
+		EnemyGroup* enemyGroup = dynamic_cast<EnemyGroup*>(entity);
+		enemyGroup->setBulletSize(width,height);
+		break;
+	}
+	case PLAYER:
+	{
+		Player* player = dynamic_cast<Player*>(entity);
 		player->bulletInfo.width = width;
 		player->bulletInfo.height = height;
-		player->bulletInfo.color = color;
+		break;
+	}
+	}
+
+	return 0;
+}
+
+static int glueSetBulletColor(lua_State* lua)
+{
+	GameEntity* entity = static_cast<GameEntity*>(lua_touserdata(lua, -4));
+
+	float r = static_cast<float>(lua_tonumber(lua, -3));
+	float g = static_cast<float>(lua_tonumber(lua, -2));
+	float b = static_cast<float>(lua_tonumber(lua, -1));
+	SDL_Color color = SDL_Color(r, g, b);
+
+	switch (entity->getType())
+	{
+	case ENEMY:
+	{
+		EnemyGroup* enemyGroup = dynamic_cast<EnemyGroup*>(entity);
+		enemyGroup->addBulletColor(color);
+		break;
+	}
+	case PLAYER:
+	{
+		Player* player = dynamic_cast<Player*>(entity);
+		player->bulletInfo.colors.push_back(color);
+		break;
+	}
+	}
+
+	return 0;
+}
+
+static int glueSetBulletRate(lua_State* lua)
+{
+	GameEntity* entity = static_cast<GameEntity*>(lua_touserdata(lua, -2));
+	float rate = static_cast<float>(lua_tonumber(lua, -1));
+
+	switch (entity->getType())
+	{
+	case ENEMY:
+	{
+		EnemyGroup* enemyGroup = dynamic_cast<EnemyGroup*>(entity);
+		enemyGroup->setBulletRate(rate);
+		break;
+	}
+	case PLAYER:
+	{
+		Player* player = dynamic_cast<Player*>(entity);
 		player->bulletInfo.rate = rate;
+		break;
+	}
+	}
+
+	return 0;
+}
+
+static int glueSetBulletReflect(lua_State* lua)
+{
+	GameEntity* entity = static_cast<GameEntity*>(lua_touserdata(lua, -3));
+
+	bool reflect = static_cast<bool>(lua_toboolean(lua, -2));
+	int reflectCount = static_cast<int>(lua_tointeger(lua, -1));
+
+	switch(entity->getType())
+	{
+	case ENEMY:
+	{
+		EnemyGroup* enemyGroup = dynamic_cast<EnemyGroup*>(entity);
+		enemyGroup->setBulletReflect(reflect,reflectCount);
+		break;
+	}
+	case PLAYER:
+	{
+		Player* player = dynamic_cast<Player*>(entity);
+		player->bulletInfo.reflect = reflect;
+		player->bulletInfo.reflectCount = reflectCount;
 		break;
 	}
 	}

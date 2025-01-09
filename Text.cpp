@@ -46,6 +46,7 @@ void Text::setText(string str)
 {
 	text = str;
 	changed = true;
+	createdTex = false;
 }
 
 void Text::setColor(unsigned char r, unsigned char g, unsigned char b)
@@ -64,9 +65,22 @@ float Text::getBottom()
 	return pos->y + mHeight;
 }
 
+void Text::Update()
+{
+	if (disappearInterval > 0.0f)
+	{
+		disappear();
+	}
+}
+
 void Text::drawObjects(SDL_Renderer* gRenderer)
 {
 	actMove();
+
+	if (!visible)
+	{
+		return;
+	}
 
 	if (!createdTex)
 	{

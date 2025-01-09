@@ -3,8 +3,7 @@
 #include <SDL_ttf.h>
 #include <windows.h>
 
-#include"Title.h"
-#include"CourseSelect.h"
+#include"MenuScene.h"
 #include"MainGame.h"
 
 using namespace std;
@@ -90,5 +89,7 @@ public:
 	void ClearWindow();
 	void SwapScreen();
 
-	SDL_Renderer* getRenderer() { return gRenderer; }
+	TTF_Font* getFont(FONTS fonts);
+	SDL_Renderer* getRenderer();
+	SDL_Surface* getImages(int index);
 };

@@ -11,6 +11,8 @@ Button::Button()
 	fontSize = 28;
 
 	type = BUTTON;
+
+	pushed = false;
 }
 
 Button::~Button()
@@ -57,6 +59,8 @@ float Button::getBottom()
 void Button::setLabelSize(int size)
 {
 	fontSize = size;
+
+	setPosText();
 }
 
 void Button::setPosText()
@@ -127,6 +131,8 @@ void Button::setLabel(string text)
 		label = new Text();
 	}
 	label->setText(text);
+
+	setPosText();
 }
 
 void Button::setNextScene(std::function<void()> f)
@@ -147,6 +153,14 @@ void Button::changeColor(bool hit)
 	}
 }
 
+void Button::Update()
+{
+	if (disappearInterval)
+	{
+		disappear();
+	}
+}
+
 bool Button::hitCheck()
 {
 	Mouse* mouse = Mouse::GetInstance();
@@ -154,26 +168,29 @@ bool Button::hitCheck()
 	if (mouse->mx > Object::pos->x && mouse->mx < Object::pos->x + offSet->x
 		&& mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
 	{
-		if (mouse->clickUp)
+		if (mouse->clickUp && pushed)
 		{
 			changeColor(false);
 			listner();
+			pushed = false;
 			mouse->setFalseClickUpDown();
 			return true;
 		}
-		else if (mouse->clickDown)
+		else if (mouse->clickDown && !pushed)
 		{
+			pushed = true;
 			changeColor(true);
 			return true;
 		}
 	}
-	else if (mouse->clickDown || mouse->clickUp)
-	{
-		mouse->setFalseClickUpDown();
-		changeColor(false);
-	}
 	else
 	{
+		if (pushed)
+		{
+			mouse->setFalseClickUpDown();
+		}
+
+		pushed = false;
 		changeColor(false);
 	}
 
@@ -200,10 +217,6 @@ bool Button::hitCheckScroll(Position* scrollPos,Position* scrollOffSet)
 			return true;
 		}
 	}
-	else if (mouse->clickDown || mouse->clickUp)
-	{
-		changeColor(false);
-	}
 	else
 	{
 		changeColor(false);
@@ -214,6 +227,11 @@ bool Button::hitCheckScroll(Position* scrollPos,Position* scrollOffSet)
 
 void Button::drawObjects(SDL_Renderer* gRenderer)
 {
+	if (!visible)
+	{
+		return;
+	}
+
 	SDL_SetRenderDrawColor(gRenderer, color->r,color->g,color->b,color->a);
 
 	SDL_Rect rect = { Object::pos->x, Object::pos->y, offSet->x, offSet->y };
@@ -254,6 +272,11 @@ void Button::drawObjectsScroll(SDL_Renderer* gRenderer, Position* scrollPos, Pos
 	else
 	{
 		rect = { int(pos->x + scrollPos->x), int(pos->y + scrollPos->y), int(offSet->x), int(offSet->y) };
+	}
+
+	if (!visible)
+	{
+		return;
 	}
 	
 	SDL_RenderFillRect(gRenderer, &rect);

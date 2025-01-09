@@ -33,6 +33,8 @@ public:
 	~Text();
 	Text(TTF_Font* font);
 
+	void Update() override;
+
 	void setText(string text);
 	void setColor(unsigned char r, unsigned char g, unsigned char b);
 	void setFont(TTF_Font* font);

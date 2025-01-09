@@ -14,6 +14,9 @@ Object::Object()
 	type = EMPTY;
 
 	visible = true;
+
+	disappearCount = 0;
+	disappearInterval = 0;
 }
 
 Object::~Object()
@@ -120,6 +123,47 @@ bool Object::actMove()
 		actSet = false;
 		moveCount = 0;
 		return true;
+	}
+}
+
+void Object::setDisappear(float time, int count)
+{
+	disappearTime = clock();
+	disappearInterval = time;
+	disappearCount = count;
+}
+
+void Object::disappear()
+{
+	if (disappearCount > 0)
+	{
+		if ((clock() - disappearTime) / CLOCKS_PER_SEC >= disappearInterval)
+		{
+			disappearTime = clock();
+
+			if (visible)
+			{
+				visible = false;
+			}
+			else
+			{
+				visible = true;
+
+				disappearCount--;
+				if (disappearInterval <= 0)
+				{
+					disappearInterval = 0.0f;
+				}
+			}
+		}
+	}
+}
+
+void Object::Update()
+{
+	if (disappearInterval)
+	{
+		disappear();
 	}
 }
 

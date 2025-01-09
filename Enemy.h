@@ -12,9 +12,17 @@ class GameManager;
 class Enemy : public GameEntity
 {
 private:
+	int luaStatus;
+
+	int index;
+
+	float bulletPosOffsetX, bulletPosOffsetY;
+
 	bool crash;
 	float crashTime, crashDisplayTime;
 	SDL_Texture* crashTexture;
+
+	float shotTime;
 
 	int hp;
 	BulletInfo bulletInfo;
@@ -23,11 +31,13 @@ private:
 
 	void luaFunctionRegister() override;
 
+	void shotCheck();
+
 	void defeat();
 
 public:
 
-	Enemy();
+	Enemy(int index);
 	~Enemy();
 
 	bool isCrash();

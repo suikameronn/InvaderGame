@@ -4,6 +4,9 @@
 #include"Bullet.h"
 
 #include<time.h>
+#include<cmath>
+
+class GameManager;
 
 class Player:public GameEntity
 {
@@ -12,6 +15,9 @@ private:
 	Player();
 
 	Mouse* mouseInstance;
+
+	float crashTime, crashDisplayTime;
+	SDL_Texture* crashTexture;
 
 	int bulletLimit;
 	int hp;
@@ -51,12 +57,15 @@ public:
 
 	~Player() {};
 
+	void setHP(int hp);
 	void setBulletLimit(int limit);
 	int getBulletLimit();
 
 	std::shared_ptr<Bullet>* getBulletData();
 
 	void damage();
+	bool gameOver();
+	bool isCrash();
 
 	void Update() override;
 	void initFrameSettings();

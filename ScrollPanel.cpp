@@ -46,12 +46,16 @@ void ScrollPanel::setScrollLimit(float topMargin,float bottomMargin)
 		{
 			return a->currentPosY() < b->currentPosY();
 		});
-
 }
 
 void ScrollPanel::addObjectList(Object* obj)
 {
-	objectList.emplace_back(obj);
+	objectList.emplace_back(std::unique_ptr<Object>(obj));
+}
+
+void ScrollPanel::Update()
+{
+
 }
 
 void ScrollPanel::moveObjects(float wheel)

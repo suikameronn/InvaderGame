@@ -2,14 +2,18 @@
 
 #include"Enemy.h"
 
-Enemy::Enemy()
+Enemy::Enemy(int index)
 {
+	this->index = index;
 	this->luaUpdate = true;
+	this->luaStatus = -10;
 	this->type = OBJECT::ENEMY;
 	this->crash = false;
 	this->crashTime = 0.0f;
-	this->crashDisplayTime = 1.0f;
+	this->crashDisplayTime = 0.5f;
 	this->crashTexture = GameManager::GetInstance()->crashTexture;
+
+	this->shotTime = -FLT_MAX;
 }
 
 Enemy::~Enemy()
@@ -27,6 +31,9 @@ void Enemy::setLuaScript(std::string luaFilePath)
 	lua_pushlightuserdata(lua, this);
 	lua_setglobal(lua, "myEnemy");
 
+	lua_pushinteger(lua, index);
+	lua_setglobal(lua, "Index");
+
 	luaL_dofile(lua, luaFilePath.c_str());
 
 	coroutine = lua_newthread(lua);
@@ -36,6 +43,7 @@ void Enemy::setLuaScript(std::string luaFilePath)
 void Enemy::luaFunctionRegister()
 {
 	lua_register(lua, "glueSetMove", glueSetMove);
+	lua_register(lua, "glueSetPos", glueSetPos);
 }
 
 void Enemy::initFrameSettings(int bulletLimit,int hp,float posX,float posY,float speedX,float speedY,
@@ -55,11 +63,16 @@ void Enemy::initFrameSettings(int bulletLimit,int hp,float posX,float posY,float
 	texWidth *= texScale;
 	texHeight *= texScale;
 
+	this->bulletPosOffsetX = texWidth / 2;
+	this->bulletPosOffsetY = texHeight;
+
 	bullets.resize(bulletLimit);
 	for (auto itr = bullets.begin(); itr != bullets.end(); itr++)
 	{
 		(*itr) = std::shared_ptr<Bullet>(new Bullet(bulletInfo));
 	}
+
+	calcCollisionBox();
 }
 
 std::shared_ptr<Bullet>* Enemy::getBulletData()
@@ -71,12 +84,39 @@ void Enemy::Update()
 {
 	if (!crash)
 	{
-		int nresults;
-		lua_resume(coroutine, nullptr, 0, &nresults);
+		if (luaUpdate && luaStatus != LUA_OK)
+		{
+			int nresults;
+			luaStatus = lua_resume(coroutine, nullptr, 0, &nresults);
+		}
+
+		shotCheck();
 	}
 	else
 	{
 		defeat();
+	}
+
+	for (auto itr = bullets.begin(); itr != bullets.end(); itr++)
+	{
+		(*itr)->restartCheck();
+		(*itr)->Update();
+	}
+}
+
+void Enemy::shotCheck()
+{
+	if ((clock() - shotTime) / CLOCKS_PER_SEC >= bulletInfo.rate)
+	{
+		for (auto itr = bullets.begin(); itr != bullets.end(); itr++)
+		{
+			if ((*itr)->isRestart())
+			{
+				shotTime = clock();
+				(*itr)->shoot(pos->x + bulletPosOffsetX, pos->y + bulletPosOffsetY);
+				break;
+			}
+		}
 	}
 }
 
@@ -121,6 +161,7 @@ void Enemy::drawObjects(SDL_Renderer* gRenderer)
 	if (!crash)
 	{
 		luaUpdate = actMove();
+		calcCollisionBox();
 	}
 
 	renderQuad = { (int)pos->x, (int)pos->y,
@@ -135,4 +176,9 @@ void Enemy::drawObjects(SDL_Renderer* gRenderer)
 
 	//Render to screen
 	SDL_RenderCopyEx(gRenderer, texture, clip, &renderQuad, angle, center, flip);
+
+	for (auto itr = bullets.begin(); itr != bullets.end(); itr++)
+	{
+		(*itr)->drawObjects(gRenderer);
+	}
 }

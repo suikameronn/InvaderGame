@@ -12,8 +12,8 @@ private:
 	Position* offSet;
 	Position offset;
 	SDL_Color color;
-	vector<unique_ptr<Object>> objectList;
-	vector<unique_ptr<Object>>::iterator hittedObject;//スクロールパネル上のみ
+	vector<std::unique_ptr<Object>> objectList;
+	vector<std::unique_ptr<Object>>::iterator hittedObject;//スクロールパネル上のみ
 
 public:
 
@@ -25,6 +25,8 @@ public:
 	void setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 	void setScrollLimit(float topMargin, float bottomMargin);
 	void addObjectList(Object* obj);
+
+	void Update() override;
 
 	void moveObjects(float wheel);
 

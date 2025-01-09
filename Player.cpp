@@ -1,3 +1,5 @@
+#include"GameManager.h"
+
 #include"Player.h"
 
 Player* Player::instance = nullptr;
@@ -14,6 +16,10 @@ Player::Player()
 	damaged = false;
 	damagedTime = -FLT_MAX;
 	noDamagedTime = 1.0f;
+
+	crashDisplayTime = 0.6f;
+
+	crashTexture = GameManager::GetInstance()->crashTexture;
 }
 
 void Player::initFrameSettings()
@@ -33,6 +39,11 @@ void Player::initFrameSettings()
 	}
 }
 
+void Player::setHP(int hp)
+{
+	this->hp = hp;
+}
+
 void Player::setBulletLimit(int limit)
 {
 	bulletLimit = limit;
@@ -50,8 +61,15 @@ std::shared_ptr<Bullet>* Player::getBulletData()
 
 void Player::Update()
 {
+	if (disappearInterval > 0.0f)
+	{
+		disappear();
+	}
+
 	pos->x = mouseInstance->mx - offSetX;
 	pos->y = mouseInstance->my - offSetY;
+
+	calcCollisionBox();
 
 	if (mouseInstance->spaceKey)
 	{
@@ -61,6 +79,7 @@ void Player::Update()
 			{
 				if ((*itr)->isRestart())
 				{
+					shotTime = clock();
 					(*itr)->shoot(pos->x + offSetX, pos->y);
 					break;
 				}
@@ -89,8 +108,18 @@ void Player::drawObjects(SDL_Renderer* gRenderer)
 		renderQuad.h = clip->h;
 	}
 
-	//Render to screen
-	SDL_RenderCopyEx(gRenderer, texture, clip, &renderQuad, angle, center, flip);
+	if (!isCrash())
+	{
+		if (visible)
+		{
+			//Render to screen
+			SDL_RenderCopyEx(gRenderer, texture, clip, &renderQuad, angle, center, flip);
+		}
+	}
+	else if(isCrash())
+	{
+		SDL_RenderCopyEx(gRenderer, crashTexture, clip, &renderQuad, angle, center, flip);
+	}
 
 	for (auto itr = bullets.begin(); itr != bullets.end(); itr++)
 	{
@@ -106,7 +135,27 @@ void Player::damage()
 	}
 
 	hp--;
+	if (hp <= 0)
+	{
+		crashTime = clock();
+	}
 
 	damaged = true;
 	damagedTime = clock();
+	setDisappear(noDamagedTime / 5, 5);
+}
+
+bool Player::gameOver()
+{
+	if ((clock() - crashTime) / CLOCKS_PER_SEC > crashDisplayTime)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Player::isCrash()
+{
+	return hp <= 0;
 }

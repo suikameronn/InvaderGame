@@ -21,8 +21,9 @@ void Mouse::setMouseState()
 {
 	wheel = 0;
 
-	SDL_GetMouseState(&mx, &my);
+	setFalseClickUpDown();
 
+	SDL_GetMouseState(&mx, &my);
 
 	//Handle events on queue
 	while (SDL_PollEvent(&e) != 0)
@@ -42,10 +43,12 @@ void Mouse::setMouseState()
 		if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
 		{
  			spaceKey = true;
+			break;
 		}
 		else if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_SPACE)
 		{
 			spaceKey = false;
+			break;
 		}
 		
 		if (e.type == SDL_QUIT)
