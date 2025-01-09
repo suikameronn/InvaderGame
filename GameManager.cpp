@@ -202,6 +202,6 @@ void GameManager::changeScene(int nextSceneNum)
 		currentScene.reset(new CourseSelect(fontManager, gRenderer));
 		break;
 	case 3:
-		currentScene.reset(new MainGame("C:/Users/sugiyama/Documents/InvaderGame/luaScript/test.lua",images, gRenderer));
+		currentScene.reset(new MainGame("luaScript/test.lua",images, gRenderer));
 	}
 }

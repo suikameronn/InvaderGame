@@ -20,8 +20,6 @@ glueSetColor(panel,255,255,255)
 glueSetScrollSpeed(panel,50.0)
 glueSetScrollLimit(panel,50,0)
 
-print("A")
-
 for i = 1 , 10 do
     stageSelect = glueCreateButtonToPanel(panel)
     glueSetPos(stageSelect,50, 5 + (i - 1) * 150)

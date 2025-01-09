@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\SDL2-2.30.7\include;C:\SDL2\SDL2_image-2.8.2\include;C:\SDL2\SDL2_ttf-2.22.0\include;C:\Users\sugiyama\Documents\InvaderGame\lua-5.4.2_Win64_dll17_lib\include;sol</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>SDL2\SDL2-2.30.7\include;SDL2\SDL2_image-2.8.2\include;SDL2\SDL2_ttf-2.22.0\include;lua-5.4.2_Win64_dll17_lib\include;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -129,7 +129,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\SDL2-2.30.7\include;C:\SDL2\SDL2_image-2.8.2\include;C:\SDL2\SDL2_ttf-2.22.0\include;C:\Users\sugiyama\Documents\InvaderGame\lua-5.4.2_Win64_dll17_lib\include;sol</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>SDL2\SDL2-2.30.7\include;SDL2\SDL2_image-2.8.2\include;SDL2\SDL2_ttf-2.22.0\include;lua-5.4.2_Win64_dll17_lib\include;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>

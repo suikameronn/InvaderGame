@@ -212,7 +212,7 @@ static int glueSetBulletStatus(lua_State* lua)
 	float b = static_cast<float>(lua_tonumber(lua, -2));
 	float rate = static_cast<float>(lua_tonumber(lua, -1));
 
-	SDL_Color color = SDL_Color(r, g, b);
+	SDL_Color color = { r, g, b };
 
 	switch (entity->getType())
 	{
