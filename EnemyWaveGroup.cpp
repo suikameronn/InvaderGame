@@ -37,11 +37,6 @@ void EnemyGroup::setSpeed(float speedX,float speedY)
 	this->speedY = speedY;
 }
 
-void EnemyGroup::setBulletLimit(int limit)
-{
-	this->bulletLimit = limit;
-}
-
 void EnemyGroup::addBulletDir(float x, float y)
 {
 	float length = sqrt(x * x + y * y);
@@ -57,15 +52,10 @@ void EnemyGroup::setBulletSpeed(float speed)
 	bulletInfo.speed = speed;
 }
 
-void EnemyGroup::setBulletSize(int width, int height)
+void EnemyGroup::setBulletTexture(SDL_Texture* tex,float texScale)
 {
-	bulletInfo.width = width;
-	bulletInfo.height = height;
-}
-
-void EnemyGroup::addBulletColor(SDL_Color color)
-{
-	bulletInfo.colors.push_back(color);
+	bulletInfo.texture = tex;
+	bulletInfo.texScale = texScale;
 }
 
 void EnemyGroup::setBulletRate(float rate)
@@ -120,7 +110,7 @@ void EnemyGroup::hitCheck(Player* player)
 			}
 		}
 
-		for (int j = 0; j < player->getBulletLimit(); j++)
+		for (int j = 0; j < bulletLimit; j++)
 		{
 			bullet = player->getBulletData()[j];
 			if (!bullet->isRestart()

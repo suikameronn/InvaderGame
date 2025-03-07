@@ -68,7 +68,9 @@ void ScrollPanel::moveObjects(float wheel)
 
 	if (wheel != 0)
 	{
+#ifdef _Debug
 		cout << wheel << endl;
+#endif
 	}
 
 	if ((pos->y + offSet->y) * margin < bottomPos && wheel > 0)
@@ -78,7 +80,9 @@ void ScrollPanel::moveObjects(float wheel)
 		for (auto itr = objectList.begin(); itr != objectList.end() - 1; ++itr)
 		{
 			(*itr)->setPos((*itr)->currentPosX(), (*itr)->currentPosY() - scrolled);
+#ifdef _Debug
 			cout << (*itr)->currentPosY() - scrolled << endl;
+#endif
 		}
 	}
 	else if(pos->y * (1 - margin) > topPos&& wheel < 0)
@@ -94,7 +98,8 @@ void ScrollPanel::moveObjects(float wheel)
 
 bool ScrollPanel::hitCheck()
 {
-	Mouse* mouse = Mouse::GetInstance();
+	Mouse* mouse = nullptr;
+	mouse = Mouse::GetInstance();
 
 	if (mouse->mx > this->pos->x && mouse->mx < this->pos->x + offSet->x)
 	{

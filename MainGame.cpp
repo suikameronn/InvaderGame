@@ -11,16 +11,20 @@ MainGame::MainGame(std::string stageLuaFilePath)
 	this->currentWaveIndex = 0;
 	this->fonts = fonts;
 
-	dstRect = SDL_Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	dstRect = SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
    	player = Player::GetInstance();
 	playerCrash = false;
 
-	textures.push_back(SDL_CreateTextureFromSurface(gRenderer, manager->getImages(0)));
-	textures.push_back(SDL_CreateTextureFromSurface(gRenderer, manager->getImages(1)));
+	textures.push_back(manager->getTexture(0));
+	textures.push_back(manager->getTexture(1));
 
-	backSpaceTexture = SDL_CreateTextureFromSurface(gRenderer, manager->getImages(2));
-	backSpaceTextureHeight = manager->getImages(2)->h;
+	backSpaceTexture = manager->getTexture(2);
+	SDL_QueryTexture(backSpaceTexture, nullptr, nullptr, nullptr, &backSpaceTextureHeight);
+	backSpaceHeight = backSpaceTextureHeight;
+
+	bulletTextures.push_back(manager->getTexture(3));
+	bulletTextures.push_back(manager->getTexture(4));
 
 	initLuaScript(stageLuaFilePath);
 
@@ -68,6 +72,18 @@ void MainGame::initLuaScript(std::string stageLuaFilePath)
 	lua_pushlightuserdata(lua, player);
 	lua_setglobal(lua, "Player");
 
+	lua_pushinteger(lua, 0);
+	lua_setglobal(lua, "RedBullet");
+
+	lua_pushinteger(lua, 1);
+	lua_setglobal(lua, "BlueBullet");
+
+	lua_pushinteger(lua, SCREEN_WIDTH);
+	lua_setglobal(lua, "SCREEN_WIDTH");
+
+	lua_pushinteger(lua, SCREEN_HEIGHT);
+	lua_setglobal(lua, "SCREEN_HEIGHT");
+
 	luaL_dofile(lua,stageLuaFilePath.c_str());
 
 	initFrameSettings();
@@ -87,10 +103,8 @@ void MainGame::luaFunctionRegister()
 	lua_register(lua, "glueSetHP", glueSetHP);
 	lua_register(lua, "glueAddBulletDir", glueAddBulletDir);
 	lua_register(lua, "glueSetBulletSpeed", glueSetBulletSpeed);
-	lua_register(lua, "glueSetBulletSize", glueSetBulletSize);
-	lua_register(lua, "glueSetBulletColor", glueSetBulletColor);
+	lua_register(lua, "glueSetBulletTexture", glueSetBulletTexture);
 	lua_register(lua, "glueSetBulletRate", glueSetBulletRate);
-	lua_register(lua, "glueSetBulletLimit", glueSetBulletLimit);
 	lua_register(lua, "glueSetBulletReflect", glueSetBulletReflect);
 }
 
@@ -115,6 +129,11 @@ SDL_Texture* MainGame::getTexture(int number)
 	return textures[number];
 }
 
+SDL_Texture* MainGame::getBulletTexture(int number)
+{
+	return bulletTextures[number];
+}
+
 void MainGame::nextWave()
 {
 	waveTextVisible = true;
@@ -133,10 +152,10 @@ void MainGame::nextWave()
 
 int MainGame::Update_Scene()
 {
-	backSpaceHeight += 0.05f;
-	if (SCREEN_HEIGHT + backSpaceHeight > backSpaceTextureHeight)
+	backSpaceHeight -= 0.05f;
+	if (backSpaceHeight < SCREEN_HEIGHT)
 	{
-		backSpaceHeight = 0;
+		backSpaceHeight = backSpaceTextureHeight;
 	}
 
 	if (!player->isCrash())
@@ -156,7 +175,20 @@ int MainGame::Update_Scene()
 	{
 		enemyWaves[currentWaveIndex]->Update();
 
+#if _DEBUG
+		std::chrono::system_clock::time_point start, end;
+		start = std::chrono::system_clock::now();//計測開始
+#endif
 		hitCheckScene();
+
+#if _DEBUG
+		end = std::chrono::system_clock::now();//計測終了
+	std:cout << 
+		static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count())
+		<< std::endl;
+#endif
+
+
 	}
 	else
 	{
@@ -203,7 +235,7 @@ void MainGame::initFrameSettings()
 
 void MainGame::drawSpace()
 {
-	sourceRect = { 0, (backSpaceTextureHeight - SCREEN_HEIGHT) - static_cast<int>(backSpaceHeight)
+	sourceRect = { 0, static_cast<int>(backSpaceHeight) - SCREEN_HEIGHT
 		,SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	//Render to screen

@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include <windows.h>
 
 #include"MenuScene.h"
@@ -48,6 +49,7 @@ private:
 	TTF_Font* titleFont;
 
 	std::vector<SDL_Surface*> images;
+	std::vector<Mix_Chunk*> musics;
 
 	bool init();
 	bool loadMedia();
@@ -70,14 +72,12 @@ public:
 
 	static GameManager* GetInstance()
 	{
-		if (instance)
-		{
-			return instance;
-		}
-		else
+		if (!instance)
 		{
 			instance = new GameManager();
 		}
+
+		return instance;
 	}
 
 	SDL_Texture* crashTexture;
@@ -89,7 +89,10 @@ public:
 	void ClearWindow();
 	void SwapScreen();
 
+	int startSound(SoundNumber num,bool loop);
+	void stopSound(int channel);
+
 	TTF_Font* getFont(FONTS fonts);
 	SDL_Renderer* getRenderer();
-	SDL_Surface* getImages(int index);
+	SDL_Texture* getTexture(int index);
 };

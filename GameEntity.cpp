@@ -79,32 +79,14 @@ void GameEntity::setTexScale(float texScale)
 	this->texScale = texScale;
 }
 
-void GameEntity::calcCollisionBox()
-{
-	collisionBox.lx = pos->x;
-	collisionBox.ly = pos->y;
-	collisionBox.rx = pos->x + texWidth;
-	collisionBox.ry = pos->y + texHeight;
-}
-
 CollisionBox& GameEntity::getCollisionBox()
 {
 	return collisionBox;
 }
 
-bool GameEntity::hitCheck(const CollisionBox& oppCollisionBox)
+bool GameEntity::hitCheck(CollisionBox& oppCollisionBox)
 {
-	if (collisionBox.lx <= oppCollisionBox.rx
-		&& collisionBox.rx >= oppCollisionBox.lx)
-	{
-		if (collisionBox.ly <= oppCollisionBox.ry
-			&& collisionBox.ry >= oppCollisionBox.ly)
-		{
-			return true;
-		}
-	}
-
-	return false;
+	return collisionBox.collisionCheck(oppCollisionBox);
 }
 
 void GameEntity::drawObjects(SDL_Renderer* gRenderer)

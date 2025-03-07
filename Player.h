@@ -8,6 +8,8 @@
 
 class GameManager;
 
+const int bulletLimit = 100;
+
 class Player:public GameEntity
 {
 private:
@@ -19,31 +21,29 @@ private:
 	float crashTime, crashDisplayTime;
 	SDL_Texture* crashTexture;
 
-	int bulletLimit;
 	int hp;
 	bool damaged;
 	float damagedTime;
 	float noDamagedTime;
 
 	int offSetX, offSetY;
+	int bulletOffsetX,bulletOffsetY;
 
 	float shotTime;
 	std::vector<std::shared_ptr<Bullet>> bullets;
 
-public:
-
 	BulletInfo bulletInfo;
+
+public:
 
 	static Player* GetInstance()
 	{
-		if (instance)
-		{
-			return instance;
-		}
-		else
+		if (!instance)
 		{
 			instance = new Player();
 		}
+
+		return instance;
 	}
 
 	static void Delete()
@@ -58,8 +58,11 @@ public:
 	~Player() {};
 
 	void setHP(int hp);
-	void setBulletLimit(int limit);
-	int getBulletLimit();
+	void addBulletDir(float x, float y);
+	void setBulletSpeed(float speed);
+	void setBulletTexture(SDL_Texture* tex, float texScale);
+	void setBulletRate(float rate);
+	void setBulletReflect(bool reflect, int count);
 
 	std::shared_ptr<Bullet>* getBulletData();
 

@@ -32,10 +32,15 @@ void Player::initFrameSettings()
 	offSetX = static_cast<int>(texWidth / 2);
 	offSetY = static_cast<int>(texHeight / 2);
 
-	bullets.resize(bulletLimit);
-	for (auto itr = bullets.begin(); itr != bullets.end(); itr++)
+	SDL_QueryTexture(bulletInfo.texture, nullptr, nullptr, &bulletOffsetX, &bulletOffsetY);
+	bulletOffsetX *= bulletInfo.texScale;
+	bulletOffsetX /= 2;
+	bulletOffsetY /= 2;
+
+ 	bullets.resize(bulletLimit);
+	for(int i = 0;i < bulletLimit;i++)
 	{
-		(*itr) = std::shared_ptr<Bullet>(new Bullet(bulletInfo));
+		bullets[i] = std::shared_ptr<Bullet>(new Bullet(i % bulletInfo.dirX.size(), bulletInfo));
 	}
 }
 
@@ -44,14 +49,31 @@ void Player::setHP(int hp)
 	this->hp = hp;
 }
 
-void Player::setBulletLimit(int limit)
+void Player::addBulletDir(float x, float y)
 {
-	bulletLimit = limit;
+	bulletInfo.addBulletDir(x, y);
 }
 
-int Player::getBulletLimit()
+void Player::setBulletSpeed(float speed)
 {
-	return bulletLimit;
+	bulletInfo.speed = speed;
+}
+
+void Player::setBulletTexture(SDL_Texture* tex,float texScale)
+{
+	bulletInfo.texture = tex;
+	bulletInfo.texScale = texScale;
+}
+
+void Player::setBulletRate(float rate)
+{
+	bulletInfo.rate = rate;
+}
+
+void Player::setBulletReflect(bool reflect, int count)
+{
+	bulletInfo.reflect = reflect;
+	bulletInfo.reflectCount = count;
 }
 
 std::shared_ptr<Bullet>* Player::getBulletData()
@@ -69,7 +91,7 @@ void Player::Update()
 	pos->x = mouseInstance->mx - offSetX;
 	pos->y = mouseInstance->my - offSetY;
 
-	calcCollisionBox();
+	collisionBox.calcCollisionBox(pos->x, pos->y, pos->x + texWidth, pos->y + texHeight);
 
 	if (mouseInstance->spaceKey)
 	{
@@ -80,7 +102,7 @@ void Player::Update()
 				if ((*itr)->isRestart())
 				{
 					shotTime = clock();
-					(*itr)->shoot(pos->x + offSetX, pos->y);
+					(*itr)->shoot(0,pos->x + offSetX - bulletOffsetX, pos->y - bulletOffsetY);
 					break;
 				}
 			}
@@ -138,7 +160,13 @@ void Player::damage()
 	if (hp <= 0)
 	{
 		crashTime = clock();
+		GameManager::GetInstance()->startSound(CRUSHED, false);
 	}
+	else
+	{
+		GameManager::GetInstance()->startSound(DAMAGED, false);
+	}
+	
 
 	damaged = true;
 	damagedTime = clock();

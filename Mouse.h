@@ -21,12 +21,12 @@ public:
 
 	static Mouse* GetInstance()
 	{
-		if (instance)
+		if (!instance)
 		{
-			return instance;
+			instance = new Mouse();
 		}
 
-		instance = new Mouse();
+		return instance;
 	}
 
 	int mx, my;

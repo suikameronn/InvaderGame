@@ -12,8 +12,6 @@ private:
 
 	std::string luaPath;
 
-	int bulletLimit;
-
 	int hp;
 	float posX, posY;
 	float speedX, speedY;
@@ -31,11 +29,9 @@ public:
 	~EnemyGroup() override;
 
 	void setHP(int hp);
-	void setBulletLimit(int limit);
-	void addBulletDir(float x, float y);
+	void addBulletDir(float dirX, float dirY);
 	void setBulletSpeed(float speed);
-	void setBulletSize(int width, int height);
-	void addBulletColor(SDL_Color color);
+	void setBulletTexture(SDL_Texture* tex, float texScale);
 	void setBulletRate(float rate);
 	void setBulletReflect(bool reflect, int count);
 	void setLuaScript(std::string updateScriptPath);

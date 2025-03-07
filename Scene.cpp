@@ -56,3 +56,8 @@ TTF_Font* Scene::getFont(FONTS font)
 {
 	return GameManager::GetInstance()->getFont(font);
 }
+
+int Scene::startSound(SoundNumber num, bool loop)
+{
+	return GameManager::GetInstance()->startSound(num, loop);
+}

@@ -9,6 +9,8 @@
 #include<functional>
 #include<string>
 
+#include"EnumList.h"
+
 #include"lua.hpp"
 #include"lualib.h"
 #include"luaconf.h"
@@ -26,7 +28,7 @@ enum FONTS
 	BIG
 };
 
-class GameManaer;
+class GameManager;
 
 class Scene
 {
@@ -57,6 +59,8 @@ public:
 	TTF_Font* getFont(FONTS fonts);
 
 	void addObject(std::shared_ptr<Object> obj);
+
+	int startSound(SoundNumber num, bool loop);
 
 	virtual void hitCheckScene() = 0;
 	virtual void drawScene() = 0;
@@ -316,7 +320,11 @@ static int glueSetNextScene(lua_State* lua)
 	case BUTTON:
 	{
 		Button* button = dynamic_cast<Button*>(obj);
-		std::function<void()> eventFunction = [=]() {scene->changeScene(nextScene,luaPath); };
+		std::function<void()> eventFunction = [=]()
+			{
+				scene->changeScene(nextScene,luaPath);
+				scene->startSound(CLICKED, false);
+			};
 		button->setNextScene(eventFunction);
 		break;
 	}

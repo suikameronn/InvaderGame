@@ -5,6 +5,7 @@
 class Bullet:public GameEntity
 {
 private:
+	int index;
 	bool restart;
 
 	int reflected;
@@ -12,23 +13,20 @@ private:
 	float dirX;
 	float dirY;
 
+	float cosDeg,cosRad;
 
 	BulletInfo info;
 
-	bool borderCheck();
-
 public:
-	Bullet(BulletInfo info);
+	Bullet(int index,BulletInfo info);
 
 	bool isRestart();
-	void shoot(float x, float y);
+	void shoot(int index,float x, float y);
 
 	void initFrameSettings() override;
 	void Update() override;
 
 	void drawObjects(SDL_Renderer* gRenderer) override;
-
-	void calcCollisionBox() override;
 
 	void restartCheck();
 	void Restart();

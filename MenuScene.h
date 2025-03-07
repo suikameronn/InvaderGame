@@ -6,8 +6,6 @@ class MenuScene :public Scene
 protected:
 	int frameCount = 0;
 
-	map<int, Object*> actTimer;
-
 public:
 	MenuScene() { }
 	MenuScene(std::string luaPath);

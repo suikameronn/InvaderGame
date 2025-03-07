@@ -31,6 +31,18 @@ GameManager::~GameManager()
 	SDL_DestroyRenderer(gRenderer);
 	TTF_CloseFont(normalFont);
 	TTF_CloseFont(titleFont);
+
+	for (int i = 0; i < images.size(); i++)
+	{
+		SDL_FreeSurface(images[i]);
+	}
+	IMG_Quit();
+
+	for (int i = 0; i < musics.size(); i++)
+	{
+		Mix_FreeChunk(musics[i]);
+	}
+	Mix_CloseAudio();
 }
 
 bool GameManager::init()
@@ -113,6 +125,14 @@ bool GameManager::loadMedia()
 	images.emplace_back(IMG_Load("Images/ufo_01_gray.png"));
 	images.emplace_back(IMG_Load("Images/ufo_01_purple.png"));
 	images.emplace_back(IMG_Load("Images/space.png"));
+	images.emplace_back(IMG_Load("Images/red.png"));
+	images.emplace_back(IMG_Load("Images/blue.png"));
+
+	Mix_Init(MIX_INIT_MP3);
+	Mix_OpenAudio(MIX_DEFAULT_FREQUENCY,MIX_DEFAULT_FORMAT,2,1024);
+	musics.emplace_back(Mix_LoadWAV("Musics/select01.wav"));
+	musics.emplace_back(Mix_LoadWAV("Musics/mini_bomb1.wav"));
+	musics.emplace_back(Mix_LoadWAV("Musics/game_explosion1.wav"));
 
 	crashTexture = SDL_CreateTextureFromSurface(gRenderer, IMG_Load("Images/bakuhatsu_01.png"));
 
@@ -163,16 +183,37 @@ SDL_Renderer* GameManager::getRenderer()
 	return gRenderer;
 }
 
-SDL_Surface* GameManager::getImages(int index)
+SDL_Texture* GameManager::getTexture(int index)
 {
-	return images[index];
+	return SDL_CreateTextureFromSurface(gRenderer, images[index]);
+}
+
+int GameManager::startSound(SoundNumber num,bool loop)
+{
+	int chunk;
+	if (loop)
+	{
+		chunk = Mix_PlayChannel(-1, musics[num], -1);
+	}
+	else
+	{
+		chunk = Mix_PlayChannel(-1, musics[num], 0);
+		Mix_Volume(chunk, 5);
+	}
+
+	return chunk;
+}
+
+void GameManager::stopSound(int channel)
+{
+	Mix_HaltChannel(channel);
 }
 
 void GameManager::LoopGame()
 {
 	int nextSceneNum = 0;
 
-	while (nextSceneNum != -100)
+	while (true)
 	{
 		ClearWindow();
 

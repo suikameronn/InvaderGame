@@ -163,7 +163,8 @@ void Button::Update()
 
 bool Button::hitCheck()
 {
-	Mouse* mouse = Mouse::GetInstance();
+	Mouse* mouse = nullptr;
+	mouse = Mouse::GetInstance();
 
 	if (mouse->mx > Object::pos->x && mouse->mx < Object::pos->x + offSet->x
 		&& mouse->my > Object::pos->y && mouse->my < Object::pos->y + offSet->y)
@@ -199,7 +200,8 @@ bool Button::hitCheck()
 
 bool Button::hitCheckScroll(Position* scrollPos,Position* scrollOffSet)
 {
-	Mouse* mouse = Mouse::GetInstance();
+	Mouse* mouse = nullptr;
+	mouse = Mouse::GetInstance();
 
 	if (mouse->mx > pos->x + scrollPos->x && mouse->mx < pos->x + offSet->x + scrollPos->x
 		&& mouse->my > pos->y + scrollPos->y && mouse->my < pos->y + offSet->y + scrollPos->y)
